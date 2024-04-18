@@ -67,30 +67,45 @@ const Profile = () => {
   }
 
   // Publicae vaga 
-  const submitHandle = (e) => {
-    e.preventDefault();
+  // Publicae vaga 
+const submitHandle = (e) => {
+  e.preventDefault();
 
-    const photoData = {
-      title,
-      desc,
-      image,
-    };
+  // Verifica se uma imagem foi selecionada
+  if (!image) {
+    alert("Por favor, selecione uma imagem para enviar.");
+    return;
+  }
 
-    // build form data
-    const formData = new FormData();
+  // Verifica se o formato da imagem é suportado
+  const supportedFormats = ["image/jpeg", "image/jpg", "image/png"];
+  if (!supportedFormats.includes(image.type)) {
+    alert("Formato de imagem não suportado. Por favor, selecione um arquivo JPG, JPEG ou PNG.");
+    return;
+  }
 
-    const photoFormData = Object.keys(photoData).forEach((key) =>
-      formData.append(key, photoData[key])
-    );
-
-    formData.append("photo", photoFormData);
-
-    dispatch(publishPhoto(formData));
-
-    setTitle("");
-
-    resetComponentMessage();
+  const photoData = {
+    title,
+    desc,
+    image,
   };
+
+  // build form data
+  const formData = new FormData();
+
+  const photoFormData = Object.keys(photoData).forEach((key) =>
+    formData.append(key, photoData[key])
+  );
+
+  formData.append("photo", photoFormData);
+
+  dispatch(publishPhoto(formData));
+
+  setTitle("");
+  setImage(null); // Limpa o estado da imagem
+
+  resetComponentMessage();
+};
 
   // mudae image state
   const handleFile = (e) => {
