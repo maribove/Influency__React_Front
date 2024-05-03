@@ -20,8 +20,6 @@ import Profile from './pages/Profile/Profile';
 // components
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import Esquecisenha from './pages/EsqueciSenha/Esquecisenha';
-
 
 
 function App() {
@@ -45,7 +43,7 @@ function App() {
         <Route path='/users/:id' element={auth ? <Profile/> : <Navigate to="/login"/>}/>
         <Route path='/login' element={!auth ? <Login/> : <Navigate to="/"/>}/>
         <Route path='/register' element={!auth ? <Register/> : <Navigate to="/"/>}/>
-        <Route path='/esquecisenha' element ={auth ? <Esquecisenha/> : <Navigate to="/login"/>}/>
+       
         
         <Route path='*' element={<NotFound />} />
         </Routes>

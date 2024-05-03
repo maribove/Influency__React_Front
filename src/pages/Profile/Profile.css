@@ -1,10 +1,10 @@
-.profile-header{
-    
+.profile-header{ 
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     padding: 1em;
     border-bottom: 3px solid #EF97B4;
+    
 }
 
 .profile-header img{
@@ -15,9 +15,25 @@
     
 }
 
+.ativo{
+  color: rgb(0, 199, 0);
+  margin-left: 8px;
+  cursor: unset;
+
+ 
+}
+.encerrado{
+    color: red;
+    margin-left: 8px;
+    cursor: unset;
+  
+}
+
+
 
 
 .infos {
+
   background-color: white;
   align-items: center;
   margin: auto;
@@ -28,6 +44,9 @@
   box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
   max-width: 600px; /* Defina um máximo de largura para a div */
   overflow-wrap: break-word; /* Quebrar palavras longas para evitar que saiam da div */
+  flex: 1; /* Ocupa o espaço disponível igualmente */
+  
+
  
   
 }
@@ -65,8 +84,6 @@
 
 .photo{
     width: 32%;
-    border-bottom: 1px solid white;
-    
     padding-bottom: 15px;
  
 }
@@ -84,22 +101,32 @@
 .actions {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 15px;
-
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
   }
   
   .actions svg {
     cursor: pointer;
+    margin: 20px;
+    color: var(--corAzulClaro);
   }
   
   .edit-photo {
     margin-bottom: 1em;
+    
+    
   }
   
   .edit-photo img {
-    width: 100%;
+    width: 30%;
     margin-bottom: 1em;
+    border: 10px black;
+  
+
   }
+
+
 
   .titulo{
   color: var(--corAzulClaro);  
@@ -108,3 +135,14 @@
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
 }
+
+.profilepic{
+  border: 7px solid #EF97B4
+
+  
+}
+
+.p-align{
+  text-align: justify;
+}
+

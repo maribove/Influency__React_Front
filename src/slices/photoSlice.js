@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   message: null,
 };
-
+// publicar
 export const publishPhoto = createAsyncThunk(
   "photo/publish",
   async (photo, thunkAPI) => {
@@ -29,7 +29,7 @@ export const publishPhoto = createAsyncThunk(
     }
   }
 );
-
+// get 
 export const getUserPhotos = createAsyncThunk(
   "photo/userphotos",
   async (id, thunkAPI) => {
@@ -41,6 +41,7 @@ export const getUserPhotos = createAsyncThunk(
   }
 );
 
+// deletar
 export const deletePhoto = createAsyncThunk(
   "photo/delete",
   async (id, thunkAPI) => {
@@ -61,16 +62,24 @@ export const updatePhoto = createAsyncThunk(
     const token = thunkAPI.getState().auth.user.token;
 
     const data = await photoService.updatePhoto(
-      { title: photoData.title, desc: photoData.desc },
+      {
+        title: photoData.title,
+        desc: photoData.desc,
+        local: photoData.local,
+        situacao: photoData.situacao,
+      },
       photoData.id,
       token
     );
 
+    // Check for errors
     if (data.errors) {
       return thunkAPI.rejectWithValue(data.errors[0]);
     }
+
     return data;
   }
+
 );
 
 export const photoSlice = createSlice({
@@ -98,7 +107,6 @@ export const photoSlice = createSlice({
       .addCase(publishPhoto.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.photo = null;
       })
 
       .addCase(getUserPhotos.pending, (state) => {
@@ -129,7 +137,36 @@ export const photoSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.photo = {};
-      });
+      })
+
+      
+      .addCase(updatePhoto.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePhoto.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+      
+        // encontrar a foto no array e atualizar suas propriedades
+        const updatedPhotoIndex = state.photos.findIndex(photo => photo._id === action.payload.photo._id);
+        if (updatedPhotoIndex !== -1) {
+          state.photos[updatedPhotoIndex].title = action.payload.photo.title;
+          state.photos[updatedPhotoIndex].desc = action.payload.photo.desc;
+          state.photos[updatedPhotoIndex].local = action.payload.photo.local;
+          state.photos[updatedPhotoIndex].situacao = action.payload.photo.situacao;
+        }
+      
+        state.message = action.payload.message;
+      })
+      .addCase(updatePhoto.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.photo = {};
+      })
+
+
   },
 });
 

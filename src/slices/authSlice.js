@@ -1,3 +1,4 @@
+// slice de estado para lidar com a autenticação de usuários
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 
@@ -54,6 +55,8 @@ export const authSlice = createSlice({
       state.success = false;
     },
   },
+  
+  // reducers para atualizar o estado
   extraReducers: (builder) => {
     builder
 

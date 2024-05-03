@@ -60,7 +60,8 @@ const Login = () => {
        
         
         </form>
-        <p className='entre'>Não tem cadastro? <a className='entre_a' href="/register">Cadastrar</a></p>
+        
+        <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
       </div>
   )
 }

@@ -79,7 +79,7 @@ export const userSlice = createSlice({
 
       .addCase(updateProfile.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.loading = false;
@@ -92,7 +92,6 @@ export const userSlice = createSlice({
         console.log(state, action)
         state.loading = false;
         state.error = action.payload;
-        state.user = {};
       })
 
       .addCase(getUserDetails.pending, (state) => {

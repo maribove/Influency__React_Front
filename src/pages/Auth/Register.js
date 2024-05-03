@@ -43,7 +43,7 @@ const Register = () => {
 
   return (
     <div id="cadastro">
-      <div id='formulario'>
+      <div id='formulario1'>
         <h1>Cadastre-se na Influency</h1>
         <h3>Dê o próximo passo para o sucesso!</h3>
         <p>Cadastre-se e explore um mundo de parcerias que podem impulsionar sua carreira!</p>

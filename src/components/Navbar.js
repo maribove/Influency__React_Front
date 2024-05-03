@@ -2,6 +2,7 @@ import './Navbar.css'
 import React from 'react'
 // components 
 import { NavLink, Link } from 'react-router-dom'
+
 // icones react
 import { BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs'
 import { PiSignOutBold } from "react-icons/pi";
@@ -48,12 +49,15 @@ const Navbar = () => {
         {auth ? (
           <>
             <li>
+            {/* <input type="text" name="" id="search-form" /> */}
               <NavLink to="/">
                 <BsHouseDoorFill /> Home
               </NavLink>
             </li>
+            
 
             {user && (
+              
               <li>
                 <NavLink to={`/users/${user._id}`}>
                   <FaPlusCircle /> Criar Vaga
