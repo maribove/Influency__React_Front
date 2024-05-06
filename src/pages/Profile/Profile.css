@@ -1,148 +1,224 @@
 .profile-header{ 
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 1em;
-    border-bottom: 3px solid #EF97B4;
-    
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1em;
+  border-bottom: 3px solid #EF97B4;
+  
 }
 
 .profile-header img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 2em;
-    
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 2em;
+  
 }
 
 .ativo{
-  color: rgb(0, 199, 0);
+color: rgb(0, 199, 0);
+margin-left: 8px;
+cursor: unset;
+
+
+}
+.encerrado{
+  color: red;
   margin-left: 8px;
   cursor: unset;
 
- 
-}
-.encerrado{
-    color: red;
-    margin-left: 8px;
-    cursor: unset;
-  
 }
 
-
+.title{
+margin-bottom: 100px;
+}
 
 
 .infos {
-
-  background-color: white;
-  align-items: center;
-  margin: auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-  max-width: 600px; /* Defina um máximo de largura para a div */
-  overflow-wrap: break-word; /* Quebrar palavras longas para evitar que saiam da div */
-  flex: 1; /* Ocupa o espaço disponível igualmente */
-  
-
- 
-  
+display: flexbox;
+flex-direction: column; 
+background-color: white;
+align-items: center;
+width: 309%;
+height: 100%;
+margin: auto;
+margin-top: 50px;
+margin-bottom: 50px;
+border-radius: 20px;
+padding: 20px;
+box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+overflow-wrap: break-word;
+flex: 1;
 }
+
 
 
 
 .user-photos{
 
-    background-color:var(--corAzulClaro);
-    text-align: center;
-      justify-content: center;
-      align-items: center;
-      margin: auto;
-      margin-top: 50px;
-      margin-bottom: 50px;
-      border-radius: 20px;
-      padding-bottom: 20px;
-      padding-top: 20px;
-      box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-      padding-left: 30px;
-      padding-right: 30px;
-      
-      
-}
-.new-photo{
-    padding: 1em;
-    border-bottom: 3px solid var(--corRosaClaro);
+  background-color:var(--corAzulClaro);
+  text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+    padding-left: 30px;
+    padding-right: 30px;
+    max-height: 1400px; 
+    overflow-y: auto;
     
+    
+}
+
+
+/* Estilo para o scroll vertical */
+.user-photos::-webkit-scrollbar {
+  width: 15px; /* Largura da barra de rolagem */
+}
+
+.user-photos::-webkit-scrollbar-thumb {
+  background-color: var(--corRosaClaro); /* Cor da barra de rolagem */
+  border-radius: 5px; /* Raio da borda da barra de rolagem */
+}
+
+.user-photos::-webkit-scrollbar-track {
+  background-color: var(--corAzulClaro); /* Cor de fundo da barra de rolagem */
+}
+
+.new-photo{
+  padding: 1em;
+  border-bottom: 3px solid var(--corRosaClaro);
+  
 } 
 
 /* .photos-container{
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 
 } */
 
 .photo{
-    width: 32%;
-    padding-bottom: 15px;
- 
+  width: 32%;
+  padding-bottom: 15px;
+
 }
 
 .photo img{
-    width: 60%;
-    padding-top: 30px;
-    margin: auto;
-    align-items: center;
- 
-    
+  width: 20%;
+  padding-top: 30px;
+  margin: auto;
+  align-items: center;
+
+  
 }
 
 
 .actions {
-    display: flex;
-    justify-content: space-around;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-  }
-  
-  .actions svg {
-    cursor: pointer;
-    margin: 20px;
-    color: var(--corAzulClaro);
-  }
-  
-  .edit-photo {
-    margin-bottom: 1em;
-    
-    
-  }
-  
-  .edit-photo img {
-    width: 30%;
-    margin-bottom: 1em;
-    border: 10px black;
-  
-
-  }
-
-
-
-  .titulo{
-  color: var(--corAzulClaro);  
+  display: flex;
+  justify-content: space-around;
+  border-radius: 10px;
   background-color: white;
-  border-radius: 20px;
-  padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+  width: 315%;
+
+}
+
+.actions svg {
+  cursor: pointer;
+  margin: 20px;
+  color: var(--corAzulClaro);
+}
+
+.edit-photo {
+  margin-bottom: 1em;
+  
+  
+}
+
+.edit-photo img {
+  width: 30%;
+  margin-bottom: 1em;
+  border: 10px black;
+
+
+}
+
+
+
+.titulo{
+ 
+color: var(--corAzulClaro);  
+background-color: white;
+border-radius: 20px;
+padding: 20px;
+box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
 }
 
 .profilepic{
-  border: 7px solid #EF97B4
+border: 7px solid #EF97B4
 
-  
+
 }
 
 .p-align{
-  text-align: justify;
+text-align: justify;
+
 }
 
+
+.form-edit {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.label-edit {
+  flex-basis: calc(50% - 0.5em);
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Adicione este estilo para o span */
+.label span {
+  margin-bottom: 0.3em;
+  font-weight: bold;
+  
+}
+
+.input-edit,
+.textarea-edit,
+.select-edit {
+  margin: auto;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 0.8em 0em;
+  background-color: transparent;
+  font-size: 25px;
+  width: 70%;
+}
+
+
+
+.btn {
+  background-color: #FDA5BE;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 140px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+}
+
+.btn-container {
+  margin: auto;
+}

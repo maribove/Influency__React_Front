@@ -1,0 +1,35 @@
+.logo-container img{
+    width: 200%;
+   margin-right: 200px;
+   border-right: 10px lightcoral;
+
+
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+#formulario1 {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 60%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+  
+}
+  
+ 

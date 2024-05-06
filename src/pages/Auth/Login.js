@@ -38,31 +38,39 @@ const Login = () => {
   }, [dispatch]);
 
   return (
-    <div id='formulario'>
-        <h1>Entrar</h1>
-        <p>Faça o login e construa conexões poderosas! </p>
-        <form onSubmit={handleSubmit} >
-          <label>
-            <span>Email:</span>
-            <input type="email" required placeholder='Email' onChange={(e)=> setEmail(e.target.value)} value={email || ''}/>
-          </label>
-
-          <label>
-            <span>Senha:</span>
-            <input type="password"  required placeholder='Senha'onChange={(e)=> setPassword(e.target.value)} value={password || ''} />
-          </label>
-          
-          {!loading && <button className='btn'>Entar</button> }
-          {loading && <button className='btn'>Aguarde...</button> }
-          {error && <Message msg={error} type="error" />}
-        <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
-        
+   
+      <div id='formulario1'>
+        <div className="logo-container">
+          <img src="/logo_influency_pq.png" alt="Logo Influency" className="logo" />
+          <div className="line"></div>
+        </div>
+        <div  className="form-container">
+          <h1>Entrar</h1>
+          <p>Faça o login e construa conexões poderosas! </p>
+          <form onSubmit={handleSubmit} >
+            <label>
+              <span>Email:</span>
+              <input type="email" required placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ''} />
+            </label>
+            <label>
+              <span>Senha:</span>
+              <input type="password" required placeholder='Senha' onChange={(e) => setPassword(e.target.value)} value={password || ''} />
+            </label>
+            <div className="btn-container">
+              {!loading && <button className='btn'>Entar</button>}
+              {loading && <button className='btn'>Aguarde...</button>}
+            </div>
+            {error && <Message msg={error} type="error" />}
+            <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
+            <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
        
-        
+
+
         </form>
-        
-        <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
+        </div>
       </div>
+
+
   )
 }
 export default Login

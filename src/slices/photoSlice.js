@@ -37,6 +37,8 @@ export const getUserPhotos = createAsyncThunk(
 
     const data = await photoService.getUserPhotos(id, token);
 
+    
+
     return data;
   }
 );
@@ -67,6 +69,7 @@ export const updatePhoto = createAsyncThunk(
         desc: photoData.desc,
         local: photoData.local,
         situacao: photoData.situacao,
+        date: photoData.date,
       },
       photoData.id,
       token
@@ -103,6 +106,7 @@ export const photoSlice = createSlice({
         state.photo = action.payload;
         state.photos.unshift(state.photo);
         state.message = "Vaga publicada com sucesso!";
+        
       })
       .addCase(publishPhoto.rejected, (state, action) => {
         state.loading = false;
@@ -156,6 +160,7 @@ export const photoSlice = createSlice({
           state.photos[updatedPhotoIndex].desc = action.payload.photo.desc;
           state.photos[updatedPhotoIndex].local = action.payload.photo.local;
           state.photos[updatedPhotoIndex].situacao = action.payload.photo.situacao;
+          state.photos[updatedPhotoIndex].date = action.payload.photo.date;
         }
       
         state.message = action.payload.message;

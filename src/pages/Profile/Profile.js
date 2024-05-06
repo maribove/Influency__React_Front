@@ -47,9 +47,10 @@ const Profile = () => {
   const [local, setLocal] = useState("");
   const [desc, setdesc] = useState("");
   const [situacao, setSituacao] = useState("");
+  const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [imageType, setImageType] = useState("");
-  const [previewImage, setpreviewImage] = useState("");
+
 
 
 
@@ -58,6 +59,7 @@ const Profile = () => {
   const [editTitle, setEditTitle] = useState("");
   const [editDesc, setEditDesc] = useState("");
   const [editLocal, setEditLocal] = useState("");
+  const [editDate, setEditDate] = useState("");
   const [editSituacao, setEditSituacao] = useState("");
 
 
@@ -89,6 +91,7 @@ const Profile = () => {
       desc,
       local,
       situacao,
+      date,
       image,
     };
 
@@ -146,9 +149,9 @@ const Profile = () => {
       desc: editDesc,
       local: editLocal,
       situacao: editSituacao,
+      date: editDate, 
       id: editId,
     };
-
 
     dispatch(updatePhoto(photoData));
 
@@ -165,7 +168,11 @@ const Profile = () => {
     setEditTitle(photo.title)
     setEditDesc(photo.desc)
     setEditLocal(photo.local)
+    setEditDate(photo.date)
     setEditSituacao(photo.situacao)
+
+    // Scroll para a seção de edição
+    document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
   }
 
   const handleCancelEdit = (e) => {
@@ -195,7 +202,7 @@ const Profile = () => {
       {id === userAuth._id && (
         <>
           <div className="new-photo" ref={newPhotoForm}>
-            <h1>Compartilhe uma vaga:</h1>
+            <h1 className="title">Compartilhe uma vaga:</h1>
             <form onSubmit={submitHandle}>
               <label>
                 <span>Título para a vaga:</span>
@@ -224,6 +231,11 @@ const Profile = () => {
                   value={local}
                 />
               </label>
+              <label>
+                <span>Data para a finalização:</span>
+                <input type="date" name="data" id="data" onChange={(e) => setDate(e.target.value)}
+                  value={date} />
+              </label>
 
               <label>
                 <span>Status da vaga:</span>
@@ -239,15 +251,18 @@ const Profile = () => {
               </label>
 
 
-              {!loadingPhoto && <input type="submit" value="Postar" className="btn" />}
-              {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
+              <div className="btn-container">
+                {!loadingPhoto && <input type="submit" value="Postar" className="btn" />}
+                {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
+              </div>
+
 
             </form>
 
             {/* EDIÇÃO */}
           </div>
-          <div className="edit-photo hide" ref={editPhotoForm}>
-            <h1>Editando vaga</h1>
+          <div className="edit-photo hide" ref={editPhotoForm} id="editForm">
+            <h1>Editando vaga </h1>
             {editImage && (
               <img src={`${uploads}/photos/${editImage}`} alt={editTitle} className="edit_img" />
             )}
@@ -263,7 +278,7 @@ const Profile = () => {
               </label>
               <label>
                 <span>Descrição para a vaga:</span>
-                <textarea
+                <input
                   type="text"
                   onChange={(e) => setEditDesc(e.target.value)}
                   value={editDesc || ""}
@@ -278,6 +293,13 @@ const Profile = () => {
                 />
               </label>
               <label>
+                <span>Data de finalização:</span>
+                <input
+                  type="date" name="data" id="data" onChange={(e) => setEditDate(e.target.value)}
+                  value={editDate || ""}
+                />
+              </label>
+              <label>
                 <span>Status da vaga:</span>
                 <select onChange={(e) => setEditSituacao(e.target.value)} value={editSituacao}>
                   <option value="" disabled>Selecione...</option>
@@ -285,22 +307,25 @@ const Profile = () => {
                   <option value="Encerrado">Encerrado</option>
                 </select>
               </label>
+              
+              <div className="btn-container">
               <input type="submit" value="Atualizar" className="btn" />
               <button className="btn-cancel" onClick={handleCancelEdit}>Sair</button>
+              </div>
             </form>
 
           </div>
 
           {errorPhoto && <Message msg={errorPhoto} type="error" />}
           {messagePhoto && <Message msg={messagePhoto} type="sucess" />}
-
+          {/* 
           {imageType && (
             <div className="file-warning">
               Formato de arquivo não suportado: {imageType.toUpperCase()}
               <br />
               Selecione um arquivo PNG, JPG ou JPEG.
             </div>
-          )}
+          )} */}
 
         </>
       )}
@@ -317,17 +342,19 @@ const Profile = () => {
                     alt={photo.title}
                   />
                 )}
-                <h3>Título: {photo.title}</h3>
-                <p className="p-align"><strong>Descrição:</strong> {photo.desc}</p>
-                <p className="p-align"><strong>Local:</strong> {photo.local}</p>
+                <h3>{photo.title}</h3>
+
+                <p className="p-align"><strong>Local: </strong> {photo.local}</p>
                 <p className="p-align">
-                  <strong>Status:</strong> {photo.situacao}
+                  <strong>Status: </strong> {photo.situacao}
                   {photo.situacao === 'Encerrado' ? (
                     <FaCircleDot className="encerrado" size="14.7px" />
                   ) : (
                     <FaCircleDot className="ativo" size="14.7px" />
                   )}
                 </p>
+                <p className="p-align"><strong>Data finalização: </strong> {photo.date}</p>
+                <p className="p-align"><strong>Descrição: </strong> {photo.desc}</p>
 
               </div>
               {id === userAuth._id ? (

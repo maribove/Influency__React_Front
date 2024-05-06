@@ -156,10 +156,13 @@ const EditProfile = () => {
                         Selecione um arquivo PNG, JPG ou JPEG.
                     </div>
                 )}
-                {!loading && <button className='btn'>Atualizar</button>}
-                {loading && <button className='btn'>Aguarde...</button>}
-                {error && <Message msg={error} type="error" />}
-                {message && <Message msg={message} type="sucess" />}
+                
+                <div className="btn-container">
+                    {!loading && <button className='btn'>Atualizar</button>}
+                    {loading && <button className='btn'>Aguarde...</button>}
+                    {error && <Message msg={error} type="error" />}
+                    {message && <Message msg={message} type="sucess" />}
+                </div>
             </form>
         </div>
     );
