@@ -1,10 +1,12 @@
 .logo-container img{
-    width: 200%;
+    width: 100%;
    margin-right: 200px;
-   border-right: 10px lightcoral;
-
-
+   display: flex;
+    justify-content: center;
+    align-items: center;
+ 
 }
+
 
 .logo-container {
     display: flex;
@@ -22,6 +24,7 @@
   justify-content: center;
   align-items: center;
   margin: auto;
+  padding: 0;
   width: 60%;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -32,4 +35,53 @@
   
 }
   
- 
+
+/* .btn-auth {
+  margin: auto;
+  background-color: #FDA5BE;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-top: 30px;
+  width: 245px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+} */
+
+
+.password-input {
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-container input {
+  padding-right: 90px; /* Espaço para o ícone */
+}
+
+.btn-auth {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.eye-icon{
+  color: var(--corRosaClaro);
+}
+
+.input-container2 {
+  position: relative;
+}
+
+.input-container2 input {
+  padding-right: 450px; /* Espaço para o ícone */
+}

@@ -1,7 +1,7 @@
 import './Navbar.css'
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs'
+import { BsSearch, BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs'
 import { PiSignOutBold } from "react-icons/pi";
 import { FaPlusCircle } from "react-icons/fa";
 import { useAuth } from '../hooks/useAuth'
@@ -40,6 +40,15 @@ const Navbar = () => {
       <ul className='links_list'>
         {auth ? (
           <>
+
+            <form id='search-form'>
+              <div>
+                <div className="input-group mb-3">
+                  <span className="input-group-text icon"><BsSearch /></span>
+                  <input type="text" className="form-control" placeholder="Pesquisar" />
+                </div>
+              </div>
+            </form>
             <li>
               <NavLink to="/">
                 <BsHouseDoorFill /> Home
@@ -54,13 +63,17 @@ const Navbar = () => {
             )}
             <li>
               <NavLink to="/profile">
-                <BsFillPersonFill/> Meu Perfil
+                <BsFillPersonFill /> Meu Perfil
               </NavLink>
             </li>
             <li>
-              <span className="logout" onClick={handleLogout}><PiSignOutBold/> Sair</span>
+              <span className="logout" onClick={handleLogout}><PiSignOutBold /> Sair</span>
             </li>
+
+           
           </>
+
+          
         ) : (
           <>
             <li>

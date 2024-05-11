@@ -218,8 +218,8 @@ const Profile = () => {
                 <textarea
                   type="text"
                   placeholder="Insira uma descrição"
-                  onChange={(e) => setdesc(e.target.value)}
-                  value={desc}
+                    onChange={(e) => setdesc(e.target.value)}
+                    value={desc}
                 />
               </label>
               <label>

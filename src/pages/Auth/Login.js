@@ -1,5 +1,10 @@
 import "./Auth.css";
 
+
+import { FaEye, FaEyeSlash  } from "react-icons/fa6";
+
+
+
 // Components
 import { Link } from "react-router-dom";
 import Message from "../../components/Message";
@@ -14,6 +19,8 @@ import { login, reset } from "../../slices/authSlice";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -38,37 +45,51 @@ const Login = () => {
   }, [dispatch]);
 
   return (
-   
-      <div id='formulario1'>
-        <div className="logo-container">
-          <img src="/logo_influency_pq.png" alt="Logo Influency" className="logo" />
-          <div className="line"></div>
-        </div>
-        <div  className="form-container">
-          <h1>Entrar</h1>
-          <p>Faça o login e construa conexões poderosas! </p>
-          <form onSubmit={handleSubmit} >
-            <label>
-              <span>Email:</span>
-              <input type="email" required placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ''} />
-            </label>
-            <label>
-              <span>Senha:</span>
-              <input type="password" required placeholder='Senha' onChange={(e) => setPassword(e.target.value)} value={password || ''} />
-            </label>
-            <div className="btn-container">
-              {!loading && <button className='btn'>Entar</button>}
-              {loading && <button className='btn'>Aguarde...</button>}
+
+    <div id='formulario1'>
+      <div className="logo-container">
+        <img src="/logo_influency_pq.png" alt="Logo Influency" className="logo" />
+      </div>
+      <div className="form-container">
+        <h1>Entrar</h1>
+        <p>Faça o login e construa conexões poderosas! </p>
+        <form onSubmit={handleSubmit} >
+          <label>
+            <span>Email:</span>
+            <input type="email" required placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ''} />
+          </label>
+          <label className="password-input">
+            <span>Senha:</span>
+            <div className="input-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="Senha"
+                value={password || ""}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn-auth"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash   size="25px" className="eye-icon" /> : <FaEye size="25px"  className="eye-icon" />}
+              </button>
             </div>
-            {error && <Message msg={error} type="error" />}
-            <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
-            <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
-       
+          </label>
+          <div className="btn-container">
+            {!loading && <button className='btn'>Entrar</button>}
+            {loading && <button className='btn'>Aguarde...</button>}
+          </div>
+          {error && <Message msg={error} type="error" />}
+          <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
+          <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
+
 
 
         </form>
-        </div>
       </div>
+    </div>
 
 
   )

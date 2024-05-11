@@ -1,5 +1,7 @@
 import "./Auth.css";
 
+
+import { FaEye, FaEyeSlash  } from "react-icons/fa6";
 // Components
 import { Link } from "react-router-dom";
 import Message from "../../components/Message";
@@ -16,6 +18,9 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -61,12 +66,43 @@ const Register = () => {
             <input type="email" required placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ""} />
           </label>
           <label>
-            <span>Senha:</span>
-            <input type="password" required placeholder='Senha' onChange={(e) => setPassword(e.target.value)} value={password || ""} />
+          <span>Senha:</span>
+            <div className="input-container2">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="Senha"
+                value={password || ""}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn-auth"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash   size="25px" className="eye-icon" /> : <FaEye size="25px"  className="eye-icon" />}
+              </button>
+            </div>
           </label>
+
           <label>
             <span>Confirmação de senha:</span>
-            <input type="password" name="ConfirmSenha" required placeholder='Confirme a Senha' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword || ""} />
+            <div className="input-container2">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                placeholder="Confirme a Senha"
+                value={confirmPassword || ""}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn-auth"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <FaEyeSlash size="25px" className="eye-icon" /> : <FaEye size="25px" className="eye-icon" />}
+              </button>
+            </div>
           </label>
           <div className="btn-container">
             {!loading && <button className='btn'>Cadastrar</button>}
