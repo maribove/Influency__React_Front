@@ -45,26 +45,26 @@ const EditProfile = () => {
         // pegar dados do usuário e colocar em um objeto
         const userData = { name };
 
-        if(profileImage){
+        if (profileImage) {
             userData.profileImage = profileImage;
         }
 
-        if(bio){
+        if (bio) {
             userData.bio = bio;
         }
 
-        if(password){
+        if (password) {
             userData.password = password;
         }
 
         // form data
         const formData = new FormData();
         const userFormData = Object.keys(userData).forEach((key) =>
-             formData.append(key, userData[key])
-         );
-         formData.append("user", userFormData);
-           
-         await dispatch(updateProfile(formData));
+            formData.append(key, userData[key])
+        );
+        formData.append("user", userFormData);
+
+        await dispatch(updateProfile(formData));
 
         setTimeout(() => {
             dispatch(resetMessage());
@@ -156,14 +156,15 @@ const EditProfile = () => {
                         Selecione um arquivo PNG, JPG ou JPEG.
                     </div>
                 )}
-                
+
                 <div className="btn-container">
                     {!loading && <button className='btn'>Atualizar</button>}
                     {loading && <button className='btn'>Aguarde...</button>}
-                    {error && <Message msg={error} type="error" />}
-                    {message && <Message msg={message} type="sucess" />}
+
                 </div>
             </form>
+            {error && <Message msg={error} type="error" />}
+            {message && <Message msg={message} type="sucess" />}
         </div>
     );
 }

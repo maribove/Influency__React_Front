@@ -1,4 +1,4 @@
-// photoSlice.js
+// postSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import postService from "../services/postService";
@@ -10,6 +10,7 @@ const initialState = {
   success: false,
   loading: false,
   message: null,
+ 
 };
 // publicar
 export const publishPost = createAsyncThunk(
@@ -100,12 +101,12 @@ export const postSlice = createSlice({
       .addCase(publishPost.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.post = action.payload;
-        state.posts.unshift(state.post);
-        state.post={}
-        state.message = "Vaga publicada com sucesso!";
+        // state.posts.unshift(action.payload); // Adiciona o novo post no início do array
+        state.publicacao = ""; // Limpa o campo de publicação
+        state.message = "Post publicado com sucesso!";
         
       })
+      
       .addCase(publishPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
@@ -133,7 +134,7 @@ export const postSlice = createSlice({
         state.posts = state.posts.filter(
           (post) => post._id !== action.payload.id
         );
-        state.message = "Post deletada!";
+        state.message = "Post deletado!";
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.loading = false;

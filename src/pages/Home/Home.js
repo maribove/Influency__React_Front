@@ -5,8 +5,7 @@ import { uploads } from "../../utils/config";
 // components
 import Message from "../../components/Message";
 import { Link } from "react-router-dom";
-import { BsFillEyeFill, BsPencilFill } from "react-icons/bs";
-import { MdDelete } from "react-icons/md";
+
 import { FaCircleDot } from "react-icons/fa6";
 
 // hooks
@@ -35,11 +34,11 @@ const Home = () => {
   const { user } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
   const {
-    
+    posts,
     loading,
     error: errorpost,
     message: messagepost,
-  } = useSelector((state) => state.photo);
+  } = useSelector((state) => state.post);
 
   const [publicacao, setPublicacao] = useState("");
   const [image, setImage] = useState("");
@@ -63,40 +62,41 @@ const Home = () => {
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserPosts(id));
-  }, [dispatch, id]);
+
+    if (messagepost === "Post publicado com sucesso!") {
+      setPublicacao(""); // Limpa o campo textarea
+    }
+  }, [dispatch, id, messagepost]);
 
   // Reset componente
   function resetComponentMessage() {
     setTimeout(() => {
       dispatch(resetMessage());
-    }, 4000);
+    }, 2000);
   }
 
-  // Publicae vaga 
-  // Publicae vaga 
+  // publicar post
   const submitPost = (e) => {
     e.preventDefault();
-
+  
     const postData = {
       publicacao,
-
     };
-
+  
     // build form data
     const formData = new FormData();
-
+  
     const postFormData = Object.keys(postData).forEach((key) =>
       formData.append(key, postData[key])
     );
-
+  
     formData.append("post", postFormData);
-
+  
     dispatch(publishPost(formData));
-
-
-
+    
     resetComponentMessage();
   };
+  
 
   // mudae image state
   const handleFile = (e) => {
@@ -177,7 +177,7 @@ const Home = () => {
 
             <textarea
               type="text"
-              placeholder="O que deseja compartilhar?"
+              placeholder="O que deseja compartilhar? :)"
               onChange={(e) => setPublicacao(e.target.value)}
               value={publicacao}
             />
@@ -185,12 +185,13 @@ const Home = () => {
           <div className="btn-container">
             {!loading && <input type="submit" value="Compartilhar" className="btn-compartilhar" />}
             {loading && <input type="submit" disabled value="Aguarde..." />}
-            {errorpost && <Message msg={errorpost} type="error" />}
-            {messagepost && <Message msg={messagepost} type="sucess" />}
+
           </div>
 
         </form>
       </div>
+      {errorpost && <Message msg={errorpost} type="error" />}
+      {messagepost && <Message msg={messagepost} type="sucess" />}
     </div>
   );
 }

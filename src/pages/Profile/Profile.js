@@ -72,7 +72,16 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserPhotos(id));
-  }, [dispatch, id]);
+    if (messagePhoto === "Vaga publicada com sucesso!") {
+      setTitle("");
+      setdesc("");
+      setLocal("");
+      setSituacao("");
+      setDate("");
+      setImage("");
+
+    }
+  }, [dispatch, id, messagePhoto]);
 
   // Reset componente
   function resetComponentMessage() {
