@@ -1,7 +1,6 @@
 .btn-compartilhar {
   background-color: #FDA5BE;
-  color: #fff;
-  align-self: flex-end; 
+  color: #fff; 
   text-align: center;
   cursor: pointer;
   border-radius: 10px;
@@ -13,3 +12,25 @@
   font-size: 23px;
 }
 
+input#file-upload-button{
+  border-radius: 10px;
+  background-color: var(--corRosaClaro);
+  color: white;
+  
+}
+
+.camera-icon{
+
+  font-size: 60px;
+  align-items: end;
+  color: var(--corRosaClaro);
+}
+
+.input-img{
+  display: none;
+}
+
+.image-preview{
+  width: 38%;
+  margin: auto;
+}

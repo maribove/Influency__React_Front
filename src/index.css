@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--corRosaClaro);
   padding: 0;
-  font-family: "Nunito", sans-serif;
+ 
 }
 
 code {
@@ -148,6 +148,7 @@ select {
   padding: 0.8em 0em;
   background-color: transparent;
   font-size: 25px;
+  font-family: "Nunito", sans-serif;
 }
 
 input::placeholder,
@@ -232,4 +233,7 @@ a:hover{
 .hide {
   display: none;
 }
+
+
+
 

@@ -4,10 +4,11 @@ import { uploads } from "../../utils/config";
 
 // components
 import Message from "../../components/Message";
+import { BiSolidImageAdd } from "react-icons/bi";
+
 import { Link } from "react-router-dom";
 
-import { FaCircleDot } from "react-icons/fa6";
-
+import { FaCamera } from "react-icons/fa";
 // hooks
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -45,7 +46,7 @@ const Home = () => {
   const [imageType, setImageType] = useState("");
 
 
-
+  const [imagePreview, setImagePreview] = useState("");
 
   const [editId, setEditId] = useState("");
   const [editImage, setEditImage] = useState("");
@@ -65,6 +66,7 @@ const Home = () => {
 
     if (messagepost === "Post publicado com sucesso!") {
       setPublicacao(""); // Limpa o campo textarea
+      setImagePreview("");
     }
   }, [dispatch, id, messagepost]);
 
@@ -78,25 +80,26 @@ const Home = () => {
   // publicar post
   const submitPost = (e) => {
     e.preventDefault();
-  
+
     const postData = {
       publicacao,
+      image,
     };
-  
+
     // build form data
     const formData = new FormData();
-  
+
     const postFormData = Object.keys(postData).forEach((key) =>
       formData.append(key, postData[key])
     );
-  
+
     formData.append("post", postFormData);
-  
+
     dispatch(publishPost(formData));
-    
+
     resetComponentMessage();
   };
-  
+
 
   // mudae image state
   const handleFile = (e) => {
@@ -109,9 +112,8 @@ const Home = () => {
     } else {
       setImage(image);
       setImageType("");
+      setImagePreview(URL.createObjectURL(image));
     }
-
-    setImage(image);
   };
 
   // Excluir
@@ -182,8 +184,25 @@ const Home = () => {
               value={publicacao}
             />
           </label>
+
+
+          <label htmlFor="post-image" className="camera-icon">
+            <BiSolidImageAdd className='camera-icon' />
+          </label>
+          <input
+            type="file"
+            name="post-image"
+            id="post-image"
+            onChange={handleFile}
+            className='input-img'
+          />
+
+          {imagePreview && (
+            <img src={imagePreview} alt="Pré-visualização" className="image-preview" />
+          )}
+
           <div className="btn-container">
-            {!loading && <input type="submit" value="Compartilhar" className="btn-compartilhar" />}
+            {!loading && <input type="submit" value="Publicar" className="btn-compartilhar" />}
             {loading && <input type="submit" disabled value="Aguarde..." />}
 
           </div>

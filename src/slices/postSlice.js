@@ -27,7 +27,7 @@ export const publishPost = createAsyncThunk(
 
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Erro ao publicar.");
+      return thunkAPI.rejectWithValue("Erro ao publicar post.");
     }
   }
 );
@@ -101,8 +101,6 @@ export const postSlice = createSlice({
       .addCase(publishPost.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        // state.posts.unshift(action.payload); // Adiciona o novo post no início do array
-        state.publicacao = ""; // Limpa o campo de publicação
         state.message = "Post publicado com sucesso!";
         
       })
