@@ -1,0 +1,41 @@
+/* Estilos para a seção de resultados de pesquisa */
+#search-results {
+    display: flex;
+ margin: 30px;
+    gap: 80px;
+  }
+  
+  /* Estilos para cada resultado de pesquisa individual */
+  .search-result {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Aumente para mais espaço interno */
+    height: auto; /* Altura automática baseada no conteúdo */
+    
+  }
+
+  .btn-vaga{
+    display: block;
+    background-color: #FDA5BE;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 245px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    font-size: 23px;
+    margin: 0 auto;
+  }
+  
+  .btn-vaga:hover {
+    background-color: #ADD5FA;
+    color: #fff;
+  }
+
+
+  

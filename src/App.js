@@ -13,12 +13,13 @@ import NotFound from './pages/NotFound/NotFound';
 import Register from './pages/Auth/Register';
 import EditProfile from './pages/EditProfile/EditProfile';
 import Profile from './pages/Profile/Profile';
-
-
+import Post from './pages/Post/Post';
+import Search from './pages/Search/Search';
 
 // components
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+
 
 
 function App() {
@@ -42,6 +43,8 @@ function App() {
         <Route path='/users/:id' element={auth ? <Profile/> : <Navigate to="/login"/>}/>
         <Route path='/login' element={!auth ? <Login/> : <Navigate to="/"/>}/>
         <Route path='/register' element={!auth ? <Register/> : <Navigate to="/"/>}/>
+        <Route path='/search' element={auth ? <Search/> : <Navigate to="/login"/>}/>
+        <Route path='/posts/:id' element={auth ? <Post/> : <Navigate to="/login"/>}/>
        
         
         <Route path='*' element={<NotFound />} />

@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logout, reset } from '../slices/authSlice'
+import { useState } from "react";
 
 const Navbar = () => {
   const location = useLocation();
@@ -19,11 +20,21 @@ const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const [query, setQuery] = useState("");
+  
   const handleLogout = () => {
     dispatch(logout())
     dispatch(reset())
     navigate("/login")
   }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (query) {
+      return navigate(`/search?q=${query}`);
+    }
+  };
 
   if (isLoginPage || isRegisterPage) {
     return null; // Não renderiza a barra de navegação
@@ -41,13 +52,13 @@ const Navbar = () => {
         {auth ? (
           <>
 
-            <form id='search-form'>
-              <div>
-                <div className="input-group mb-3">
-                  <span className="input-group-text icon"><BsSearch /></span>
-                  <input type="text" className="form-control" placeholder="Pesquisar" />
-                </div>
-              </div>
+            <form id="search-form" onSubmit={handleSearch}>
+              <BsSearch />
+              <input
+                type="text"
+                placeholder="Pesquisar"
+                onChange={(e) => setQuery(e.target.value)}
+              />
             </form>
             <li>
               <NavLink to="/">
@@ -70,10 +81,10 @@ const Navbar = () => {
               <span className="logout" onClick={handleLogout}><PiSignOutBold /> Sair</span>
             </li>
 
-           
+
           </>
 
-          
+
         ) : (
           <>
             <li>

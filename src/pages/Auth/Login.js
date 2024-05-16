@@ -1,7 +1,7 @@
 import "./Auth.css";
 
 
-import { FaEye, FaEyeSlash  } from "react-icons/fa6";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 
 
@@ -73,7 +73,7 @@ const Login = () => {
                 className="btn-auth"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash   size="25px" className="eye-icon" /> : <FaEye size="25px"  className="eye-icon" />}
+                {showPassword ? <FaEyeSlash size="25px" className="eye-icon" /> : <FaEye size="25px" className="eye-icon" />}
               </button>
             </div>
           </label>

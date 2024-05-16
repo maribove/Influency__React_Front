@@ -1,6 +1,6 @@
 import { api, requestConfig } from "../utils/config";
 
-// publicar
+// Publish an user's photo
 const publishPost = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
@@ -15,22 +15,22 @@ const publishPost = async (data, token) => {
   }
 };
 
-// Get postagens do usuário
+// Get user photos
 const getUserPosts = async (id, token) => {
   const config = requestConfig("GET", null, token);
-  
-  try {
-      const res = await fetch(api + "/posts/user/" + id, config)
-          .then((res) => res.json())
-          .catch((err) => err);
 
-      return res;
+  try {
+    const res = await fetch(api + "/posts/user/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 };
 
-// Get postagem por ID
+// Get photo
 const getPost = async (id) => {
   const config = requestConfig("GET");
 
@@ -45,7 +45,7 @@ const getPost = async (id) => {
   }
 };
 
-// Deletar postagem
+// Delete a photo
 const deletePost = async (id, token) => {
   const config = requestConfig("DELETE", "", token);
 
@@ -60,7 +60,7 @@ const deletePost = async (id, token) => {
   }
 };
 
-// Editar postagem
+// Update a photo
 const updatePost = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
@@ -68,11 +68,58 @@ const updatePost = async (data, id, token) => {
     const res = await fetch(api + "/posts/" + id, config)
       .then((res) => res.json())
       .catch((err) => err);
+
     return res;
   } catch (error) {
     console.log(error);
   }
 };
+
+// Like a photo
+const like = async (id, token) => {
+  const config = requestConfig("PUT", null, token);
+
+  try {
+    const res = await fetch(api + "/posts/like/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Add a comment to a photo
+const comment = async (data, id, token) => {
+  const config = requestConfig("PUT", data, token);
+
+  try {
+    const res = await fetch(api + "/posts/comment/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Get all photos
+const getPosts = async () => {
+  const config = requestConfig("GET");
+
+  try {
+    const res = await fetch(api + "/posts", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 const postService = {
   publishPost,
@@ -80,6 +127,9 @@ const postService = {
   getPost,
   deletePost,
   updatePost,
+  like,
+  comment,
+  getPosts,
 };
 
 export default postService;

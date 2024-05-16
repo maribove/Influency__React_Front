@@ -45,10 +45,26 @@ const getUserDetails = async (id) => {
   }
 };
 
+// pesquisar
+const SearchUser= async (query, token) => {
+  const config = requestConfig("GET", null, token);
+
+  try {
+    const res = await fetch(api + "/users/search?q=" + query, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const userService = {
   profile,
   updateProfile,
   getUserDetails,
+  SearchUser,
 };
 
 export default userService;

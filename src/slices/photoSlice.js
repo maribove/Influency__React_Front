@@ -37,7 +37,7 @@ export const getUserPhotos = createAsyncThunk(
 
     const data = await photoService.getUserPhotos(id, token);
 
-    
+
 
     return data;
   }
@@ -85,6 +85,18 @@ export const updatePhoto = createAsyncThunk(
 
 );
 
+// pesquisar
+export const SearchPhoto = createAsyncThunk("photo/search", async (query, thunkAPI) => {
+  const token = thunkAPI.getState().auth.user.token;
+
+  const data = await photoService.SearchPhoto(query, token);
+
+
+
+  return data;
+})
+
+
 export const photoSlice = createSlice({
   name: "photo",
   initialState,
@@ -106,7 +118,7 @@ export const photoSlice = createSlice({
         state.photo = action.payload;
         state.photos.unshift(state.photo);
         state.message = "Vaga publicada com sucesso!";
-        
+
       })
       .addCase(publishPhoto.rejected, (state, action) => {
         state.loading = false;
@@ -143,7 +155,7 @@ export const photoSlice = createSlice({
         state.photo = {};
       })
 
-      
+
       .addCase(updatePhoto.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -152,7 +164,7 @@ export const photoSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-      
+
         // encontrar a foto no array e atualizar suas propriedades
         const updatedPhotoIndex = state.photos.findIndex(photo => photo._id === action.payload.photo._id);
         if (updatedPhotoIndex !== -1) {
@@ -162,7 +174,7 @@ export const photoSlice = createSlice({
           state.photos[updatedPhotoIndex].situacao = action.payload.photo.situacao;
           state.photos[updatedPhotoIndex].date = action.payload.photo.date;
         }
-      
+
         state.message = action.payload.message;
       })
       .addCase(updatePhoto.rejected, (state, action) => {
@@ -170,6 +182,19 @@ export const photoSlice = createSlice({
         state.error = action.payload;
         state.photo = {};
       })
+
+      .addCase(SearchPhoto.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(SearchPhoto.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.photos = action.payload;
+      });
+
 
 
   },

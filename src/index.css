@@ -5,6 +5,8 @@
   --corRosaClaro: #EF97B4 ;
   --corRosaEscuro: #F193B2;
 }
+
+
 body {
   margin: 0;
   font-family: "Nunito", sans-serif;
@@ -19,7 +21,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
     ;
 }
-h1,p,h3,h2{
+h1,p,h3,h2,h3,h4{
   text-align: center;
 }
 
@@ -129,8 +131,9 @@ form {
 
 label {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 1em;
+    flex-direction: column;
+    margin-bottom: 23px;
+    margin-right: 60px;
 }
 
 label span {
@@ -168,6 +171,7 @@ textarea::placeholder {
   border: none;
   padding: 10px 15px;
   font-size: 23px;
+  
 }
 
 .btn-container {

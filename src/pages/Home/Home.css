@@ -10,17 +10,10 @@
   border: none;
   padding: 10px 15px;
   font-size: 23px;
-}
 
-input#file-upload-button{
-  border-radius: 10px;
-  background-color: var(--corRosaClaro);
-  color: white;
-  
 }
 
 .camera-icon{
-
   font-size: 60px;
   align-items: end;
   color: var(--corRosaClaro);

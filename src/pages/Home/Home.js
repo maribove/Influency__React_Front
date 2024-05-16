@@ -3,40 +3,44 @@ import './Home.css';
 import { uploads } from "../../utils/config";
 
 // components
+
 import Message from "../../components/Message";
 import { BiSolidImageAdd } from "react-icons/bi";
-
 import { Link } from "react-router-dom";
 
-import { FaCamera } from "react-icons/fa";
+
 // hooks
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useResetComponentMessage } from '../../hooks/useResetComponentMessage'
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice";
+
 import {
   getUserPosts,
   publishPost,
   resetMessage,
   deletePost,
   updatePost,
-
+  getPosts,
+  like,
+  comment,
 } from "../../slices/postSlice";
 
 const Home = () => {
   const { id } = useParams();
 
-
-
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.user);
+  const resetMessage = useResetComponentMessage(dispatch)
+
+  const { user, loading } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
   const {
     posts,
-    loading,
+    loading: loadingPost,
     error: errorpost,
     message: messagepost,
   } = useSelector((state) => state.post);
@@ -51,6 +55,19 @@ const Home = () => {
   const [editId, setEditId] = useState("");
   const [editImage, setEditImage] = useState("");
   const [editPublicacao, setEditPublicacao] = useState("");
+
+
+  // carregar posts
+  useEffect(() => {
+    dispatch(getPosts)
+  }, [dispatch])
+
+  // curtir
+  const handleLike = (post) => {
+    dispatch(like(post._id))
+
+    resetMessage()
+  }
 
 
 
@@ -176,7 +193,6 @@ const Home = () => {
       <div className="new-photo">
         <form onSubmit={submitPost}>
           <label>
-
             <textarea
               type="text"
               placeholder="O que deseja compartilhar? :)"
@@ -202,16 +218,31 @@ const Home = () => {
           )}
 
           <div className="btn-container">
-            {!loading && <input type="submit" value="Publicar" className="btn-compartilhar" />}
-            {loading && <input type="submit" disabled value="Aguarde..." />}
+            {!loadingPost && <input type="submit" value="Publicar" className="btn-compartilhar" />}
+            {loadingPost && <input type="submit" disabled value="Aguarde..." />}
+
+
 
           </div>
 
+
         </form>
+
       </div>
+
       {errorpost && <Message msg={errorpost} type="error" />}
       {messagepost && <Message msg={messagepost} type="sucess" />}
+      {imageType && (
+        <div className="file-warning">
+          Formato de arquivo não suportado: {imageType.toUpperCase()}
+          <br />
+          Selecione um arquivo PNG, JPG ou JPEG.
+        </div>
+      )}
+     
     </div>
+
+
   );
 }
 

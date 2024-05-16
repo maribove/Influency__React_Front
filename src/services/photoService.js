@@ -1,6 +1,6 @@
 import { api, requestConfig } from "../utils/config";
 
-// publicar
+// Publish an user's photo
 const publishPhoto = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
@@ -15,23 +15,21 @@ const publishPhoto = async (data, token) => {
   }
 };
 
-// Get vaga usuario 
 const getUserPhotos = async (id, token) => {
-  const config = requestConfig("GET", null, token)
-  
+  const config = requestConfig("GET", null, token);
+
   try {
-      const res = await fetch(api + "/photos/user/" + id, config)
-          .then((res) => res.json())
-          .catch((err) => err)
+    const res = await fetch(api + "/photos/user/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
 
-          return res
+    return res;
   } catch (error) {
-      console.log(error)
+    console.log(error);
   }
+};
 
-}
-
-// Get 
+// Get photo
 const getPhoto = async (id) => {
   const config = requestConfig("GET");
 
@@ -46,7 +44,7 @@ const getPhoto = async (id) => {
   }
 };
 
-// Deletar 
+// Delete a photo
 const deletePhoto = async (id, token) => {
   const config = requestConfig("DELETE", "", token);
 
@@ -61,20 +59,39 @@ const deletePhoto = async (id, token) => {
   }
 };
 
-// EDITAR 
-const updatePhoto = async(data,id, token) =>{
-  const config = requestConfig("PUT", data, token)
+// Update a photo
+const updatePhoto = async (data, id, token) => {
+  const config = requestConfig("PUT", data, token);
 
   try {
-    const res = await fetch (api + "/photos/" + id, config)
-    .then((res) => res.json())
-    .catch((err) => err)
+    const res = await fetch(api + "/photos/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
     return res;
   } catch (error) {
-    console.log(error)
-    
+    console.log(error);
   }
-}
+};
+
+// pesquisar
+const SearchPhoto = async (query, token) => {
+  const config = requestConfig("GET", null, token);
+
+  try {
+    const res = await fetch(api + "/photos/search?q=" + query, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
 
 
 
@@ -83,8 +100,9 @@ const photoService = {
   getUserPhotos,
   getPhoto,
   deletePhoto,
-  updatePhoto
-  
+  updatePhoto,
+  SearchPhoto,
+
 };
 
 export default photoService;

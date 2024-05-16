@@ -108,7 +108,7 @@ flex: 1;
 }
 
 .photo img{
-  width: 20%;
+  width: 30%;
   padding-top: 30px;
   margin: auto;
   align-items: center;
@@ -221,4 +221,20 @@ text-align: justify;
 
 .btn-container {
   margin: auto;
+}
+
+.btn-visualizar{
+  display: block;
+  background-color: #FDA5BE;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 245px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  float: left;
+  
 }

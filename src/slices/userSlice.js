@@ -55,6 +55,17 @@ export const getUserDetails = createAsyncThunk(
     return data;
   }
 );
+// pesquisar
+export const SearchUser = createAsyncThunk("user/search", async (query, thunkAPI) => {
+  const token = thunkAPI.getState().auth.user.token;
+
+  const data = await userService.SearchUser(query, token);
+
+
+
+  return data;
+})
+
 
 export const userSlice = createSlice({
   name: "user",
@@ -103,6 +114,17 @@ export const userSlice = createSlice({
         state.success = true;
         state.error = null;
         state.user = action.payload;
+      })
+      .addCase(SearchUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(SearchUser.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.users = action.payload;
       });
   },
 });

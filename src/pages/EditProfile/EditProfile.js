@@ -19,6 +19,7 @@ const EditProfile = () => {
     // states
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [type, setType] = useState("");
     const [password, setPassword] = useState("");
     const [profileImage, setprofileImage] = useState("");
     const [bio, setBio] = useState("");
@@ -123,6 +124,7 @@ const EditProfile = () => {
                         value={email || ""}
                     />
                 </label>
+                
                 <label>
                     <span>Foto de perfil:</span>
                     <input

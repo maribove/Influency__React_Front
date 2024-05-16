@@ -17,6 +17,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [type, setType] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +34,7 @@ const Register = () => {
       name,
       email,
       password,
+      type,
       confirmPassword,
     };
 
@@ -65,6 +67,16 @@ const Register = () => {
             <span>Email:</span>
             <input type="email" required placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ""} />
           </label>
+
+          <label>
+                <span>Tipo de usuário:</span>
+                <select onChange={(e) => setType(e.target.value)} value={type}>
+                  <option value="" disabled>Selecione...</option>
+                  <option value="Influenciador">Influenciador</option>
+                  <option value="Empresa">Empresa</option>
+                </select>
+              </label>
+          
           <label>
           <span>Senha:</span>
             <div className="input-container2">

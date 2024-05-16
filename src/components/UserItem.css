@@ -1,0 +1,29 @@
+.user-pic{
+border-radius: 50%;
+
+    height: 400px; /* Defina a altura desejada */
+    margin: 0 auto;
+    display: block;
+}
+  
+  #home .post-item h2 {
+    margin-bottom: 0.2em;
+  }
+  
+  .post-author {
+    text-align: left;
+  }
+  
+  .post-author a {
+    font-weight: bold;
+  }
+
+  .img-photo {
+    height: 400px; /* Defina a altura desejada */
+    margin: 0 auto;
+    display: block;
+  }
+
+/* .user-bio{
+  overflow-wrap: break-word;
+} */

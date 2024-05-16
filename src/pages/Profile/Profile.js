@@ -158,7 +158,7 @@ const Profile = () => {
       desc: editDesc,
       local: editLocal,
       situacao: editSituacao,
-      date: editDate, 
+      date: editDate,
       id: editId,
     };
 
@@ -227,8 +227,8 @@ const Profile = () => {
                 <textarea
                   type="text"
                   placeholder="Insira uma descrição"
-                    onChange={(e) => setdesc(e.target.value)}
-                    value={desc}
+                  onChange={(e) => setdesc(e.target.value)}
+                  value={desc}
                 />
               </label>
               <label>
@@ -316,10 +316,10 @@ const Profile = () => {
                   <option value="Encerrado">Encerrado</option>
                 </select>
               </label>
-              
+
               <div className="btn-container">
-              <input type="submit" value="Atualizar" className="btn" />
-              <button className="btn-cancel" onClick={handleCancelEdit}>Sair</button>
+                <input type="submit" value="Atualizar" className="btn" />
+                <button className="btn-cancel" onClick={handleCancelEdit}>Sair</button>
               </div>
             </form>
 
@@ -340,7 +340,7 @@ const Profile = () => {
       )}
 
       <div className="user-photos">
-        <h2 className="titulo">Minhas vagas publicadas:</h2>
+        <h2 className="titulo">Vagas publicadas:</h2>
         {photos &&
           photos.map((photo) => (
             <div className="photo" key={photo._id}>
@@ -375,8 +375,8 @@ const Profile = () => {
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
               ) : (
-                <Link className="btn" to={`/photos/${photo._id}`}>
-                  Ver
+                <Link className="btn-visualizar" to={`/photos/${photo._id}`}>
+                  Visualizar
                 </Link>
               )}
             </div>
