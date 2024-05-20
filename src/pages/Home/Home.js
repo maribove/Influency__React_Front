@@ -7,6 +7,9 @@ import { uploads } from "../../utils/config";
 import Message from "../../components/Message";
 import { BiSolidImageAdd } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import LikeContainer from "../../components/LikeContainer";
+import PostItem from "../../components/PostItem";
+
 
 
 // hooks
@@ -17,6 +20,7 @@ import { useResetComponentMessage } from '../../hooks/useResetComponentMessage'
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice";
+
 
 import {
   getUserPosts,
@@ -190,6 +194,25 @@ const Home = () => {
     <div id='formulario'>
 
       <h2>Seja bem-vindo à Influency, o lugar onde sua influência se torna poderosa!</h2>
+
+      {/* <div id="home">
+            {posts &&
+              posts.map((post) => (
+                <div key={post._id}>
+                  <PostItem post={posts} />
+                  <LikeContainer post={post} user={user} handleLike={handleLike} />
+                  <Link className="btn" to={`/posts/${post._id}`}>
+                    Ver mais
+                  </Link>
+                </div>
+              ))}
+            {posts && posts.length === 0 && (
+              <h2 className="no-photos">
+                Ainda não há fotos publicadas,{" "}
+                <Link to={`/users/${user.userId}`}>clique aqui</Link> para começar.
+              </h2>
+            )}
+          </div> */}
       <div className="new-photo">
         <form onSubmit={submitPost}>
           <label>
@@ -225,7 +248,7 @@ const Home = () => {
 
           </div>
 
-
+        
         </form>
 
       </div>
@@ -239,8 +262,9 @@ const Home = () => {
           Selecione um arquivo PNG, JPG ou JPEG.
         </div>
       )}
-     
+
     </div>
+
 
 
   );

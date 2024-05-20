@@ -129,13 +129,13 @@ export const comment = createAsyncThunk(
   }
 );
 
-// Get all photos
+// Get all posts
+
 export const getPosts = createAsyncThunk("post/getall", async () => {
   const data = await postService.getPosts();
 
   return data;
 });
-
 
 
 export const postSlice = createSlice({

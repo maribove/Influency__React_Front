@@ -44,6 +44,7 @@ const Profile = () => {
   } = useSelector((state) => state.photo);
 
   const [title, setTitle] = useState("");
+  const [tags, setTags] = useState("");
   const [local, setLocal] = useState("");
   const [desc, setdesc] = useState("");
   const [situacao, setSituacao] = useState("");
@@ -63,6 +64,14 @@ const Profile = () => {
   const [editSituacao, setEditSituacao] = useState("");
 
 
+  const handleTagsChange = (e) => {
+    const value = e.target.value;
+    setTags((prevTags) =>
+      prevTags.includes(value)
+        ? prevTags.filter((tags) => tags !== value)
+        : [...prevTags, value]
+    );
+  };
 
   // New form and edit form refs
   const newPhotoForm = useRef();
@@ -97,6 +106,7 @@ const Profile = () => {
 
     const photoData = {
       title,
+      tags,
       desc,
       local,
       situacao,
@@ -231,6 +241,22 @@ const Profile = () => {
                   value={desc}
                 />
               </label>
+
+              <label>
+              <span>Tags:</span>
+
+              <label className="content">
+                <input className="content_input" type="checkbox" name="Moda" value="Moda" onChange={handleTagsChange} />Moda
+
+
+                <input className="content_input" type="checkbox" name="Beleza" value="Beleza" onChange={handleTagsChange} />Beleza
+
+                <input className="content_input" type="checkbox" name="Saúde" value="Saúde" onChange={handleTagsChange} />Saúde
+
+                <input className="content_input" type="checkbox" name="Alimentação" value="Alimentação" onChange={handleTagsChange} />Alimentação
+              </label>
+            </label>
+
               <label>
                 <span>Local da vaga:</span>
                 <input
@@ -364,6 +390,7 @@ const Profile = () => {
                 </p>
                 <p className="p-align"><strong>Data finalização: </strong> {photo.date}</p>
                 <p className="p-align"><strong>Descrição: </strong> {photo.desc}</p>
+                <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
 
               </div>
               {id === userAuth._id ? (
