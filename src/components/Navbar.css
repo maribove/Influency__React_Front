@@ -1,34 +1,33 @@
 
 #navbar {
-    display: flex;
-    box-shadow: rgba(0, 0, 0, 0.388) 0px -2px 10px 0px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em 2em;
-    background-color: #ADD5FA;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.388) 0px -2px 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 2em;
+  background-color: #ADD5FA;
 
-  }
+}
  
   
-  
-  .links_list {
-    display: contents;
-    list-style: none;
-    font-size: 28px;
+.links_list {
+  display: contents;
+  list-style: none;
+  font-size: 28px;
    
-  }
+}
   
-  .links_list li {
-    margin-right: 80px;
+.links_list li {
+  margin-right: 5%;
     
-  }
+}
   
-  .links_list li a {
-    padding: 0.4em 0.6em;
-    text-decoration: none;
-    color: white;
+.links_list li a {
+  padding: 0.4em 0.6em;
+  text-decoration: none;
+  color: white;
 
-  }
+}
 
 
 .logout{
@@ -49,13 +48,14 @@ svg{
 #search-form {
   position: relative;
   margin-top: 30px;
+  width: 20%;
 }
 
 #search-form svg {
   color: lightgrey;
   position: absolute;
   top: 23px;
-  left: 16px;
+  left: 20%;
 }
 
 #search-form input {
