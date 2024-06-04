@@ -17,19 +17,20 @@ export const publishPost = createAsyncThunk(
   async (post, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token;
 
-    const data = await postService.publishPost(post, token);
+    try {
+      const data = await postService.publishPost(post, token);
 
-    console.log(data.errors);
-    // Check for errors
-    if (data.errors) {
-      return thunkAPI.rejectWithValue(data.errors[0]);
+      if (data.errors) {
+        return thunkAPI.rejectWithValue(data.errors[0]);
+      }
+
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Erro ao publicar post.");
     }
-
-    return data;
   }
 );
 
-// Get user photos
 // get 
 export const getUserPosts = createAsyncThunk(
   "post/userposts",
@@ -138,8 +139,9 @@ export const getPosts = createAsyncThunk("post/getall", async () => {
 });
 
 
+
 export const postSlice = createSlice({
-  name: "posts",
+  name: "post",
   initialState,
   reducers: {
     resetMessage: (state) => {
@@ -157,6 +159,7 @@ export const postSlice = createSlice({
         state.success = true;
         state.error = null;
         state.post = action.payload;
+        state.posts.unshift(state.post);
         state.message = "Post publicado com sucesso!";
       })
       .addCase(publishPost.rejected, (state, action) => {

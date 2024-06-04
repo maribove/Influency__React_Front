@@ -116,7 +116,7 @@ const EditProfile = () => {
                         value={email || ""}
                     />
                 </label>
-                
+
                 <label>
                     <span>Foto de perfil:</span>
                     <input
@@ -140,7 +140,8 @@ const EditProfile = () => {
                     <div>
                         {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
                             <label className="content" key={interest}>
-                                <input disabled
+                                <input
+                                    
                                     className="content_input"
                                     type="checkbox"
                                     name={interest}

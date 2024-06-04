@@ -81,6 +81,7 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserPhotos(id));
+    console.log("User ID:", id); // impressao do  id 
     if (messagePhoto === "Vaga publicada com sucesso!") {
       setTitle("");
       setdesc("");
@@ -216,6 +217,7 @@ const Profile = () => {
         <div className="profile-description">
           <h2>{user.name}</h2>
           <p>{user.bio}</p>
+          <p><strong>{user.interests}</strong></p>
         </div>
       </div>
       {id === userAuth._id && (
@@ -243,19 +245,19 @@ const Profile = () => {
               </label>
 
               <label>
-              <span>Tags:</span>
+                <span>Tags:</span>
 
-              <label className="content">
-                <input className="content_input" type="checkbox" name="Moda" value="Moda" onChange={handleTagsChange} />Moda
+                <label className="content">
+                  <input className="content_input" type="checkbox" name="Moda" value="Moda" onChange={handleTagsChange} />Moda
 
 
-                <input className="content_input" type="checkbox" name="Beleza" value="Beleza" onChange={handleTagsChange} />Beleza
+                  <input className="content_input" type="checkbox" name="Beleza" value="Beleza" onChange={handleTagsChange} />Beleza
 
-                <input className="content_input" type="checkbox" name="Saúde" value="Saúde" onChange={handleTagsChange} />Saúde
+                  <input className="content_input" type="checkbox" name="Saúde" value="Saúde" onChange={handleTagsChange} />Saúde
 
-                <input className="content_input" type="checkbox" name="Alimentação" value="Alimentação" onChange={handleTagsChange} />Alimentação
+                  <input className="content_input" type="checkbox" name="Alimentação" value="Alimentação" onChange={handleTagsChange} />Alimentação
+                </label>
               </label>
-            </label>
 
               <label>
                 <span>Local da vaga:</span>

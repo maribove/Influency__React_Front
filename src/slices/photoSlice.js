@@ -25,10 +25,11 @@ export const publishPhoto = createAsyncThunk(
 
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Erro ao publicar a foto.");
+      return thunkAPI.rejectWithValue("Erro ao publicar vaga.");
     }
   }
 );
+
 // get 
 export const getUserPhotos = createAsyncThunk(
   "photo/userphotos",

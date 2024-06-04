@@ -1,21 +1,38 @@
-/* .post-item img {
-    width: 100%;
-  } */
-  
-  #home .post-item h2 {
-    margin-bottom: 0.2em;
-  }
-  
-  .post-author {
-    text-align: left;
-  }
-  
-  .post-author a {
-    font-weight: bold;
-  }
+#home .post-item h2 {
+  margin-bottom: 0.2em;
+}
 
-  .img-photo {
-    height: 400px; 
-    margin: 0 auto;
-    display: block;
-  }
+.post-author {
+  text-align: left;
+}
+
+.post-author a {
+  font-weight: bold;
+}
+
+.img-post {
+  height: 300px; 
+  margin: 0 auto;
+  display: block;
+}
+
+.post-container {
+  margin-top: 80px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.post-item {
+  background-color: white;
+  margin-top: 80px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+

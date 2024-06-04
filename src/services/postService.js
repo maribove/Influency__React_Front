@@ -1,6 +1,6 @@
 import { api, requestConfig } from "../utils/config";
 
-// Publish an user's photo
+// Publish an user's post
 const publishPost = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
@@ -15,7 +15,7 @@ const publishPost = async (data, token) => {
   }
 };
 
-// Get user photos
+// Get user posts
 const getUserPosts = async (id, token) => {
   const config = requestConfig("GET", null, token);
 
@@ -30,9 +30,9 @@ const getUserPosts = async (id, token) => {
   }
 };
 
-// Get photo
-const getPost = async (id) => {
-  const config = requestConfig("GET");
+// Get a post
+const getPost = async (id, token) => {
+  const config = requestConfig("GET", null, token);
 
   try {
     const res = await fetch(api + "/posts/" + id, config)
@@ -45,9 +45,9 @@ const getPost = async (id) => {
   }
 };
 
-// Delete a photo
+// Delete a post
 const deletePost = async (id, token) => {
-  const config = requestConfig("DELETE", "", token);
+  const config = requestConfig("DELETE", null, token);
 
   try {
     const res = await fetch(api + "/posts/" + id, config)
@@ -60,7 +60,7 @@ const deletePost = async (id, token) => {
   }
 };
 
-// Update a photo
+// Update a post
 const updatePost = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
@@ -75,7 +75,7 @@ const updatePost = async (data, id, token) => {
   }
 };
 
-// Like a photo
+// Like a post
 const like = async (id, token) => {
   const config = requestConfig("PUT", null, token);
 
@@ -90,7 +90,7 @@ const like = async (id, token) => {
   }
 };
 
-// Add a comment to a photo
+// Add a comment to a post
 const comment = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
@@ -105,9 +105,9 @@ const comment = async (data, id, token) => {
   }
 };
 
-// Get all photos
-const getPosts = async () => {
-  const config = requestConfig("GET");
+// Get all posts
+const getPosts = async (token) => {
+  const config = requestConfig("GET", null, token);
 
   try {
     const res = await fetch(api + "/posts", config)
@@ -119,7 +119,6 @@ const getPosts = async () => {
     console.log(error);
   }
 };
-
 
 const postService = {
   publishPost,

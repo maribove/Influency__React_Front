@@ -27,3 +27,22 @@
   width: 38%;
   margin: auto;
 }
+
+
+.profile-header-home{ 
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1em;
+ 
+  
+}
+
+
+.profile-header-home img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 2em;
+  
+}
