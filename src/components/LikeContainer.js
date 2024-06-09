@@ -9,9 +9,9 @@ const LikeContainer = ({ post, user, handleLike }) => {
             {post.likes && user && (
                 <>
                     {post.likes.includes(user.id) ? (
-                        <BsHeartFill />
+                        <BsHeartFill onClick={() => handleLike(post)} /> // Ícone preenchido ao curtir
                     ) : (
-                        <BsHeart onClick={()=> handleLike(post)}/>
+                        <BsHeart onClick={() => handleLike(post)} /> // Ícone vazio antes de curtir
                     )}
                 <p>{post.likes.length} like(s)</p>
                 </>

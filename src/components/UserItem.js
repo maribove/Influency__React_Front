@@ -1,4 +1,4 @@
-import "./PostItem.css";
+import "./UserItem.css";
 
 import { uploads } from "../utils/config";
 
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const UserItem = ({ user }) => {
   return (
-    <div className="post-item">
+    <div className="user-item">
      {user.profileImage && (
           <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="user-pic" />
         )}

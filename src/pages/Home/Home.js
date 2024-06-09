@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import { BiSolidImageAdd } from "react-icons/bi";
+import { FaTrash } from "react-icons/fa"; // Importando o ícone de lixeira
 
 import './Home.css';
 import { uploads } from "../../utils/config";
@@ -132,7 +133,7 @@ const Home = () => {
   return (
     <div id='formulario'>
       <h2>Seja bem-vindo à Influency, o lugar onde sua influência se torna poderosa!</h2>
-      <div className="profile-header-home">
+      <div className="profile-header-home-post">
         {user.profileImage && (
           <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="profilepic" />
         )}
@@ -184,12 +185,17 @@ const Home = () => {
       <div id="home">
         {posts && posts.length > 0 ? (
           posts.map((post) => (
-            <div key={post._id} className="post-item">
+            <div key={post._id}>
               <PostItem post={post} />
               <LikeContainer post={post} user={user} handleLike={handleLike} />
               <Link className="btn" to={`/posts/${post._id}`}>
                 Ver mais
               </Link>
+              {userAuth && userAuth._id === post.user && (
+                <button onClick={() => handleDelete(post._id)} className="btn-delete">
+                  <FaTrash />
+                </button>
+              )}
             </div>
           ))
         ) : (
@@ -198,6 +204,7 @@ const Home = () => {
           </h2>
         )}
       </div>
+      
     </div>
   );
 };

@@ -1,7 +1,7 @@
 export const api = "http://localhost:5000/api";
 export const uploads = "http://localhost:5000/uploads";
 
-export const requestConfig = (method, data, token = null, image = false) => {
+export const requestConfig = (method, data, token = null, image = null) => {
   let config;
 
   if (image) {
@@ -13,9 +13,7 @@ export const requestConfig = (method, data, token = null, image = false) => {
   } else if (method === "DELETE" || data === null) {
     config = {
       method: method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: {},
     };
   } else {
     config = {
@@ -23,9 +21,12 @@ export const requestConfig = (method, data, token = null, image = false) => {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     };
+  }
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
