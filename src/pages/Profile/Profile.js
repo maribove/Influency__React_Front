@@ -131,7 +131,7 @@ const Profile = () => {
     resetComponentMessage();
   };
 
-  // mudae image state
+  // muda image state
   const handleFile = (e) => {
     const image = e.target.files[0];
 
