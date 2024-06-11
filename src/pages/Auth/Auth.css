@@ -1,19 +1,36 @@
 .logo-container img{
-    width: 100%;
-   margin-right: 200px;
-   display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  margin-right: 90%;
+  margin-left: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
  
 }
 
 
 .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 30%;
   }
+
+@media (max-width: 1005px) {
+  .logo-container{
+  width: 15%
+  }
+    
+} 
+  
+@media (max-width: 700px) {
+  .logo-container{
+    display: none;
+  }
+  
+}  
+
 
 #formulario1 {
   margin-top: auto;
@@ -100,8 +117,6 @@
   width: 20px; 
   height: 20px; 
 }
-
-
 
 
 input[type="password"] {
