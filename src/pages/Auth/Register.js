@@ -186,11 +186,12 @@ const Register = () => {
                 {showConfirmPassword ? <FaEyeSlash size="25px" className="eye-icon" /> : <FaEye size="25px" className="eye-icon" />}
               </button>
             </div>
-          </label>
-          <div className="btn-container">
-            {!loading && <button className="btn">Cadastrar</button>}
-            {loading && <button className="btn">Aguarde...</button>}
+            <div className="btn-container">
+              {!loading && <button className="btn">Cadastrar</button>}
+              {loading && <button className="btn">Aguarde...</button>}
           </div>
+          </label>
+          
           {error && <Message msg={error} type="error" />}
           <p className="entre">Já tem cadastro? <Link to="/login">Entre</Link></p>
         </form>
