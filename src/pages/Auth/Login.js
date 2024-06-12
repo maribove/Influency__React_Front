@@ -76,11 +76,12 @@ const Login = () => {
                 {showPassword ? <FaEyeSlash size="25px" className="eye-icon" /> : <FaEye size="25px" className="eye-icon" />}
               </button>
             </div>
-          </label>
-          <div className="btn-container">
+            <div className="btn-container">
             {!loading && <button className='btn'>Entrar</button>}
             {loading && <button className='btn'>Aguarde...</button>}
           </div>
+          </label>
+          
           {error && <Message msg={error} type="error" />}
           <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
           <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
