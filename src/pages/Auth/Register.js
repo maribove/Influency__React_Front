@@ -59,7 +59,7 @@ const Register = () => {
           strengthIndicator.style.backgroundColor = "#FFF176";
           break;
         case 3:
-          strengthIndicator.style.backgroundColor = "#FFB74D"; 
+          strengthIndicator.style.backgroundColor = "#FFB74D";
           break;
         case 4:
           strengthIndicator.style.backgroundColor = "#81C784";
@@ -108,17 +108,18 @@ const Register = () => {
         <h1>Cadastre-se na Influency</h1>
         <h3>Dê o próximo passo para o sucesso!</h3>
         <p>Cadastre-se e explore um mundo de parcerias que podem impulsionar sua carreira!</p>
+        <p className="campo_obrigatorio">* Campo Obrigatório</p>
         <form onSubmit={handleSubmit}>
           <label>
-            <span>Nome:</span>
+            <span>Nome*: </span>
             <input type="text" required placeholder="Nome" onChange={(e) => setName(e.target.value)} value={name || ""} />
           </label>
           <label>
-            <span>Email:</span>
+            <span>Email*:</span>
             <input type="email" required placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email || ""} />
           </label>
           <label>
-            <span>Tipo de usuário:</span>
+            <span>Tipo de usuário*:</span>
             <select onChange={(e) => setType(e.target.value)} value={type}>
               <option value="" disabled>Selecione...</option>
               <option value="Influenciador">Influenciador</option>
@@ -126,7 +127,7 @@ const Register = () => {
             </select>
           </label>
           <label>
-            <span>Seus interesses:</span>
+            <span>Seus interesses*:</span>
             <div>
               {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
                 <label className="content" key={interest}>
@@ -144,7 +145,7 @@ const Register = () => {
             </div>
           </label>
           <label>
-            <span>Senha:</span>
+            <span>Senha*:</span>
             <div className="input-container2">
               <input
                 id="passwordInput"
@@ -169,7 +170,7 @@ const Register = () => {
             <p id="tip">Sua senha precisa conter letras minúsculas e maiúsculas, números e símbolo.</p>
           </label>
           <label>
-            <span>Confirmação de senha:</span>
+            <span>Confirmação de senha*:</span>
             <div className="input-container2">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -193,6 +194,7 @@ const Register = () => {
           </div>
           {error && <Message msg={error} type="error" />}
           <p className="entre">Já tem cadastro? <Link to="/login">Entre</Link></p>
+          
         </form>
       </div>
     </div>

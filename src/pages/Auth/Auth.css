@@ -142,3 +142,13 @@ input[type="password"] {
   max-width: 80%;
   margin: 0 auto 10px;
 }
+
+
+.campo_obrigatorio{
+  font-style: italic;
+  color: #666;
+  font-size: 0.8rem;
+  max-width: 80%;
+  margin: 0 auto 10px;
+  margin-top: 15px;
+}

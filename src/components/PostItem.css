@@ -88,7 +88,7 @@
   
 }
 
-.btn-cancel{
+.btn-nao{
   background-color: rgb(135, 223, 135);
   color: #fff;
   text-align: center;
@@ -99,6 +99,7 @@
   border: none;
   padding: 10px 15px;
   font-size: 23px;
+  margin-left: 15px;
   
 }
 
@@ -130,8 +131,8 @@
 }
 
 .texto_publicacao{
-  text-align: justify;
-  
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .edit-textarea {
@@ -142,6 +143,7 @@
   border: 1px solid #ccc;
   font-size: 16px;
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 
@@ -162,4 +164,106 @@
 }
 
 
+.comment-profilepic{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 2em;
 
+}
+
+
+/* Comentários */
+.comments-section {
+  margin-top: 24px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.comment-profilepic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.comment-content {
+  background-color: #f1f1f1;
+  padding: 8px;
+  border-radius: 8px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: space-around;
+  align-items: flex-start;
+font-size: 20px;
+}
+
+.comment-author {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  margin: 0;
+}
+
+.comment-text {
+  margin: 4px 0 0;
+  font-size: 21px;
+}
+
+/* Formulário de comentário */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.comment-textarea {
+  width: 98%;
+  height: 65px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+.btn-comentar:hover {
+  background-color: var(--corAzulClaro);
+}
+
+.comment-icon{
+  color: var(--corRosaClaro);
+  font-size: 25px;
+  margin-left: 10px;
+  align-items: center;
+}
+
+.comment-icon:hover{
+  color: var(--corAzulClaro);
+}
+
+.btn-comentar{
+  display: block;
+  background-color: var(--corRosaClaro);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 245px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 10px;
+  margin: 0 auto;
+  margin-top: 10px;
+}

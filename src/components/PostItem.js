@@ -2,9 +2,9 @@ import "./PostItem.css";
 import { uploads } from "../utils/config";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaComment } from "react-icons/fa"; // Importe o ícone de comentários
 import { BsThreeDots } from "react-icons/bs";
-import { deletePost, updatePost, resetMessage } from "../slices/postSlice";
+import { deletePost, updatePost, comment, resetMessage } from "../slices/postSlice";
 import { useState } from 'react';
 
 const PostItem = ({ post }) => {
@@ -16,6 +16,8 @@ const PostItem = ({ post }) => {
   const [editMode, setEditMode] = useState(false);
   const [editPublicacao, setEditPublicacao] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [showComments, setShowComments] = useState(false); // Estado para controlar a visibilidade dos comentários
 
   const handleDelete = (id) => {
     dispatch(deletePost(id));
@@ -39,8 +41,19 @@ const PostItem = ({ post }) => {
     };
 
     dispatch(updatePost(postData));
-
     resetComponentMessage();
+  };
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+
+    const commentData = {
+      comment: newComment,
+      id: post._id
+    };
+
+    dispatch(comment(commentData));
+    setNewComment("");
   };
 
   function resetComponentMessage() {
@@ -85,6 +98,27 @@ const PostItem = ({ post }) => {
         </div>
       )}
 
+      {userAuth && userAuth._id === post.userId && (
+        <div className="post-actions">
+          {editMode ? (
+            <>
+              <button onClick={handleUpdate} className="btn-confirm">Salvar</button>
+              <button onClick={() => setEditMode(false)} className="btn-cancelar">Cancelar</button>
+            </>
+          ) : (
+            <>
+              {showConfirm && (
+                <div className="confirm-delete-dialog">
+                  <p>Tem certeza que deseja excluir este post?</p>
+                  <button onClick={() => handleDelete(post._id)} className="btn-excluir">Sim</button>
+                  <button onClick={() => setShowConfirm(false)} className="btn-nao">Não</button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
       {editMode ? (
         <textarea
           className="edit-textarea"
@@ -109,32 +143,46 @@ const PostItem = ({ post }) => {
           <p className="post-updated">
             Atualizada em: {formatDateTime(post.updatedAt)}
           </p>
-        )} */}    {/* atualização do post */}
-      
+        )} */}
       </div>
 
-      {userAuth && userAuth._id === post.userId && (
-        <div className="post-actions">
-          {editMode ? (
-            <>
-              <button onClick={handleUpdate} className="btn-confirm">Salvar</button>
-              <button onClick={() => setEditMode(false)} className="btn-cancelar">Cancelar</button>
-            </>
-          ) : (
-            <>
-              {showConfirm && (
-                <div className="confirm-delete-dialog">
-                  <p>Tem certeza que deseja excluir este post?</p>
-                  <button onClick={() => handleDelete(post._id)} className="btn-excluir">Sim</button>
-                  <button onClick={() => setShowConfirm(false)} className="btn-cancel">Não</button>
-                </div>
+      {/* Ícone de Comentários */}
+      <div className="comments-icon" onClick={() => setShowComments(!showComments)}>
+      <span>{post.comments.length}</span>
+        <FaComment className="comment-icon" />
+        
+      </div>
+
+      {/* Seção de Comentários (visível quando showComments for verdadeiro) */}
+      {showComments && (
+        <div className="comments-section">
+          {post.comments && post.comments.length > 0 && post.comments.map((comment, index) => (
+            <div className="comment" key={index}>
+              {comment.userImage && (
+                <img src={`${uploads}/users/${comment.userImage}`} alt={comment.userName} className="comment-profilepic" />
               )}
-            </>
-          )}
+              <div className="comment-content">
+                <p className="comment-author">{comment.userName}</p>
+                <p className="comment-text">{comment.comment}</p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
+
+      {/* Formulário de Comentário */}
+      <form className="comment-form" onSubmit={handleAddComment}>
+        <textarea
+          className="comment-textarea"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Adicionar um comentário..."
+        />
+        <button type="submit" className="btn-comentar">Comentar</button>
+      </form>
     </div>
   );
 };
 
 export default PostItem;
+

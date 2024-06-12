@@ -9,12 +9,15 @@ import { uploads } from "../../utils/config";
 import Message from "../../components/Message";
 import LikeContainer from "../../components/LikeContainer";
 import PostItem from "../../components/PostItem";
+import { useParams } from "react-router-dom";
 
 import { getUserDetails } from '../../slices/userSlice';
 import { getUserPosts, publishPost, resetMessage, deletePost, updatePost, getPosts, like, comment } from "../../slices/postSlice"
 import { useResetComponentMessage } from '../../hooks/useResetComponentMessage';
 
 const Home = () => {
+  const { id } = useParams();
+
   const dispatch = useDispatch();
   const resetMessage = useResetComponentMessage(dispatch);
 
@@ -30,8 +33,7 @@ const Home = () => {
   const [editImage, setEditImage] = useState("");
   const [editPublicacao, setEditPublicacao] = useState("");
 
-  const newPostForm = useRef();
-  const editPostForm = useRef();
+
 
   // Carregar posts
   useEffect(() => {
@@ -85,25 +87,8 @@ const Home = () => {
     }
   };
 
-  // Excluir post
-  const handleDelete = (id) => {
-    dispatch(deletePost(id));
-    resetComponentMessage();
-  };
 
-  // Mostrar ou esconder forms
-  const hideOrShowForms = () => {
-    newPostForm.current.classList.toggle("hide");
-    editPostForm.current.classList.toggle("hide");
-  };
 
-  // Atualizar post
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    const postData = { publicacao: editPublicacao, id: editId };
-    dispatch(updatePost(postData));
-    resetComponentMessage();
-  };
 
   // Curtir
   const handleLike = (post) => {
@@ -111,20 +96,7 @@ const Home = () => {
     resetMessage();
   };
 
-  // Abrir edição
-  const handleEdit = (post) => {
-    if (editPostForm.current.classList.contains("hide")) {
-      hideOrShowForms();
-    }
-    setEditId(post._id);
-    setEditImage(post.image);
-    setEditPublicacao(post.publicacao);
-    document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
-  };
 
-  const handleCancelEdit = () => {
-    hideOrShowForms();
-  };
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -146,6 +118,7 @@ const Home = () => {
         <form onSubmit={submitPost}>
           <label>
             <textarea
+            className='textarea-postagem'
               type="text"
               placeholder="O que deseja compartilhar? :)"
               onChange={(e) => setPublicacao(e.target.value)}
@@ -188,19 +161,12 @@ const Home = () => {
             <div key={post._id}>
               <PostItem post={post} />
               <LikeContainer post={post} user={user} handleLike={handleLike} />
-              <Link className="btn" to={`/posts/${post._id}`}>
-                Ver mais
-              </Link>
-              {userAuth && userAuth._id === post.user && (
-                <button onClick={() => handleDelete(post._id)} className="btn-delete">
-                  <FaTrash />
-                </button>
-              )}
+
             </div>
           ))
         ) : (
           <h2 className="no-photos">
-            Ainda não há posts publicados!{" "}
+            Ainda não há posts publicados! <br/> Faça a sua primeira publicação! &#128512;{" "}
           </h2>
         )}
       </div>

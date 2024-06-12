@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { BsFillEyeFill, BsPencilFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { FaCircleDot } from "react-icons/fa6";
+import { FaTrash, FaEdit } from "react-icons/fa";
 
 // hooks
 import { useEffect, useState, useRef } from "react";
@@ -29,7 +30,6 @@ import {
 
 const Profile = () => {
   const { id } = useParams();
-
 
 
   const dispatch = useDispatch();
@@ -200,9 +200,6 @@ const Profile = () => {
 
   }
 
-
-
-
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -226,7 +223,7 @@ const Profile = () => {
             <h1 className="title">Compartilhe uma vaga:</h1>
             <form onSubmit={submitHandle}>
               <label>
-                <span>Título para a vaga:</span>
+                <span>Título para a vaga*:</span>
                 <input
                   type="text"
                   placeholder="Insira um título"
@@ -235,7 +232,7 @@ const Profile = () => {
                 />
               </label>
               <label>
-                <span>Descrição para a vaga:</span>
+                <span>Descrição para a vaga*:</span>
                 <textarea
                   type="text"
                   placeholder="Insira uma descrição"
@@ -245,7 +242,7 @@ const Profile = () => {
               </label>
 
               <label>
-                <span>Tags:</span>
+                <span>Tags*:</span>
 
                 <label className="content">
                   <input className="content_input" type="checkbox" name="Moda" value="Moda" onChange={handleTagsChange} />Moda
@@ -269,13 +266,13 @@ const Profile = () => {
                 />
               </label>
               <label>
-                <span>Data para a finalização:</span>
+                <span>Data para a finalização*:</span>
                 <input type="date" name="data" id="data" onChange={(e) => setDate(e.target.value)}
                   value={date} />
               </label>
 
               <label>
-                <span>Status da vaga:</span>
+                <span>Status da vaga*:</span>
                 <select onChange={(e) => setSituacao(e.target.value)} value={situacao}>
                   <option value="" disabled>Selecione...</option>
                   <option value="Ativo">Ativo</option>
@@ -283,7 +280,7 @@ const Profile = () => {
               </label>
 
               <label>
-                <span>Imagem:</span>
+                <span>Imagem*:</span>
                 <input type="file" onChange={handleFile} />
               </label>
 
@@ -292,6 +289,7 @@ const Profile = () => {
                 {!loadingPhoto && <input type="submit" value="Postar" className="btn" />}
                 {loadingPhoto && <input type="submit" disabled value="Aguarde..." />}
               </div>
+              <p className="campo_obrigatorio">* Campo Obrigatório</p>
 
 
             </form>
@@ -400,12 +398,12 @@ const Profile = () => {
                   <Link to={`/photos/${photo._id}`}>
                     <BsFillEyeFill size="40px" />
                   </Link>
-                  <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />
+                  <FaEdit onClick={() => handleEdit(photo)} size="40px" />
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
               ) : (
-                <Link className="btn-visualizar" to={`/photos/${photo._id}`}>
-                  Visualizar
+                <Link to={`/photos/${photo._id}`}>
+                  
                 </Link>
               )}
             </div>
