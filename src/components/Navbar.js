@@ -44,7 +44,7 @@ const Navbar = () => {
     <nav id='navbar'>
       <NavLink to="/" className='brand'>
         <picture>
-          <source media="(max-width:1334px)" srcSet="/logo_influency_pq.png" alt="Logo Influency" />
+          <source media="(max-width:1330px)" srcSet="/logo_influency_pq.png" alt="Logo Influency" />
           <img src="/logo_influency.png" alt="Logo Influency" />
         </picture>
       </NavLink>
