@@ -1,10 +1,7 @@
 .logo-container img{
   width: 100%;
-  margin-right: 90%;
-  margin-left: 20%;
   display: flex;
   justify-content: center;
-  align-items: center;
  
 }
 
@@ -23,7 +20,7 @@
   display: flex;
   background-color: white;
   text-align: center;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin: auto;
   padding: 0;

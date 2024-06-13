@@ -46,7 +46,7 @@ const Register = () => {
       if (password.match(/[a-z]/)) score++;
       if (password.match(/[A-Z]/)) score++;
       if (password.match(/[0-9]/)) score++;
-      if (password.match(/[^a-zA-Z0-9]/)) score++;
+      if (password.match(/[^a-zA-Z0-9!@#$%^&*$]/)) score++;
 
       const width = (score / 4) * 100;
       strengthIndicator.style.width = `${width}%`;
