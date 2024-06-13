@@ -146,6 +146,9 @@ flex: 1;
   color: var(--corAzulClaro);
 }
 
+.actions svg:hover{
+  color: var(--corRosaClaro);
+}
 .edit-photo {
   margin-bottom: 1em;
   
@@ -261,3 +264,4 @@ border: 7px solid #EF97B4
   }
   
 }
+

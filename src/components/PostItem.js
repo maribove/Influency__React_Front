@@ -17,7 +17,7 @@ const PostItem = ({ post }) => {
   const [editPublicacao, setEditPublicacao] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [newComment, setNewComment] = useState("");
-  const [showComments, setShowComments] = useState(false); // Estado para controlar a visibilidade dos comentários
+  const [showComments, setShowComments] = useState(false);
 
   const handleDelete = (id) => {
     dispatch(deletePost(id));
