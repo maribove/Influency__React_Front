@@ -395,10 +395,13 @@ const Profile = () => {
               </div>
               {id === userAuth._id ? (
                 <div className="actions">
-                  <Link to={`/photos/${photo._id}`}>
-                    <BsFillEyeFill size="40px" />
-                  </Link>
-                  <FaEdit onClick={() => handleEdit(photo)} size="40px" />
+               
+                  
+                  <BsFillEyeFill size="40px" />
+                  
+                  
+                  
+                  <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />                
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
               ) : (
