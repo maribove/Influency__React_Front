@@ -1,7 +1,6 @@
 import { api, requestConfig } from "../utils/config";
-import axios from 'axios';
 
-// Publicar um post
+// Publish an user's photo
 const publishPost = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
@@ -16,102 +15,102 @@ const publishPost = async (data, token) => {
   }
 };
 
-// Obter posts de um usuário
 const getUserPosts = async (id, token) => {
   const config = requestConfig("GET", null, token);
 
   try {
-    const res = await fetch(api + "/posts/user/" + id, config);
-    const json = await res.json();
-    return json;
+    const res = await fetch(api + "/posts/user/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 
-// Excluir um post
+
+// Delete a photo
 const deletePost = async (id, token) => {
-  const config = requestConfig("DELETE", null, token);
+  const config = requestConfig("DELETE", "", token);
 
   try {
-    const res = await fetch(api + "/posts/" + id, config);
-    const json = await res.json();
-    return json;
+    const res = await fetch(api + "/posts/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 
-// Atualizar um post
+// Update a photo
 const updatePost = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
   try {
-    const res = await fetch(api + "/posts/" + id, config);
-    const json = await res.json();
-    return json;
+    const res = await fetch(api + "/posts/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 
-const API_URL = 'http://localhost:5000/api/posts/';
-
-// Obter todos os posts
-const getPosts = async () => {
-  // Obter o token do localStorage
-  const token = localStorage.getItem('token'); // Certifique-se de que o token está armazenado no localStorage
-  
-  if (!token) {
-    throw new Error('No token found'); // Trate a ausência do token
-  }
-
-  // Configuração dos cabeçalhos
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+const getPosts = async (id) => {
+  const config = requestConfig("GET");
 
   try {
-    const response = await axios.get(API_URL, config);
-    return response.data;
+    const res = await fetch(api + "/posts/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    throw error;
   }
 };
 
-// Curtir um post
+
+
+
+// Like a post
 const like = async (id, token) => {
   const config = requestConfig("PUT", null, token);
 
   try {
-    const res = await fetch(api + "/posts/like/" + id, config);
-    const json = await res.json();
-    return json;
+    const res = await fetch(api + "/posts/like/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
 
-// Adicionar um comentário a um post
+// Add a comment to a post
 const comment = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
   try {
-    const res = await fetch(api + "/posts/comment/" + id, config);
-    const json = await res.json();
-    return json;
+    const res = await fetch(api + "/posts/comment/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
   } catch (error) {
     console.log(error);
-    return error;
   }
 };
+
+
+
+
+
 
 const postService = {
   publishPost,
@@ -121,6 +120,9 @@ const postService = {
   getPosts,
   like,
   comment,
+
 };
 
 export default postService;
+
+

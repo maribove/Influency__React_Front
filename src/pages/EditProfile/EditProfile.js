@@ -99,7 +99,7 @@ const EditProfile = () => {
 
             <form onSubmit={handleSubmit}>
                 <label>
-                    <span>Nome:</span>
+                    <span>Nome*:</span>
                     <input
                         type="text"
                         placeholder="Nome"
@@ -138,20 +138,19 @@ const EditProfile = () => {
                 <label>
                     <span>Seus interesses:</span>
                     <div>
-                        {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
-                            <label className="content" key={interest}>
-                                <input
-                                    
-                                    className="content_input"
-                                    type="checkbox"
-                                    name={interest}
-                                    value={interest.toLowerCase() || ""}
-                                    checked={interests.includes(interest.toLowerCase())}
-                                    onChange={handleInterestsChange}
-                                />
-                                {interest}
-                            </label>
-                        ))}
+                    {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
+                <label className="content" key={interest}>
+                  <input
+                    className="content_input"
+                    type="checkbox"
+                    name={interest}
+                    value={interest.toLowerCase()}
+                    checked={interests.includes(interest.toLowerCase())}
+                    onChange={handleInterestsChange}
+                  />
+                  {interest}
+                </label>
+              ))}
                     </div>
                 </label>
 

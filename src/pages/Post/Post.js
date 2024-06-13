@@ -17,7 +17,7 @@ import { getPost, like, comment } from '../../slices/postSlice';
 import LikeContainer from '../../components/LikeContainer';
 
 const Post = () => {
-  const { id } = useParams(); // Corrigido: Adicionado os parênteses para chamar a função.
+  const { id } = useParams(); 
 
   const dispatch = useDispatch();
 
