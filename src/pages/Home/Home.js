@@ -1,95 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import { BiSolidImageAdd } from "react-icons/bi";
+import { FaTrash } from "react-icons/fa"; // Importando o ícone de lixeira
+
 import './Home.css';
 import { uploads } from "../../utils/config";
-
-// components
-
 import Message from "../../components/Message";
-import { BiSolidImageAdd } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import LikeContainer from "../../components/LikeContainer";
 import PostItem from "../../components/PostItem";
-
-
-
-// hooks
-import { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useResetComponentMessage } from '../../hooks/useResetComponentMessage'
 
-// Redux
-import { getUserDetails } from "../../slices/userSlice";
-
-
-import {
-  getUserPosts,
-  publishPost,
-  resetMessage,
-  deletePost,
-  updatePost,
-  getPosts,
-  like,
-  comment,
-} from "../../slices/postSlice";
+import { getUserDetails } from '../../slices/userSlice';
+import { getUserPosts, publishPost, resetMessage, deletePost, updatePost, getPosts, like, comment } from "../../slices/postSlice"
+import { useResetComponentMessage } from '../../hooks/useResetComponentMessage';
 
 const Home = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-
-  const resetMessage = useResetComponentMessage(dispatch)
+  const resetMessage = useResetComponentMessage(dispatch);
 
   const { user, loading } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
-  const {
-    posts,
-    loading: loadingPost,
-    error: errorpost,
-    message: messagepost,
-  } = useSelector((state) => state.post);
+  const { posts, loading: loadingPost, error: errorpost, message: messagepost } = useSelector((state) => state.post);
 
   const [publicacao, setPublicacao] = useState("");
   const [image, setImage] = useState("");
   const [imageType, setImageType] = useState("");
-
-
   const [imagePreview, setImagePreview] = useState("");
-
   const [editId, setEditId] = useState("");
   const [editImage, setEditImage] = useState("");
   const [editPublicacao, setEditPublicacao] = useState("");
 
 
-  // carregar posts
+
+  // Carregar posts
   useEffect(() => {
-    dispatch(getPosts)
-  }, [dispatch])
+    dispatch(getPosts());
+  }, [dispatch]);
 
-  // curtir
-  const handleLike = (post) => {
-    dispatch(like(post._id))
-
-    resetMessage()
-  }
-
-
-
-
-  // New form and edit form refs
-  const newPostForm = useRef();
-  const editPostForm = useRef();
-
-  // Load user data
+  // Carregar dados do usuário e posts do usuário autenticado
   useEffect(() => {
-    dispatch(getUserDetails(id));
-    dispatch(getUserPosts(id));
-
+    if (userAuth && userAuth._id) {
+      dispatch(getUserDetails(userAuth._id));
+      dispatch(getUserPosts(userAuth._id));
+    }
     if (messagepost === "Post publicado com sucesso!") {
-      setPublicacao(""); // Limpa o campo textarea
+      setPublicacao(""); // limpa o campo 
       setImagePreview("");
     }
-  }, [dispatch, id, messagepost]);
+  }, [dispatch, userAuth, messagepost]);
 
   // Reset componente
   function resetComponentMessage() {
@@ -98,36 +59,25 @@ const Home = () => {
     }, 2000);
   }
 
-  // publicar post
+  // Publicar post
   const submitPost = (e) => {
     e.preventDefault();
 
-    const postData = {
-      publicacao,
-      image,
-    };
-
-    // build form data
+    const postData = { publicacao, image };
     const formData = new FormData();
 
-    const postFormData = Object.keys(postData).forEach((key) =>
-      formData.append(key, postData[key])
-    );
-
-    formData.append("post", postFormData);
+    Object.keys(postData).forEach((key) => formData.append(key, postData[key]));
+    formData.append("post", postData);
 
     dispatch(publishPost(formData));
-
     resetComponentMessage();
   };
 
-
-  // mudae image state
+  // Alterar estado da imagem
   const handleFile = (e) => {
     const image = e.target.files[0];
-
-    // Verificar o tipo de arquivo
     const fileType = image.type.split("/")[1];
+
     if (!["png", "jpg", "jpeg"].includes(fileType)) {
       setImageType(fileType);
     } else {
@@ -137,52 +87,14 @@ const Home = () => {
     }
   };
 
-  // Excluir
-  const handleDelete = (id) => {
-    dispatch(deletePost(id));
 
-    resetComponentMessage();
+
+
+  // Curtir
+  const handleLike = (post) => {
+    dispatch(like(post._id));
+    resetMessage();
   };
-
-  // mostrar ou escondeer form
-  const hideOrShowForms = () => {
-    newPostForm.current.classList.toggle("hide")
-    editPostForm.current.classList.toggle("hide")
-  }
-
-  // update
-  const handleUpdate = (e) => {
-    e.preventDefault();
-
-    const postData = {
-      publicacao: editPublicacao,
-      id: editId,
-    };
-
-    dispatch(updatePost(postData));
-
-    resetComponentMessage();
-  };
-
-  // abrir edição
-  const handleEdit = (post) => {
-    if (editPostForm.current.classList.contains("hide")) {
-      hideOrShowForms();
-    }
-    setEditId(post._id)
-    setEditImage(post.image)
-    setEditPublicacao(post.title)
-
-
-    // Scroll para a seção de edição
-    document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
-  }
-
-  const handleCancelEdit = (e) => {
-    hideOrShowForms();
-
-  }
-
 
 
 
@@ -192,39 +104,27 @@ const Home = () => {
 
   return (
     <div id='formulario'>
-
       <h2>Seja bem-vindo à Influency, o lugar onde sua influência se torna poderosa!</h2>
+      <div className="profile-header-home-post">
+        {user.profileImage && (
+          <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="profilepic" />
+        )}
+        <div className="profile-description">
+          <h2>{user.name}</h2>
+        </div>
+      </div>
 
-      {/* <div id="home">
-            {posts &&
-              posts.map((post) => (
-                <div key={post._id}>
-                  <PostItem post={posts} />
-                  <LikeContainer post={post} user={user} handleLike={handleLike} />
-                  <Link className="btn" to={`/posts/${post._id}`}>
-                    Ver mais
-                  </Link>
-                </div>
-              ))}
-            {posts && posts.length === 0 && (
-              <h2 className="no-photos">
-                Ainda não há fotos publicadas,{" "}
-                <Link to={`/users/${user.userId}`}>clique aqui</Link> para começar.
-              </h2>
-            )}
-          </div> */}
       <div className="new-photo">
         <form onSubmit={submitPost}>
           <label>
             <textarea
+            className='textarea-postagem'
               type="text"
               placeholder="O que deseja compartilhar? :)"
               onChange={(e) => setPublicacao(e.target.value)}
               value={publicacao}
             />
           </label>
-
-
           <label htmlFor="post-image" className="camera-icon">
             <BiSolidImageAdd className='camera-icon' />
           </label>
@@ -235,22 +135,14 @@ const Home = () => {
             onChange={handleFile}
             className='input-img'
           />
-
           {imagePreview && (
             <img src={imagePreview} alt="Pré-visualização" className="image-preview" />
           )}
-
           <div className="btn-container">
             {!loadingPost && <input type="submit" value="Publicar" className="btn-compartilhar" />}
             {loadingPost && <input type="submit" disabled value="Aguarde..." />}
-
-
-
           </div>
-
-        
         </form>
-
       </div>
 
       {errorpost && <Message msg={errorpost} type="error" />}
@@ -262,12 +154,25 @@ const Home = () => {
           Selecione um arquivo PNG, JPG ou JPEG.
         </div>
       )}
+      
+      <div id="home">
+        {posts && posts.length > 0 ? (
+          posts.map((post) => (
+            <div key={post._id}>
+              <PostItem post={post} />
+              <LikeContainer post={post} user={user} handleLike={handleLike} />
 
+            </div>
+          ))
+        ) : (
+          <h2 className="no-photos">
+            Ainda não há posts publicados! <br/> Faça a sua primeira publicação! &#128512;{" "}
+          </h2>
+        )}
+      </div>
+      
     </div>
-
-
-
   );
-}
+};
 
 export default Home;

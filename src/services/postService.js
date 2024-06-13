@@ -1,6 +1,7 @@
 import { api, requestConfig } from "../utils/config";
+import axios from 'axios';
 
-// Publish an user's photo
+// Publicar um post
 const publishPost = async (data, token) => {
   const config = requestConfig("POST", data, token, true);
 
@@ -15,121 +16,111 @@ const publishPost = async (data, token) => {
   }
 };
 
-// Get user photos
+// Obter posts de um usuário
 const getUserPosts = async (id, token) => {
   const config = requestConfig("GET", null, token);
 
   try {
-    const res = await fetch(api + "/posts/user/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/posts/user/" + id, config);
+    const json = await res.json();
+    return json;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 
-// Get photo
-const getPost = async (id) => {
-  const config = requestConfig("GET");
-
-  try {
-    const res = await fetch(api + "/posts/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Delete a photo
+// Excluir um post
 const deletePost = async (id, token) => {
-  const config = requestConfig("DELETE", "", token);
+  const config = requestConfig("DELETE", null, token);
 
   try {
-    const res = await fetch(api + "/posts/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/posts/" + id, config);
+    const json = await res.json();
+    return json;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 
-// Update a photo
+// Atualizar um post
 const updatePost = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
   try {
-    const res = await fetch(api + "/posts/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/posts/" + id, config);
+    const json = await res.json();
+    return json;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 
-// Like a photo
+const API_URL = 'http://localhost:5000/api/posts/';
+
+// Obter todos os posts
+const getPosts = async () => {
+  // Obter o token do localStorage
+  const token = localStorage.getItem('token'); // Certifique-se de que o token está armazenado no localStorage
+  
+  if (!token) {
+    throw new Error('No token found'); // Trate a ausência do token
+  }
+
+  // Configuração dos cabeçalhos
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.get(API_URL, config);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// Curtir um post
 const like = async (id, token) => {
   const config = requestConfig("PUT", null, token);
 
   try {
-    const res = await fetch(api + "/posts/like/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/posts/like/" + id, config);
+    const json = await res.json();
+    return json;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
 
-// Add a comment to a photo
+// Adicionar um comentário a um post
 const comment = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
   try {
-    const res = await fetch(api + "/posts/comment/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/posts/comment/" + id, config);
+    const json = await res.json();
+    return json;
   } catch (error) {
     console.log(error);
+    return error;
   }
 };
-
-// Get all photos
-const getPosts = async () => {
-  const config = requestConfig("GET");
-
-  try {
-    const res = await fetch(api + "/posts", config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 
 const postService = {
   publishPost,
   getUserPosts,
-  getPost,
   deletePost,
   updatePost,
+  getPosts,
   like,
   comment,
-  getPosts,
 };
 
 export default postService;

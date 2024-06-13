@@ -63,6 +63,7 @@ padding: 20px;
 box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
 overflow-wrap: break-word;
 flex: 1;
+
 }
 
 
@@ -81,8 +82,8 @@ flex: 1;
     box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
     padding-left: 30px;
     padding-right: 30px;
-    
-    
+   /* max-height: 1400px; */
+
 }
 
 
