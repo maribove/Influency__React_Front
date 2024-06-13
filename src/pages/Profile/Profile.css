@@ -12,8 +12,23 @@
   height: 100px;
   border-radius: 50%;
   margin-right: 2em;
+  position: relative;
+}
+
+@media (max-width: 1640px){
+  .profile-header{
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0%;
+  }
+
+  .profile-header img{
+    margin-right: 0%;
+  }
   
 }
+
 
 .ativo{
 color: rgb(0, 199, 0);
@@ -35,7 +50,6 @@ margin-bottom: 100px;
 
 
 .infos {
-display: flexbox;
 flex-direction: column; 
 background-color: white;
 align-items: center;
@@ -50,8 +64,6 @@ box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
 overflow-wrap: break-word;
 flex: 1;
 }
-
-
 
 
 .user-photos{
@@ -69,8 +81,6 @@ flex: 1;
     box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
     padding-left: 30px;
     padding-right: 30px;
-    max-height: 1400px; 
-    overflow-y: auto;
     
     
 }
@@ -104,8 +114,9 @@ flex: 1;
 .photo{
   width: 32%;
   padding-bottom: 15px;
-
+  display: inline-table;
 }
+
 
 .photo img{
   width: 30%;
@@ -118,7 +129,7 @@ flex: 1;
 
 
 .actions {
-  display: flexbox;
+  display: flex;
   justify-content: space-around;
   border-radius: 10px;
   background-color: white;
@@ -148,8 +159,6 @@ flex: 1;
 
 }
 
-
-
 .titulo{
  
 color: var(--corAzulClaro);  
@@ -166,7 +175,7 @@ border: 7px solid #EF97B4
 }
 
 .p-align{
-text-align: justify;
+  text-align: left;
 
 }
 
@@ -222,6 +231,7 @@ text-align: justify;
 
 .btn-container {
   margin: auto;
+  
 }
 
 .btn-visualizar{
@@ -237,5 +247,16 @@ text-align: justify;
   padding: 10px 15px;
   font-size: 23px;
   float: left;
+  
+}
+
+
+@media (max-width: 415px) {
+  .photo{
+    display: contents;
+  }
+  .btn{
+    width: 100px;
+  }
   
 }
