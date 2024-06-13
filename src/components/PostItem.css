@@ -88,6 +88,10 @@
   
 }
 
+.btn-excluir:hover{
+  background-color: rgb(255, 93, 93) ;
+}
+
 .btn-nao{
   background-color: rgb(135, 223, 135);
   color: #fff;
@@ -101,6 +105,10 @@
   font-size: 23px;
   margin-left: 15px;
   
+}
+
+.btn-nao:hover{
+  background-color: rgb(62, 129, 62);
 }
 
 .btn-cancelar{
@@ -117,6 +125,10 @@
   margin-left: 30px;
 }
 
+.btn-cancelar:hover{
+  background-color: rgb(255, 93, 93) ;
+}
+
 .btn-confirm{
   background-color: rgb(135, 223, 135);
   color: #fff;
@@ -128,6 +140,10 @@
   border: none;
   padding: 10px 15px;
   font-size: 23px;
+}
+
+.btn-confirm:hover{
+  background-color: rgb(62, 129, 62);
 }
 
 .texto_publicacao{

@@ -45,6 +45,8 @@ const Home = () => {
       if (postMessage === "Post publicado com sucesso!") {
         setPublicacao(""); // limpa o campo 
         setImagePreview("");
+        setImage("");
+       
       }
     }, [dispatch, userAuth, postMessage]);
 

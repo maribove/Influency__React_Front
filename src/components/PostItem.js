@@ -79,6 +79,7 @@ const PostItem = ({ post }) => {
         )}
         <div className="profile-description">
           <h2 className="name_user">{user.name}</h2>
+          
         </div>
         {userAuth && userAuth._id === post.userId && (
           <div className="options-menu" onClick={toggleDropdown}>
