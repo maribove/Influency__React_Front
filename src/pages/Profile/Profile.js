@@ -44,6 +44,7 @@ const Profile = () => {
   } = useSelector((state) => state.photo);
 
   const [title, setTitle] = useState("");
+  const [atuacao, setAtuacao] = useState("");
   const [tags, setTags] = useState("");
   const [local, setLocal] = useState("");
   const [desc, setdesc] = useState("");
@@ -62,6 +63,7 @@ const Profile = () => {
   const [editLocal, setEditLocal] = useState("");
   const [editDate, setEditDate] = useState("");
   const [editSituacao, setEditSituacao] = useState("");
+  const [editAtuacao, setEditAtuacao] = useState("");
 
 
   const handleTagsChange = (e) => {
@@ -89,6 +91,7 @@ const Profile = () => {
       setSituacao("");
       setDate("");
       setImage("");
+      setAtuacao("");
 
     }
   }, [dispatch, id, messagePhoto]);
@@ -107,6 +110,7 @@ const Profile = () => {
 
     const photoData = {
       title,
+      atuacao,
       tags,
       desc,
       local,
@@ -166,6 +170,7 @@ const Profile = () => {
 
     const photoData = {
       title: editTitle,
+      atuacao: editAtuacao,
       desc: editDesc,
       local: editLocal,
       situacao: editSituacao,
@@ -190,6 +195,7 @@ const Profile = () => {
     setEditLocal(photo.local)
     setEditDate(photo.date)
     setEditSituacao(photo.situacao)
+    setEditAtuacao(photo.atuacao)
 
     // Scroll para a seção de edição
     document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
@@ -240,6 +246,15 @@ const Profile = () => {
                   value={desc}
                 />
               </label>
+              <label>
+                <span>Área de atuação*:</span>
+                <input
+                  type="text"
+                  placeholder="Insira um título"
+                  onChange={(e) => setAtuacao(e.target.value)}
+                  value={atuacao}
+                />
+              </label>
 
               <label>
                 <span>Tags*:</span>
@@ -257,7 +272,7 @@ const Profile = () => {
               </label>
 
               <label>
-                <span>Local da vaga:</span>
+                <span>Local da vaga*:</span>
                 <input
                   type="text"
                   placeholder="Insira o local da vaga"
@@ -319,6 +334,16 @@ const Profile = () => {
                   value={editDesc || ""}
                 />
               </label>
+
+              <label>
+                <span>Área de atuação:</span>
+                <input
+                  type="text"
+                  onChange={(e) => setEditAtuacao(e.target.value)}
+                  value={editAtuacao || ""}
+                />
+              </label>
+
               <label>
                 <span>Local da vaga:</span>
                 <input
@@ -380,6 +405,7 @@ const Profile = () => {
                 <h3>{photo.title}</h3>
 
                 <p className="p-align"><strong>Local: </strong> {photo.local}</p>
+                <p className="p-align"><strong>Área de atuaçao: </strong> {photo.atuacao}</p>
                 <p className="p-align">
                   <strong>Status: </strong> {photo.situacao}
                   {photo.situacao === 'Encerrado' ? (

@@ -67,6 +67,7 @@ export const updatePhoto = createAsyncThunk(
     const data = await photoService.updatePhoto(
       {
         title: photoData.title,
+        atuacao: photoData.atuacao,
         desc: photoData.desc,
         local: photoData.local,
         situacao: photoData.situacao,
@@ -177,6 +178,7 @@ export const photoSlice = createSlice({
         const updatedPhotoIndex = state.photos.findIndex(photo => photo._id === action.payload.photo._id);
         if (updatedPhotoIndex !== -1) {
           state.photos[updatedPhotoIndex].title = action.payload.photo.title;
+          state.photos[updatedPhotoIndex].atuacao = action.payload.photo.atuacao;
           state.photos[updatedPhotoIndex].desc = action.payload.photo.desc;
           state.photos[updatedPhotoIndex].local = action.payload.photo.local;
           state.photos[updatedPhotoIndex].situacao = action.payload.photo.situacao;

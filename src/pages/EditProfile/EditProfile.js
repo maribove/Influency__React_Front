@@ -16,6 +16,8 @@ const EditProfile = () => {
     const [profileImage, setProfileImage] = useState("");
     const [bio, setBio] = useState("");
     const [previewImage, setPreviewImage] = useState("");
+    const [portfolio, setPortfolio] = useState(null);
+    const [previewPDF, setPreviewPDF] = useState("");
 
     useEffect(() => {
         dispatch(profile());
@@ -27,6 +29,11 @@ const EditProfile = () => {
             setEmail(user.email);
             setBio(user.bio);
             setInterests(user.interests || []);
+
+            // Verifica se o usuário já tem um PDF de portfólio e cria uma pré-visualização
+            if (user.portfolio) {
+                setPreviewPDF(`${uploads}/portfolios/${user.portfolio}`);
+            }
         }
     }, [user]);
 
@@ -44,6 +51,10 @@ const EditProfile = () => {
 
         if (password) {
             userData.password = password;
+        }
+
+        if (portfolio) {
+            userData.portfolio = portfolio;
         }
 
         const formData = new FormData();
@@ -66,6 +77,16 @@ const EditProfile = () => {
             alert("Formato de arquivo não suportado. Selecione um arquivo PNG, JPG ou JPEG.");
         } else {
             setProfileImage(image);
+        }
+    };
+
+    const handlePortfolio = (e) => {
+        const file = e.target.files[0];
+        if (file.type !== "application/pdf") {
+            alert("Por favor, envie apenas arquivos em formato PDF!");
+        } else {
+            setPortfolio(file);
+            setPreviewPDF(URL.createObjectURL(file));
         }
     };
 
@@ -162,6 +183,28 @@ const EditProfile = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         value={password || ""}
                     />
+                </label>
+
+                <label>
+                    <span> Meu Portfólio (PDF):</span>
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={handlePortfolio}
+                    />
+                    {previewPDF && (
+                        <div className="pdf-preview">
+                            <iframe
+                                src={previewPDF}
+                                title="Pré-visualização do Portfólio"
+                                width="100%"
+                                height="500px"
+                            />
+                            <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
+                                Visualizar PDF
+                            </button>
+                        </div>
+                    )}
                 </label>
 
                 <div className="btn-container">
