@@ -73,7 +73,7 @@ const Navbar = () => {
                   <BsHouseDoorFill /> Home
                 </NavLink>
               </li>
-              {user && (
+              {user && user.role == 'Empresa' &&(
                 <li>
                   <NavLink to={`/users/${user._id}`}>
                     <FaPlusCircle /> Criar Vaga

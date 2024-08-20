@@ -176,6 +176,7 @@ export const photoSlice = createSlice({
         // encontrar a foto no array e atualizar suas propriedades
         const updatedPhotoIndex = state.photos.findIndex(photo => photo._id === action.payload.photo._id);
         if (updatedPhotoIndex !== -1) {
+
           state.photos[updatedPhotoIndex].title = action.payload.photo.title;
           state.photos[updatedPhotoIndex].desc = action.payload.photo.desc;
           state.photos[updatedPhotoIndex].local = action.payload.photo.local;

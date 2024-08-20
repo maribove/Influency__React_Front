@@ -59,7 +59,7 @@ const Home = () => {
   const submitPost = (e) => {
     e.preventDefault();
 
-    const postData = { publicacao, image };
+    const postData = {publicacao, image };
     const formData = new FormData();
 
     Object.keys(postData).forEach((key) => formData.append(key, postData[key]));
@@ -148,7 +148,7 @@ const Home = () => {
         {posts && posts.length > 0 ? (
           posts.map((post) => (
             <div key={post._id}>
-              <PostItem post={post} />
+              <PostItem post={post}  />
               <LikeContainer post={post} user={user} handleLike={handleLike} />
             </div>
           ))

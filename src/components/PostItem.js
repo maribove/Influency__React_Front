@@ -81,7 +81,7 @@ const PostItem = ({ post }) => {
           <h2 className="name_user">{user.name}</h2>
           
         </div>
-        {userAuth && userAuth._id === post.userId && (
+        {userAuth && (userAuth._id === post.userId || user.role === 'admin')  && (
           <div className="options-menu" onClick={toggleDropdown}>
             <BsThreeDots className="pontinhos" />
           </div>
@@ -129,7 +129,6 @@ const PostItem = ({ post }) => {
       ) : (
         <p className="texto_publicacao">{post.publicacao}</p>
       )}
-
       {post.image && (
         <div className="img-container">
           <img className="img-post" src={`${uploads}/posts/${post.image}`} alt={post.publicacao} />
