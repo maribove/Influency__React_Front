@@ -18,6 +18,7 @@ const EditProfile = () => {
     const [previewImage, setPreviewImage] = useState("");
     const [portfolio, setPortfolio] = useState(null);
     const [previewPDF, setPreviewPDF] = useState("");
+    const [editing, setEditing] = useState(false);
 
     useEffect(() => {
         dispatch(profile());
@@ -30,7 +31,6 @@ const EditProfile = () => {
             setBio(user.bio);
             setInterests(user.interests || []);
 
-            // Verifica se o usuário já tem um PDF de portfólio e cria uma pré-visualização
             if (user.portfolio) {
                 setPreviewPDF(`${uploads}/portfolios/${user.portfolio}`);
             }
@@ -102,119 +102,152 @@ const EditProfile = () => {
     };
 
     return (
-        <div id="formulario">
-            <h1>Edite seus dados</h1>
-
+        <div className="profile-container">
+            <div className="sidebar">
             {(user.profileImage || previewImage) && (
-                <img
-                    className="profile-image"
-                    src={
-                        previewImage
-                            ? URL.createObjectURL(previewImage)
-                            : `${uploads}/users/${user.profileImage}`
-                    }
-                    alt={user.name}
-                />
-            )}
-            <p>Adicione uma foto de perfil e fale um pouco sobre você!</p>
-
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <span>Nome*:</span>
-                    <input
-                        type="text"
-                        placeholder="Nome"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name || ""}
-                    />
-                </label>
-                <label>
-                    <span>Email:</span>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        disabled
-                        value={email || ""}
-                    />
-                </label>
-
-                <label>
-                    <span>Foto de perfil:</span>
-                    <input
-                        className="ficheiro"
-                        type="file"
-                        onChange={handleFile}
-                    />
-                </label>
-                <label>
-                    <span>Biografia:</span>
-                    <textarea
-                        type="text"
-                        placeholder="Fale um pouco sobre você.."
-                        onChange={(e) => setBio(e.target.value)}
-                        value={bio || ""}
-                    />
-                </label>
-
-                <label>
-                    <span>Seus interesses:</span>
-                    <div>
-                    {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
-                <label className="content" key={interest}>
-                  <input
-                    className="content_input"
-                    type="checkbox"
-                    name={interest}
-                    value={interest.toLowerCase()}
-                    checked={interests.includes(interest.toLowerCase())}
-                    onChange={handleInterestsChange}
-                  />
-                  {interest}
-                </label>
-              ))}
-                    </div>
-                </label>
-
-                <label>
-                    <span>Alterar senha:</span>
-                    <input
-                        type="password"
-                        placeholder="Digite uma nova senha"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password || ""}
-                    />
-                </label>
-
-                <label>
-                    <span> Meu Portfólio (PDF):</span>
-                    <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={handlePortfolio}
-                    />
-                    {previewPDF && (
-                        <div className="pdf-preview">
-                            <iframe
-                                src={previewPDF}
-                                title="Pré-visualização do Portfólio"
-                                width="100%"
-                                height="500px"
-                            />
-                            <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
-                                Visualizar PDF
-                            </button>
-                        </div>
+                        <img
+                            className="profile-image"
+                            src={
+                                previewImage
+                                    ? URL.createObjectURL(previewImage)
+                                    : `${uploads}/users/${user.profileImage}`
+                            }
+                            alt={user.name}
+                        />
                     )}
-                </label>
+                <h2>{user.name}</h2>
+                <p>{user.bio}</p>
+                {previewPDF && (
+                                    
+                                        <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
+                                            Visualizar meu portfolio 
+                                        </button>
+                                    
+                                )}
+                
+                <button className="btn-edit" onClick={() => setEditing(!editing)}>
+                    {editing ? 'Cancelar Edição' : 'Editar Perfil'}
+                </button>
+            </div>
 
-                <div className="btn-container">
-                    {!loading && <button className='btn'>Atualizar</button>}
-                    {loading && <button className='btn'>Aguarde...</button>}
-                </div>
-            </form>
-            {error && <Message msg={error} type="error" />}
-            {message && <Message msg={message} type="sucess" />}
-        </div>
+            <div id="formulario">
+                
+                {editing ? (
+                    <div id="edit-form" className="edit-form">
+                        <h2>Editar Perfil</h2>
+                        <form onSubmit={handleSubmit}>
+                            <label>
+                                <span>Nome*:</span>
+                                <input
+                                    type="text"
+                                    placeholder="Nome"
+                                    onChange={(e) => setName(e.target.value)}
+                                    value={name || ""}
+                                />
+                            </label>
+                            <label>
+                                <span>Email:</span>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    disabled
+                                    value={email || ""}
+                                />
+                            </label>
+
+                            <label>
+                                <span>Foto de perfil:</span>
+                                <input
+                                    className="file-input"
+                                    type="file"
+                                    onChange={handleFile}
+                                />
+                            </label>
+                            <label>
+                                <span>Biografia:</span>
+                                <textarea
+                                    type="text"
+                                    placeholder="Fale um pouco sobre você.."
+                                    onChange={(e) => setBio(e.target.value)}
+                                    value={bio || ""}
+                                />
+                            </label>
+
+                            <label>
+                                <span>Seus interesses:</span>
+                                <div>
+                                    {["Moda", "Beleza", "Saúde", "Alimentação", "Viagens", "Animais", "Meio Ambiente", "Estudos"].map((interest) => (
+                                        <label className="content" key={interest}>
+                                            <input
+                                                className="content_input"
+                                                type="checkbox"
+                                                name={interest}
+                                                value={interest.toLowerCase()}
+                                                checked={interests.includes(interest.toLowerCase())}
+                                                onChange={handleInterestsChange}
+                                            />
+                                            {interest}
+                                        </label>
+                                    ))}
+                                </div>
+                            </label>
+
+                            <label>
+                                <span>Alterar senha:</span>
+                                <input
+                                    type="password"
+                                    placeholder="Digite uma nova senha"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={password || ""}
+                                />
+                            </label>
+
+                            <label>
+                                <span>Meu Portfólio (PDF):</span>
+                                <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    onChange={handlePortfolio}
+                                />
+                                
+                            </label>
+
+                            <div className="btn-container">
+                                {!loading && <button className='btn'>Atualizar</button>}
+                                {loading && <button className='btn'>Aguarde...</button>}
+                            </div>
+                        </form>
+                        {error && <Message msg={error} type="error" />}
+                        {message && <Message msg={message} type="sucess" />}
+                    </div>
+                ) : (
+                    <div className="profile-details">
+                        <section id="bio">
+                            <h2>Biografia</h2>
+                            <p>{user.bio || "Biografia não definida"}</p>
+                        </section>
+                        <section id="portfolio">
+                            <h2>Portfólio</h2>
+                            {previewPDF ? (
+                                <div className="pdf-preview">
+                                    <iframe
+                                        src={previewPDF}
+                                        title="Pré-visualização do Portfólio"
+                                        width="100%"
+                                        height="500px"
+                                    />
+                                    <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
+                                        Visualizar PDF
+                                    </button>
+                                </div>
+                            ) : (
+                                <p>Portfólio não disponível</p>
+                            )}
+                        </section>
+                    </div>
+                )}
+            </div>
+        </div >
     );
 }
 

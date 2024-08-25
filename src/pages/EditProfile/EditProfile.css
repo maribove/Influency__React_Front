@@ -1,57 +1,103 @@
-.profile-image{
-    width: 200px ;
-    height: 200px;
-    border-radius: 50%;
-    margin-bottom: 1em;
-    border: 7px solid #EF97B4
-    
+:root{
+  --corAzulClaro: #ADD5FA;
+  --corAzulEscuro: #8BCCEC;
+  --corRosaClaro: #EF97B4 ;
+  --corRosaEscuro: #F193B2;
 }
 
 
-
-textarea {
-    resize: none;
-  }
-
-
-.file-warning{
-    color: #721c23;
-    background-color: #F8D7DA;
-    border-color: #f5c6cb;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-size: 20px;
+.profile-container {
+  display: flex;
 }
 
+.sidebar {
+  width: 250px;
+  background-color: var(--corAzulClaro);
+  padding: 20px;
+  border-right: 2px solid #e0e0e0;
+}
 
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
 
-.content{
-    display: inline;
-    margin: auto;
-    
-  }
-  
-  .content_input{
-    margin-top: 40px;
-    margin-left: 20px;
-    margin-right: 20px;
-    width: 20px; 
-    height: 20px; 
-  }
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-  .interesse{
-    font-size: 27px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
+.sidebar ul li {
+  margin: 10px 0;
+}
 
+.sidebar ul li a {
+  text-decoration: none;
+  color: var(--corRosaClaro); /* Cor do LinkedIn */
+  font-size: 1rem;
+}
 
-  @media (max-width: 415px) {
-    .profile-image {
-     width: 100px;
-     height: 100px;
-    }
-    
-  }  
-  
+.btn-edit {
+  background-color: #FDA5BE;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 245px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+}
+
+.content {
+  margin-left: 20px;
+}
+
+.edit-form {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile-details {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile-image {
+  border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    display: block;
+}
+
+.file-input {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.pdf-preview {
+  margin: 20px 0;
+}
+
+.pdf-preview iframe {
+  border: none;
+}
+
+.btn {
+  background-color: #FDA5BE;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 245px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+}
+
+.btn-container {
+  margin-top: 20px;
+}

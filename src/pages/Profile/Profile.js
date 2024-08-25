@@ -52,6 +52,8 @@ const Profile = () => {
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [imageType, setImageType] = useState("");
+  const [portfolio, setPortfolio] = useState(user.portfolio || "");
+
 
 
 
@@ -221,6 +223,11 @@ const Profile = () => {
           <h2>{user.name}</h2>
           <p>{user.bio}</p>
           <p><strong>{user.interests}</strong></p>
+          {user.portfolio && (
+            <a href={`${uploads}/portfolios/${user.portfolio}`} target="_blank" rel="noopener noreferrer" className="btn">
+              Visualizar Portfólio
+            </a>
+          )}
         </div>
       </div>
       {id === userAuth._id && (
@@ -421,18 +428,18 @@ const Profile = () => {
               </div>
               {id === userAuth._id ? (
                 <div className="actions">
-               
-                  
+
+
                   <BsFillEyeFill size="40px" />
-                  
-                  
-                  
-                  <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />                
+
+
+
+                  <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
               ) : (
                 <Link to={`/photos/${photo._id}`}>
-                  
+
                 </Link>
               )}
             </div>
