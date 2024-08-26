@@ -81,7 +81,6 @@ export const updatePost = createAsyncThunk(
     const token = thunkAPI.getState().auth.user.token;
 
     const data = await postService.updatePost(
-      { publicacao: postData.publicacao },
       postData.id,
       token
     );
