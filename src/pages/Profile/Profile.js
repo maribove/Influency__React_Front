@@ -224,7 +224,7 @@ const Profile = () => {
           <p>{user.bio}</p>
           <p><strong>{user.interests}</strong></p>
           {user.portfolio && (
-            <a href={`${uploads}/portfolios/${user.portfolio}`} target="_blank" rel="noopener noreferrer" className="btn">
+            <a href={`${uploads}/portfolios/${user.portfolio}`} target="_blank" rel="noopener noreferrer" className="btn-portfolio">
               Visualizar Portfólio
             </a>
           )}

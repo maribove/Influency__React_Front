@@ -101,29 +101,31 @@ const EditProfile = () => {
         });
     };
 
+    // Novo manipulador para abrir a imagem em uma nova aba
+    const handleImageClick = () => {
+        const imageUrl = previewImage
+            ? URL.createObjectURL(previewImage)
+            : `${uploads}/users/${user.profileImage}`;
+        window.open(imageUrl, "_blank");
+    };
+
     return (
         <div className="profile-container">
             <div className="sidebar">
-            {(user.profileImage || previewImage) && (
-                        <img
-                            className="profile-image"
-                            src={
-                                previewImage
-                                    ? URL.createObjectURL(previewImage)
-                                    : `${uploads}/users/${user.profileImage}`
-                            }
-                            alt={user.name}
-                        />
-                    )}
-                <h2>{user.name}</h2>
+                {(user.profileImage || previewImage) && (
+                    <img
+                        className="profile-image"
+                        src={
+                            previewImage
+                                ? URL.createObjectURL(previewImage)
+                                : `${uploads}/users/${user.profileImage}`
+                        }
+                        alt={user.name}
+                        onClick={handleImageClick} 
+                    />
+                )}
+                <h2 className="nome">{user.name}</h2>
                 <p>{user.bio}</p>
-                {previewPDF && (
-                                    
-                                        <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
-                                            Visualizar meu portfolio 
-                                        </button>
-                                    
-                                )}
                 
                 <button className="btn-edit" onClick={() => setEditing(!editing)}>
                     {editing ? 'Cancelar Edição' : 'Editar Perfil'}
@@ -131,7 +133,6 @@ const EditProfile = () => {
             </div>
 
             <div id="formulario">
-                
                 {editing ? (
                     <div id="edit-form" className="edit-form">
                         <h2>Editar Perfil</h2>
@@ -158,7 +159,6 @@ const EditProfile = () => {
                             <label>
                                 <span>Foto de perfil:</span>
                                 <input
-                                    className="file-input"
                                     type="file"
                                     onChange={handleFile}
                                 />
@@ -209,7 +209,6 @@ const EditProfile = () => {
                                     accept="application/pdf"
                                     onChange={handlePortfolio}
                                 />
-                                
                             </label>
 
                             <div className="btn-container">
@@ -236,7 +235,7 @@ const EditProfile = () => {
                                         width="100%"
                                         height="500px"
                                     />
-                                    <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
+                                    <button className="btn-portfolio" onClick={() => window.open(previewPDF, "_blank")}>
                                         Visualizar PDF
                                     </button>
                                 </div>
@@ -247,7 +246,7 @@ const EditProfile = () => {
                     </div>
                 )}
             </div>
-        </div >
+        </div>
     );
 }
 
