@@ -17,8 +17,9 @@ import { getPost, like, comment } from '../../slices/postSlice';
 import LikeContainer from '../../components/LikeContainer';
 
 const Post = () => {
-  const { id } = useParams(); 
-
+  const { id } = useParams();
+  
+   
   const dispatch = useDispatch();
 
   const resetMessage = useResetComponentMessage(dispatch);
@@ -60,6 +61,7 @@ const Post = () => {
   return (
     <div id='photo'>
       <PostItem post={post} />
+      
       <LikeContainer post={post} user={user} handleLike={handleLike} />
       <div className="message-container">
         {error && <Message msg={error} type="error" />}

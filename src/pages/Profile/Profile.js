@@ -244,6 +244,7 @@ const Profile = () => {
                   value={title}
                 />
               </label>
+
               <label>
                 <span>Descrição para a vaga*:</span>
                 <textarea

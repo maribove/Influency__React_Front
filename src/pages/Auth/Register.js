@@ -12,7 +12,7 @@ const Register = () => {
   const [interests, setInterests] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("");
+  const [role, setRole] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
@@ -85,7 +85,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = { name, email, password, interests, type, confirmPassword };
+    const user = { name, email, password, interests, role, confirmPassword };
     dispatch(register(user));
   };
 
@@ -120,7 +120,7 @@ const Register = () => {
           </label>
           <label>
             <span>Tipo de usuário*:</span>
-            <select onChange={(e) => setType(e.target.value)} value={type}>
+            <select onChange={(e) => setRole(e.target.value)} >
               <option value="" disabled>Selecione...</option>
               <option value="Influenciador">Influenciador</option>
               <option value="Empresa">Empresa</option>
