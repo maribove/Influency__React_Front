@@ -81,6 +81,7 @@ export const updatePost = createAsyncThunk(
     const token = thunkAPI.getState().auth.user.token;
 
     const data = await postService.updatePost(
+      postData,
       postData.id,
       token
     );
@@ -131,11 +132,31 @@ export const comment = createAsyncThunk(
 
 // Get all posts
 
-export const getPosts = createAsyncThunk("post/getall", async () => {
-  const data = await postService.getPosts();
+const token = localStorage.getItem("token");
+
+export const getAllPosts = createAsyncThunk("posts/getall", async () => {
+  const data = await postService.getAllPosts(token); // Passe o token para a função
 
   return data;
 });
+
+export const getPostsByInterests = createAsyncThunk(
+  "posts/",
+  async (_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("Token não encontrado");
+    }
+
+    try {
+      const data = await postService.getPostsByInterests(token);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 
 
@@ -216,9 +237,13 @@ export const postSlice = createSlice({
         state.success = true;
         state.error = null;
 
-        state.posts.map((post) => {
+        // Atualize o estado dos posts de forma imutável
+        state.posts = state.posts.map((post) => {
           if (post._id === action.payload.post._id) {
-            return (post.publicacao = action.payload.post.publicacao);
+            return {
+              ...post,
+              publicacao: action.payload.post.publicacao,
+            };
           }
           return post;
         });
@@ -265,17 +290,21 @@ export const postSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(getPosts.pending, (state) => {
+      .addCase(getPostsByInterests.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getPosts.fulfilled, (state, action) => {
+      .addCase(getPostsByInterests.fulfilled, (state, action) => {
         console.log(action.payload);
         state.loading = false;
         state.success = true;
         state.error = null;
         state.posts = action.payload;
       })
+      .addCase(getPostsByInterests.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
      
   },
 });

@@ -21,6 +21,8 @@ export const register = createAsyncThunk(
     if (data.errors) {
       return thunkAPI.rejectWithValue(data.errors[0]);
     }
+    localStorage.setItem("token", data.token);
+
 
     return data;
   }
@@ -39,7 +41,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
    if (data.errors) {
     return thunkAPI.rejectWithValue(data.errors[0]);
   }
-
+  localStorage.setItem("token", data.token);
 
   return data;
 });
@@ -48,6 +50,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
+  token: localStorage.getItem("token") || null,
   reducers: {
     reset: (state) => {
       state.loading = false;
@@ -80,6 +83,7 @@ export const authSlice = createSlice({
       // LOGOUT
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        localStorage.removeItem("token"); // Remove o token no logout
         state.loading = false;
         state.success = true;
         state.error = null;
@@ -104,5 +108,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset} = authSlice.actions;
 export default authSlice.reducer;

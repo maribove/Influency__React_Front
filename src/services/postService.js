@@ -56,24 +56,48 @@ const updatePost = async (data, id, token) => {
 
     return res;
   } catch (error) {
-    console.log(error);
+    console.log("Erro ao atualizar post:", error);
   }
 };
 
-const getPosts = async (id) => {
-  const config = requestConfig("GET");
+export const getAllPosts = async (token) => {
+  const config = requestConfig("GET", null, token);
+            console.log("getAll Posts ")
+  try {
+    const response = await fetch(api + "/posts/", config);
+    
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("Erro ao buscar publicações", error);
+    throw error; // Lança o erro para o thunk manipular
+  }
+};
+
+//pega post de acordo com interesses
+export const getPostsByInterests = async (token) => {
+  const config =  requestConfig("GET", null, token);
+
+  console.log("getPostsByInterest ")
 
   try {
-    const res = await fetch(api + "/posts/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
+    const response = await fetch(api + "/posts/", config);
 
-    return res;
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.log(error);
+    console.log("Erro ao buscar publicações por interesses", error);
+    throw error;
   }
 };
-
 
 
 
@@ -117,7 +141,8 @@ const postService = {
   getUserPosts,
   deletePost,
   updatePost,
-  getPosts,
+  getAllPosts,
+  getPostsByInterests,
   like,
   comment,
 
