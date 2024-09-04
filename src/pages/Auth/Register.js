@@ -85,7 +85,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = { name, email, password, interests, role, confirmPassword };
+    const user = { name, email, role, password, interests,  confirmPassword };
     dispatch(register(user));
   };
 

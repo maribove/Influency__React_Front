@@ -105,8 +105,7 @@ const Profile = () => {
     }, 4000);
   }
 
-  // Publicae vaga 
-  // Publicae vaga 
+  // Publicar vaga 
   const submitHandle = (e) => {
     e.preventDefault();
 

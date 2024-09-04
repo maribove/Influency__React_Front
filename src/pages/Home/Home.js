@@ -10,7 +10,7 @@ import LikeContainer from '../../components/LikeContainer';
 import PostItem from '../../components/PostItem';
 
 import { getUserDetails } from '../../slices/userSlice';
-import { getUserPosts, publishPost, resetMessage, getPosts, like } from '../../slices/postSlice';
+import { publishPost, resetMessage, getAllPosts, getPostsByInterests, like } from '../../slices/postSlice';
 import { useResetComponentMessage } from '../../hooks/useResetComponentMessage';
 
 const Home = () => {
@@ -31,16 +31,16 @@ const Home = () => {
   const [editImage, setEditImage] = useState('');
   const [editPublicacao, setEditPublicacao] = useState('');
 
-    // Carregar posts
-    useEffect(() => {
-      dispatch(getPosts());
-    }, [dispatch]);
-  
+  const token = localStorage.getItem("token");
+  console.log("Token JWT:", token);
+  console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
     // Carregar dados do usuário e posts do usuário autenticado
     useEffect(() => {
       if (userAuth && userAuth._id) {
-        dispatch(getUserDetails(userAuth._id));
-        dispatch(getUserPosts(userAuth._id));
+        dispatch(getUserDetails(userAuth._id)); //arrumar pra pegar foto do usuario cert
+        dispatch(getPostsByInterests());
+        //dispatch(getAllPosts(userId));
       }
       if (postMessage === "Post publicado com sucesso!") {
         setPublicacao(""); // limpa o campo 
@@ -104,35 +104,38 @@ const Home = () => {
       </div>
 
       <div className="new-photo">
-        <form onSubmit={submitPost}>
-          <label>
-            <textarea
-              className="textarea-postagem"
-              type="text"
-              placeholder="O que deseja compartilhar? :)"
-              onChange={(e) => setPublicacao(e.target.value)}
-              value={publicacao}
+        {userAuth && userAuth.role !== "admin" &&(
+          <form onSubmit={submitPost}>
+            <label>
+              <textarea
+                className="textarea-postagem"
+                type="text"
+                placeholder="O que deseja compartilhar? :)"
+                onChange={(e) => setPublicacao(e.target.value)}
+                value={publicacao}
+              />
+            </label>
+            <label htmlFor="post-image" className="camera-icon">
+              <BiSolidImageAdd className="camera-icon" />
+            </label>
+            <input
+              type="file"
+              name="post-image"
+              id="post-image"
+              onChange={handleFile}
+              className="input-img"
             />
-          </label>
-          <label htmlFor="post-image" className="camera-icon">
-            <BiSolidImageAdd className="camera-icon" />
-          </label>
-          <input
-            type="file"
-            name="post-image"
-            id="post-image"
-            onChange={handleFile}
-            className="input-img"
-          />
-          {imagePreview && (
-            <img src={imagePreview} alt="Pré-visualização" className="image-preview" />
-          )}
-          <div className="btn-container">
-            {!postLoading && <input type="submit" value="Publicar" className="btn-compartilhar" />}
-            {postLoading && <input type="submit" disabled value="Aguarde..." />}
-          </div>
-        </form>
+            {imagePreview && (
+              <img src={imagePreview} alt="Pré-visualização" className="image-preview" />
+            )}
+            <div className="btn-container">
+              {!postLoading && <input type="submit" value="Publicar" className="btn-compartilhar" />}
+              {postLoading && <input type="submit" disabled value="Aguarde..." />}
+            </div>
+          </form>
+        )}
       </div>
+        
 
       {postError && <Message msg={postError} type="error" />}
       {postMessage && <Message msg={postMessage} type="sucess" />}

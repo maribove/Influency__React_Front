@@ -24,7 +24,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, token } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const Login = () => {
       password,
     };
 
-    console.log(user);
+    console.log(user);//excluir isso
 
     dispatch(login(user));
   };
@@ -43,6 +43,11 @@ const Login = () => {
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
+
+   // Log para verificar o token no front-end
+   useEffect(() => {
+    console.log("Token armazenado no localStorage:", localStorage.getItem("token"));
+  }, [token]);
 
   return (
 
@@ -85,7 +90,6 @@ const Login = () => {
           {error && <Message msg={error} type="error" />}
           <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
           <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
-
 
 
         </form>
