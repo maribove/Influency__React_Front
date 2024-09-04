@@ -44,7 +44,6 @@ const Profile = () => {
   } = useSelector((state) => state.photo);
 
   const [title, setTitle] = useState("");
-  const [atuacao, setAtuacao] = useState("");
   const [tags, setTags] = useState("");
   const [local, setLocal] = useState("");
   const [desc, setdesc] = useState("");
@@ -52,10 +51,7 @@ const Profile = () => {
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [imageType, setImageType] = useState("");
-  const [portfolio, setPortfolio] = useState(user.portfolio || "");
-
-
-
+  const [contrato, setContrato] = useState("");
 
 
   const [editId, setEditId] = useState("");
@@ -65,8 +61,7 @@ const Profile = () => {
   const [editLocal, setEditLocal] = useState("");
   const [editDate, setEditDate] = useState("");
   const [editSituacao, setEditSituacao] = useState("");
-  const [editAtuacao, setEditAtuacao] = useState("");
-
+  const [editContrato, setEditContrato] = useState("");
 
   const handleTagsChange = (e) => {
     const value = e.target.value;
@@ -92,8 +87,8 @@ const Profile = () => {
       setLocal("");
       setSituacao("");
       setDate("");
-      setImage("");
-      setAtuacao("");
+      setImage(null);
+      setContrato(null);
 
     }
   }, [dispatch, id, messagePhoto]);
@@ -112,13 +107,13 @@ const Profile = () => {
 
     const photoData = {
       title,
-      atuacao,
       tags,
       desc,
       local,
       situacao,
       date,
       image,
+      contrato,
     };
 
     // build form data
@@ -153,6 +148,12 @@ const Profile = () => {
     setImage(image);
   };
 
+    // Handle contract file
+    const handleContractFile = (e) => {
+      const file = e.target.files[0];
+      setContrato(file);
+    };
+
   // Excluir
   const handleDelete = (id) => {
     dispatch(deletePhoto(id));
@@ -172,7 +173,7 @@ const Profile = () => {
 
     const photoData = {
       title: editTitle,
-      atuacao: editAtuacao,
+      contrato: editContrato,
       desc: editDesc,
       local: editLocal,
       situacao: editSituacao,
@@ -192,12 +193,12 @@ const Profile = () => {
     }
     setEditId(photo._id)
     setEditImage(photo.image)
+    setEditContrato(photo.contrato)
     setEditTitle(photo.title)
     setEditDesc(photo.desc)
     setEditLocal(photo.local)
     setEditDate(photo.date)
     setEditSituacao(photo.situacao)
-    setEditAtuacao(photo.atuacao)
 
     // Scroll para a seção de edição
     document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
@@ -254,15 +255,7 @@ const Profile = () => {
                   value={desc}
                 />
               </label>
-              <label>
-                <span>Área de atuação*:</span>
-                <input
-                  type="text"
-                  placeholder="Insira um título"
-                  onChange={(e) => setAtuacao(e.target.value)}
-                  value={atuacao}
-                />
-              </label>
+              
 
               <label>
                 <span>Tags*:</span>
@@ -307,6 +300,12 @@ const Profile = () => {
                 <input type="file" onChange={handleFile} />
               </label>
 
+              <label>
+                <span>Contrato (PDF):</span>
+                <input type="file" onChange={handleContractFile} />
+              </label>
+              
+
 
               <div className="btn-container">
                 {!loadingPhoto && <input type="submit" value="Postar" className="btn" />}
@@ -343,14 +342,7 @@ const Profile = () => {
                 />
               </label>
 
-              <label>
-                <span>Área de atuação:</span>
-                <input
-                  type="text"
-                  onChange={(e) => setEditAtuacao(e.target.value)}
-                  value={editAtuacao || ""}
-                />
-              </label>
+             
 
               <label>
                 <span>Local da vaga:</span>
@@ -374,6 +366,12 @@ const Profile = () => {
                   <option value="Ativo">Ativo</option>
                   <option value="Encerrado">Encerrado</option>
                 </select>
+              </label>
+
+              <label>
+                <span>Contrato (PDF):</span>
+                <input type="file" onChange={(e) => setEditContrato(e.target.files[0])} />
+                
               </label>
 
               <div className="btn-container">
@@ -413,7 +411,7 @@ const Profile = () => {
                 <h3>{photo.title}</h3>
 
                 <p className="p-align"><strong>Local: </strong> {photo.local}</p>
-                <p className="p-align"><strong>Área de atuaçao: </strong> {photo.atuacao}</p>
+               
                 <p className="p-align">
                   <strong>Status: </strong> {photo.situacao}
                   {photo.situacao === 'Encerrado' ? (
@@ -425,7 +423,11 @@ const Profile = () => {
                 <p className="p-align"><strong>Data finalização: </strong> {photo.date}</p>
                 <p className="p-align"><strong>Descrição: </strong> {photo.desc}</p>
                 <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
-
+                {photo.contrato && (
+                  <a href={`${uploads}/contratos/${photo.contrato}`} target="_blank" rel="noopener noreferrer" className="btn-edit">
+                  Contrato
+                  </a>
+                )}
               </div>
               {id === userAuth._id ? (
                 <div className="actions">
