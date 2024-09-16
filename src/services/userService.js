@@ -2,7 +2,7 @@ import { api, requestConfig } from "../utils/config";
 
 // Get user details
 const profile = async (data, token) => {
-  const config = requestConfig("GET", data, token);
+  const config = requestConfig("GET", data, token); // token na configuração
 
   try {
     const res = await fetch(api + "/users/profile", config)
@@ -31,17 +31,25 @@ const updateProfile = async (data, token) => {
 };
 
 // // Get user details
-const getUserDetails = async (id) => {
-  const config = requestConfig("GET");
+const getUserDetails = async (id, token) => {
+  if (!id) {
+    throw new Error("ID do usuário não fornecido");
+  }
 
-  try {
-    const res = await fetch(api + "/users/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
+  const config = requestConfig("GET", null, token); // token na configuração
 
-    return res;
+  try{
+    const res = await fetch(api + "/users/"+ id , config);
+
+    if (!res.ok) {
+      throw new Error(`Erro HTTP! Status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.log(error);
+    console.log("Erro ao buscar detalhes do usuário:", error);
+    throw error;
   }
 };
 

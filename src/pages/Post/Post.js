@@ -13,13 +13,12 @@ import { useParams } from 'react-router-dom';
 import useResetComponentMessage from '../../hooks/useResetComponentMessage';
 
 // redux
-import { getPost, like, comment } from '../../slices/postSlice';
+import { getPost, like, comment, getAllPosts } from '../../slices/postSlice';
 import LikeContainer from '../../components/LikeContainer';
+import { getPostsByInterests } from '../../services/postService';
 
 const Post = () => {
   const { id } = useParams();
-  
-   
   const dispatch = useDispatch();
 
   const resetMessage = useResetComponentMessage(dispatch);
@@ -31,7 +30,7 @@ const Post = () => {
 
   // load dados do post
   useEffect(() => {
-    dispatch(getPost(id));
+    dispatch(getPostsByInterests(id));
   }, [dispatch, id]);
 
   // like
