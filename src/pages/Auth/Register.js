@@ -120,7 +120,7 @@ const Register = () => {
           </label>
           <label>
             <span>Tipo de usuário*:</span>
-            <select onChange={(e) => setRole(e.target.value)} >
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
               <option value="" disabled>Selecione...</option>
               <option value="Influenciador">Influenciador</option>
               <option value="Empresa">Empresa</option>
@@ -190,12 +190,12 @@ const Register = () => {
             <div className="btn-container">
               {!loading && <button className="btn">Cadastrar</button>}
               {loading && <button className="btn">Aguarde...</button>}
-          </div>
+            </div>
           </label>
-          
+
           {error && <Message msg={error} type="error" />}
           <p className="entre">Já tem cadastro? <Link to="/login">Entre</Link></p>
-          
+
         </form>
       </div>
     </div>

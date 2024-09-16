@@ -10,7 +10,7 @@ const UserItem = ({ user }) => {
      {user.profileImage && (
           <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="user-pic" />
         )}
-       <h3>{user.type}</h3>
+       <h3>{user.role}</h3>
       <h2>{user.name}</h2>
       
       <p className="post-author">
