@@ -152,15 +152,14 @@ const PostItem = ({ post }) => {
 
       {/* Ícone de Comentários */}
       <div className="comments-icon" onClick={() => setShowComments(!showComments)}>
-      <span>{post.comments.length}</span>
-        <FaComment className="comment-icon" />
+      <span>{Array.isArray(post.comments) ? post.comments.length : 0}</span> 
         
       </div>
 
       {/* Seção de Comentários (visível quando showComments for verdadeiro) */}
       {showComments && (
         <div className="comments-section">
-          {post.comments && post.comments.length > 0 && post.comments.map((comment, index) => (
+          {Array.isArray(post.comments) && post.comments.length > 0 && post.comments.map((comment, index) => (
             <div className="comment" key={index}>
               {comment.userImage && (
                 <img src={`${uploads}/users/${comment.userImage}`} alt={comment.userName} className="comment-profilepic" />
