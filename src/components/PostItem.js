@@ -2,7 +2,7 @@ import "./PostItem.css";
 import { uploads } from "../utils/config";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { FaTrash, FaEdit, FaComment } from "react-icons/fa"; // Importe o ícone de comentários
+import { FaTrash, FaEdit, FaComment } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { deletePost, updatePost, comment, resetMessage } from "../slices/postSlice";
 import { useState } from 'react';
@@ -11,13 +11,12 @@ const PostItem = ({ post }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
-
   const [showConfirm, setShowConfirm] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editPublicacao, setEditPublicacao] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [newComment, setNewComment] = useState("");
-  const [showComments, setShowComments] = useState(false); // Estado para controlar a visibilidade dos comentários
+  const [showComments, setShowComments] = useState(false);
 
   const handleDelete = (id) => {
     dispatch(deletePost(id));
@@ -74,12 +73,11 @@ const PostItem = ({ post }) => {
   return (
     <div className="post-item">
       <div className="profile-header-home">
-        {user.profileImage && (
-          <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="profilepic" />
+        {post.profileImage && (
+          <img src={`${uploads}/users/${user.profileImage}`} alt={post.userName} className="profilepic" />
         )}
         <div className="profile-description">
-          <h2 className="name_user">{user.name}</h2>
-          
+          <h2 className="name_user">{post.userName}</h2>
         </div>
         {userAuth && (userAuth._id === post.userId || user.role === 'admin')  && (
           <div className="options-menu" onClick={toggleDropdown}>
@@ -143,21 +141,13 @@ const PostItem = ({ post }) => {
           Publicada por:{" "}
           <Link to={`/users/${post.userId}`}>{post.userName}</Link> em {formatDateTime(post.createdAt)}
         </p>
-        {/* {post.updatedAt && post.updatedAt !== post.createdAt && (
-          <p className="post-updated">
-            Atualizada em: {formatDateTime(post.updatedAt)}
-          </p>
-        )} */}
       </div>
 
-      {/* Ícone de Comentários */}
       <div className="comments-icon" onClick={() => setShowComments(!showComments)}>
-      <span>{post.comments.length}</span>
+        <span>{post.comments.length}</span>
         <FaComment className="comment-icon" />
-        
       </div>
 
-      {/* Seção de Comentários (visível quando showComments for verdadeiro) */}
       {showComments && (
         <div className="comments-section">
           {post.comments && post.comments.length > 0 && post.comments.map((comment, index) => (
@@ -174,7 +164,6 @@ const PostItem = ({ post }) => {
         </div>
       )}
 
-      {/* Formulário de Comentário */}
       <form className="comment-form" onSubmit={handleAddComment}>
         <textarea
           className="comment-textarea"
@@ -189,4 +178,3 @@ const PostItem = ({ post }) => {
 };
 
 export default PostItem;
-
