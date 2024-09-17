@@ -46,10 +46,32 @@ const login = async (data) => {
   }
 };
 
+
+// Solicitar redefinição de senha
+const requestPasswordReset = async (email) => {
+  const config = requestConfig("POST", { email });
+
+  try {
+    const response = await fetch(`${api}/users/forgot-password`, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.errors);
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 const authService = {
   register,
   logout,
   login,
+  requestPasswordReset,
 };
 
 export default authService;

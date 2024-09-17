@@ -16,10 +16,12 @@ import Profile from './pages/Profile/Profile';
 import Post from './pages/Post/Post';
 import Search from './pages/Search/Search';
 import Jobs from './pages/Jobs/Jobs';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 
 // components
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 
 
 
@@ -47,6 +49,9 @@ function App() {
         <Route path='/search' element={auth ? <Search/> : <Navigate to="/login"/>}/>
         <Route path='/posts/:id' element={auth ? <Post/> : <Navigate to="/login"/>}/>
         <Route path='/jobs' element={auth ? <Jobs/> : <Navigate to="/login"/>}/>
+        <Route path='/forgotpassword' element={<ForgotPassword/> }/>
+        <Route path='/resetpassword' element={<ResetPassword/> }/>
+
         
         <Route path='*' element={<NotFound />} />
         </Routes>

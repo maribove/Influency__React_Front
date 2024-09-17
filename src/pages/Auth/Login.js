@@ -88,7 +88,7 @@ const Login = () => {
           </label>
           
           {error && <Message msg={error} type="error" />}
-          <a className='esquecisenha' href='/esquecisenha'>Esqueci a senha</a>
+          <p className='esquecisenha'> <Link to='/forgotpassword'>Esqueci a senha</Link></p>
           <p className='entre'>Não tem cadastro? <Link to='/register'>Cadastrar</Link> </p>
 
 

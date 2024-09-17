@@ -144,13 +144,13 @@ const PostItem = ({ post }) => {
       </div>
 
       <div className="comments-icon" onClick={() => setShowComments(!showComments)}>
-        <span>{post.comments.length}</span>
+      <span>{Array.isArray(post.comments) ? post.comments.length : 0}</span> 
         <FaComment className="comment-icon" />
       </div>
 
       {showComments && (
         <div className="comments-section">
-          {post.comments && post.comments.length > 0 && post.comments.map((comment, index) => (
+          {Array.isArray(post.comments) && post.comments.length > 0 && post.comments.map((comment, index) => (
             <div className="comment" key={index}>
               {comment.userImage && (
                 <img src={`${uploads}/users/${comment.userImage}`} alt={comment.userName} className="comment-profilepic" />

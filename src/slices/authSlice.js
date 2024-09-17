@@ -46,6 +46,31 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   return data;
 });
 
+// Solicitar redefinição de senha
+export const requestPasswordReset = createAsyncThunk(
+  "auth/requestPasswordReset",
+  async (email, thunkAPI) => {
+    try {
+      const response = await authService.requestPasswordReset(email);
+      return response.message;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+    }
+  }
+);
+
+// Redefinir senha
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, password }, thunkAPI) => {
+    try {
+      const response = await authService.resetPassword(token, password);
+      return response.message;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
