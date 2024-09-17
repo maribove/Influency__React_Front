@@ -396,7 +396,7 @@ const Profile = () => {
       )}
 
       <div className="user-photos">
-        <h2 className="titulo">Vagas publicadas:</h2>
+        <h2 className="titulo">Suas vagas:</h2>
         {photos &&
           photos.map((photo) => (
             <div className="photo" key={photo._id}>

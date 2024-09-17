@@ -99,10 +99,14 @@ export const SearchPhoto = createAsyncThunk("photo/search", async (query, thunkA
 })
 
 // Get all photos
-export const getPhotos = createAsyncThunk("photo/getall", async () => {
-  const data = await photoService.getPhotos();
+export const getPhotos = createAsyncThunk("photo/getall", async (_, thunkAPI) => {
+  const token = thunkAPI.getState().auth.user.token;
 
-  return data;
+  try {
+    return await photoService.getPhotos(token);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
 });
 
 
@@ -203,7 +207,7 @@ export const photoSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.photo = action.payload;
+        state.photos = action.payload;
       })
 
       .addCase(SearchPhoto.pending, (state) => {

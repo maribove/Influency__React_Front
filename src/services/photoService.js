@@ -60,17 +60,20 @@ const updatePhoto = async (data, id, token) => {
   }
 };
 
-const getPhotos = async (id) => {
-  const config = requestConfig("GET");
+export const getPhotos = async (token) => {
+  const config = requestConfig("GET", null, token);
+  console.log("getPhotos vagas ")
+
 
   try {
-    const res = await fetch(api + "/photos/" + id, config)
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const response = await fetch(api + "/photos/", config);
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! Status: ${response.status}`);
+    }
+    return await response.json();
   } catch (error) {
-    console.log(error);
+    console.error("Erro ao buscar vagas:", error);
+    throw error;
   }
 };
 
