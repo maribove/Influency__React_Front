@@ -109,6 +109,45 @@ export const getPhotos = createAsyncThunk("photo/getall", async (_, thunkAPI) =>
   }
 });
 
+// Aplicar pra vaga
+export const applyToJob = createAsyncThunk(
+  "photo/applyToJob",
+  async ({ id, token }, thunkAPI) => {
+    try {
+      const response = await photoService.applyToJob(id, token);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+    }
+  }
+);
+
+// Cancelar inscrição
+export const cancelApplication = createAsyncThunk(
+  "photo/cancelApplication",
+  async ({ id, token }, thunkAPI) => {
+    try {
+      const response = await photoService.cancelApplication(id, token);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+    }
+  }
+);
+
+// Get influenciadores que aplicaram
+export const getApplicants = createAsyncThunk(
+  "photo/getApplicants",
+  async ({ id, token }, thunkAPI) => {
+    try {
+      const response = await photoService.getApplicants(id, token);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+    }
+  }
+);
+
 
 export const photoSlice = createSlice({
   name: "photo",
@@ -220,6 +259,50 @@ export const photoSlice = createSlice({
         state.success = true;
         state.error = null;
         state.photos = action.payload;
+      })
+       // Aplicar a uma vaga
+      .addCase(applyToJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(applyToJob.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.message = action.payload.message;
+      })
+      .addCase(applyToJob.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Cancelar aplicação
+      .addCase(cancelApplication.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(cancelApplication.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.message = action.payload.message;
+      })
+      .addCase(cancelApplication.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Obter aplicantes
+      .addCase(getApplicants.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getApplicants.fulfilled, (state, action) => {
+        state.loading = false;
+        state.applicants = action.payload;
+        state.success = true;
+      })
+      .addCase(getApplicants.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
 
 
