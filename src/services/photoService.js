@@ -1,3 +1,4 @@
+import { TbRuler } from "react-icons/tb";
 import { api, requestConfig } from "../utils/config";
 
 // Publish an user's photo
@@ -93,9 +94,53 @@ const SearchPhoto = async (query, token) => {
 };
 
 
+// Aplicar pra vaga
+export const applyToJob = async (id, token) => {
+  const config = requestConfig("POST", data, token, true);
 
+  try {
+    const res = await fetch(api + "/photos/" + id + "/apply", config) 
+      .then((res) => res.json())
+      .catch((err) => err);
 
+    return res;
+  } catch (error) {
+    console.log("Erro ao aplicar para a vaga", error);
+    throw error;
+  }
+};
 
+// Cancelar inscrição
+export const cancelApplication = async (id, token) => {
+  const config = requestConfig("DELETE", "", token);
+
+  try {
+    const res = await fetch(api + "/photos/" + id + "/cancel", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log("Erro ao cancelar a inscrição", error);
+    throw error;
+  }
+};
+
+// influenciadores que aplicaram pra vaga
+export const getApplicants = async (id, token) => {
+  const config = requestConfig("GET", data, token);
+
+  try {
+    const res = await fetch(api + "/photos/" + id + "/applicants", config) //linha 133
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log("Erro ao obter os aplicantes", error);
+    throw error;
+  }
+};
 
 
 const photoService = {
@@ -105,7 +150,9 @@ const photoService = {
   updatePhoto,
   getPhotos,
   SearchPhoto,
-
+  applyToJob,
+  cancelApplication,
+  getApplicants,
 };
 
 export default photoService;
