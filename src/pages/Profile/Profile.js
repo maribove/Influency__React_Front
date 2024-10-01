@@ -50,6 +50,7 @@ const Profile = () => {
   const [situacao, setSituacao] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
+  const [valor, setValor] = useState("");
   const [imageType, setImageType] = useState("");
   const [contrato, setContrato] = useState("");
 
@@ -58,6 +59,8 @@ const Profile = () => {
   const [editImage, setEditImage] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [editDesc, setEditDesc] = useState("");
+  const [editValor, setEditValor] = useState("");
+
   const [editLocal, setEditLocal] = useState("");
   const [editDate, setEditDate] = useState("");
   const [editSituacao, setEditSituacao] = useState("");
@@ -85,6 +88,7 @@ const Profile = () => {
       setTitle("");
       setdesc("");
       setLocal("");
+      setValor('');
       setSituacao("");
       setDate("");
       setImage(null);
@@ -109,6 +113,7 @@ const Profile = () => {
       tags,
       desc,
       local,
+      valor,
       situacao,
       date,
       image,
@@ -174,6 +179,8 @@ const Profile = () => {
       title: editTitle,
       contrato: editContrato,
       desc: editDesc,
+      contrato: editContrato,      
+      valor: editValor,
       local: editLocal,
       situacao: editSituacao,
       date: editDate,
@@ -196,6 +203,7 @@ const Profile = () => {
     setEditTitle(photo.title)
     setEditDesc(photo.desc)
     setEditLocal(photo.local)
+    setEditValor(photo.valor)
     setEditDate(photo.date)
     setEditSituacao(photo.situacao)
 
@@ -293,6 +301,15 @@ const Profile = () => {
                   <option value="Ativo">Ativo</option>
                 </select>
               </label>
+              <label>
+                <span>Valor pago para a vaga*:</span>
+                <textarea
+                  type="text"
+                  placeholder="Insira o valor da vaga"
+                  onChange={(e) => setValor(e.target.value)}
+                  value={valor}
+                />
+              </label>
 
               <label>
                 <span>Imagem*:</span>
@@ -368,6 +385,16 @@ const Profile = () => {
               </label>
 
               <label>
+                <span>Valor pago para a vaga*:</span>
+                <textarea
+                  type="text"
+                  placeholder="Insira o valor da vaga"
+                  onChange={(e) => setEditValor(e.target.value)}
+                  value={valor}
+                />
+              </label>
+
+              <label>
                 <span>Contrato (PDF):</span>
                 <input type="file" onChange={(e) => setEditContrato(e.target.files[0])} />
                 
@@ -421,6 +448,8 @@ const Profile = () => {
                 </p>
                 <p className="p-align"><strong>Data finalização: </strong> {photo.date}</p>
                 <p className="p-align"><strong>Descrição: </strong> {photo.desc}</p>
+                <p className="p-align"><strong>Valor da vaga: </strong> {photo.valor}</p>
+
                 <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
                 {photo.contrato && (
                   <a href={`${uploads}/contratos/${photo.contrato}`} target="_blank" rel="noopener noreferrer" className="btn-edit">
