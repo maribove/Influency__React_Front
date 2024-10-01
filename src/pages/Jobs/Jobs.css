@@ -108,53 +108,36 @@
     
   } 
   
-  /* .photos-container{
-    flex-wrap: wrap;
+
   
-  } */
-  
-  .photo{
-    width: 32%;
-    padding-bottom: 15px;
-    display: inline-table;
-  }
-  
-  
-  .photo img{
-    width: 30%;
-    padding-top: 30px;
-    margin: auto;
-    align-items: center;
-  
-    
-  }
-  
-  
-  .actions {
+  .photo {
     display: flex;
-    justify-content: space-around;
-    border-radius: 10px;
+    flex-direction: row; /* Deixa o card na horizontal */
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-    width: 80%;
-    margin: auto;
-  
-  }
-  
-  .actions svg {
-    cursor: pointer;
-    margin: 20px;
-    color: var(--corAzulClaro);
-  }
-  
-  .actions svg:hover{
-    color: var(--corRosaClaro);
-  }
-  .edit-photo {
-    margin-bottom: 1em;
-    
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 20px;
+    padding: 20px;
     
   }
+  
+  .infos {
+    flex: 1;
+    padding-right: 20px; 
+  }
+  
+  .imagemVaga{
+  width: 300px;
+  height: 300px; 
+  
+  padding-top: 30px;
+  margin: auto;
+  align-items: center;
+}
+
   
   .edit-photo img {
     width: 30%;
@@ -166,8 +149,8 @@
   
   .titulo{
    
-  color: var(--corAzulClaro);  
-  background-color: white;
+  color: white;  
+  background-color: var(--corAzulClaro);
   border-radius: 20px;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
@@ -259,14 +242,24 @@
     margin-bottom: 20px;
     
   }
+
+.iconfiltro{
+  color: #EF97B4;
+}
+/* 
+  input::placeholder {
+    color: white; 
+  } */
   
   .filters input {
+    color: white;
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ffffff;
     border-radius: 5px;
-    background-color: #ffffff;
-
+    background-color: var(--corRosaClaro);
+    margin-top: 30px;
+   
   }
   
   

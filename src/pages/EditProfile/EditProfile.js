@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
 import Message from '../../components/Message';
+import { FaInstagram } from "react-icons/fa6";
+import { MdOutlineEmail } from "react-icons/md";
+
+
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -15,6 +19,8 @@ const EditProfile = () => {
     const [password, setPassword] = useState("");
     const [profileImage, setProfileImage] = useState("");
     const [bio, setBio] = useState("");
+    const [emailcontato, setEmailcontato] = useState("");
+    const [instagram, setInstagram] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [portfolio, setPortfolio] = useState(null);
     const [previewPDF, setPreviewPDF] = useState("");
@@ -29,6 +35,8 @@ const EditProfile = () => {
             setName(user.name);
             setEmail(user.email);
             setBio(user.bio);
+            setEmailcontato(user.emailcontato);
+            setInstagram(user.instagram);
             setInterests(user.interests || []);
 
             if (user.portfolio) {
@@ -47,6 +55,14 @@ const EditProfile = () => {
 
         if (bio) {
             userData.bio = bio;
+        }
+
+        if (emailcontato) {
+            userData.emailcontato = emailcontato;
+        }
+
+        if (instagram) {
+            userData.instagram = instagram;
         }
 
         if (password) {
@@ -121,12 +137,13 @@ const EditProfile = () => {
                                 : `${uploads}/users/${user.profileImage}`
                         }
                         alt={user.name}
-                        onClick={handleImageClick} 
+                        onClick={handleImageClick}
                     />
                 )}
                 <h2 className="nome">{user.name}</h2>
                 <p>{user.bio}</p>
-                
+               
+               
                 <button className="btn-edit" onClick={() => setEditing(!editing)}>
                     {editing ? 'Cancelar Edição' : 'Editar Perfil'}
                 </button>
@@ -172,6 +189,32 @@ const EditProfile = () => {
                                     value={bio || ""}
                                 />
                             </label>
+
+                            <label>
+                                <span>Instagram:</span>
+                                <input
+                                    type="text"
+                                    onChange={(e) => {
+                                        let value = e.target.value;
+                                        if (!value.startsWith("@")) {
+                                            value = "@" + value;
+                                        }
+                                        setInstagram(value);
+                                    }}
+                                    value={instagram || ""}
+                                />
+                            </label>
+
+                            <label>
+                                <span>Email para contato:</span>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={emailcontato || ""}
+                                    onChange={(e) => setEmailcontato(e.target.value)} 
+                                />
+                            </label>
+
 
                             <label>
                                 <span>Seus interesses:</span>
@@ -225,6 +268,13 @@ const EditProfile = () => {
                             <h2>Biografia</h2>
                             <p>{user.bio || "Biografia não definida"}</p>
                         </section>
+
+                        <section id="redes">
+                            <h2>Contato</h2>
+                            <p> <FaInstagram  className="icon-rede"/> {user.instagram || ""}</p>
+                            <p><MdOutlineEmail className="icon-rede" /> {user.emailcontato || ""}</p>
+                        </section>
+
                         <section id="portfolio">
                             <h2>Portfólio</h2>
                             {previewPDF ? (
