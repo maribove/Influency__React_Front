@@ -19,6 +19,7 @@ const EditProfile = () => {
     const [password, setPassword] = useState("");
     const [profileImage, setProfileImage] = useState("");
     const [bio, setBio] = useState("");
+    const [telefone, setTelefone] = useState("");
     const [emailcontato, setEmailcontato] = useState("");
     const [instagram, setInstagram] = useState("");
     const [previewImage, setPreviewImage] = useState("");
@@ -35,6 +36,7 @@ const EditProfile = () => {
             setName(user.name);
             setEmail(user.email);
             setBio(user.bio);
+            setTelefone(user.telefone);
             setEmailcontato(user.emailcontato);
             setInstagram(user.instagram);
             setInterests(user.interests || []);
@@ -56,6 +58,11 @@ const EditProfile = () => {
         if (bio) {
             userData.bio = bio;
         }
+
+        if (telefone) {
+            userData.telefone = telefone;
+        }
+
 
         if (emailcontato) {
             userData.emailcontato = emailcontato;
@@ -142,8 +149,8 @@ const EditProfile = () => {
                 )}
                 <h2 className="nome">{user.name}</h2>
                 <p>{user.bio}</p>
-               
-               
+
+
                 <button className="btn-edit" onClick={() => setEditing(!editing)}>
                     {editing ? 'Cancelar Edição' : 'Editar Perfil'}
                 </button>
@@ -191,13 +198,25 @@ const EditProfile = () => {
                             </label>
 
                             <label>
+                                <span>Telefone:</span>
+                                <input
+                                    type="tel"
+                                    placeholder="Insira seu telefone..."
+                                    onChange={(e) => setTelefone(e.target.value)}
+                                    value={telefone || ""}
+                                    title="O telefone deve conter apenas números e ter entre 10 e 11 dígitos"
+                                />
+                            </label>
+
+                            <label>
                                 <span>Instagram:</span>
                                 <input
                                     type="text"
                                     onChange={(e) => {
                                         let value = e.target.value;
-                                        if (!value.startsWith("@")) {
-                                            value = "@" + value;
+                                        // Remove the @ symbol if it's at the start of the input
+                                        if (value.startsWith("@")) {
+                                            value = value.slice(1); // Remove the first character (@)
                                         }
                                         setInstagram(value);
                                     }}
@@ -205,13 +224,14 @@ const EditProfile = () => {
                                 />
                             </label>
 
+
                             <label>
                                 <span>Email para contato:</span>
                                 <input
                                     type="email"
                                     placeholder="Email"
                                     value={emailcontato || ""}
-                                    onChange={(e) => setEmailcontato(e.target.value)} 
+                                    onChange={(e) => setEmailcontato(e.target.value)}
                                 />
                             </label>
 
@@ -269,10 +289,27 @@ const EditProfile = () => {
                             <p>{user.bio || "Biografia não definida"}</p>
                         </section>
 
+
+
                         <section id="redes">
                             <h2>Contato</h2>
-                            <p> <FaInstagram  className="icon-rede"/> {user.instagram || ""}</p>
+                            <p>
+                                <a href={`https://instagram.com/${user.instagram}`} target="_blank" rel="noopener noreferrer">
+                                    <FaInstagram className="icon-rede" /> @
+                                    {user.instagram || ""}
+                                </a>
+                            </p>
                             <p><MdOutlineEmail className="icon-rede" /> {user.emailcontato || ""}</p>
+
+                            {user.telefone && (
+                                <a
+                                    href={`https://wa.me/${user.telefone}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-whatsapp">
+                                    Entre em contato comigo
+                                </a>
+                            )}
                         </section>
 
                         <section id="portfolio">

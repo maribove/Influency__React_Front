@@ -76,10 +76,10 @@ const Search = () => {
                         {users && users.map((user, index) => (
                             <div key={user._id} className={`search-result search-result-${index}`}>
                                 <UserItem user={user} />
-                                <Link to={`/users/${user._id}`}>
+                                <Link to={`/${user._id}/profile`}>
                                     <button className='btn-vaga'>Ver mais</button>
                                 </Link>
-                            </div>
+                            </div> 
                         ))}
                     </div>
                 </>

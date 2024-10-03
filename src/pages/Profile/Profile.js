@@ -152,11 +152,11 @@ const Profile = () => {
     setImage(image);
   };
 
-    // Handle contract file
-    const handleContractFile = (e) => {
-      const file = e.target.files[0];
-      setContrato(file);
-    };
+  // Handle contract file
+  const handleContractFile = (e) => {
+    const file = e.target.files[0];
+    setContrato(file);
+  };
 
   // Excluir
   const handleDelete = (id) => {
@@ -179,7 +179,7 @@ const Profile = () => {
       title: editTitle,
       contrato: editContrato,
       desc: editDesc,
-      contrato: editContrato,      
+      contrato: editContrato,
       valor: editValor,
       local: editLocal,
       situacao: editSituacao,
@@ -236,6 +236,8 @@ const Profile = () => {
               Visualizar Portfólio
             </a>
           )}
+
+          
         </div>
       </div>
       {id === userAuth._id && (
@@ -262,7 +264,7 @@ const Profile = () => {
                   value={desc}
                 />
               </label>
-              
+
 
               <label>
                 <span>Tags*:</span>
@@ -320,7 +322,7 @@ const Profile = () => {
                 <span>Contrato (PDF):</span>
                 <input type="file" onChange={handleContractFile} />
               </label>
-              
+
 
 
               <div className="btn-container">
@@ -358,7 +360,7 @@ const Profile = () => {
                 />
               </label>
 
-             
+
 
               <label>
                 <span>Local da vaga:</span>
@@ -397,7 +399,7 @@ const Profile = () => {
               <label>
                 <span>Contrato (PDF):</span>
                 <input type="file" onChange={(e) => setEditContrato(e.target.files[0])} />
-                
+
               </label>
 
               <div className="btn-container">
@@ -437,7 +439,7 @@ const Profile = () => {
                 <h3>{photo.title}</h3>
 
                 <p className="p-align"><strong>Local: </strong> {photo.local}</p>
-               
+
                 <p className="p-align">
                   <strong>Status: </strong> {photo.situacao}
                   {photo.situacao === 'Encerrado' ? (
@@ -453,7 +455,7 @@ const Profile = () => {
                 <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
                 {photo.contrato && (
                   <a href={`${uploads}/contratos/${photo.contrato}`} target="_blank" rel="noopener noreferrer" className="btn-edit">
-                  Contrato
+                    Contrato
                   </a>
                 )}
               </div>
