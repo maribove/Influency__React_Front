@@ -96,14 +96,12 @@ const SearchPhoto = async (query, token) => {
 
 // Aplicar pra vaga
 export const applyToJob = async (id, token) => {
-  const config = requestConfig("POST", data, token, true);
+  const config = requestConfig("POST", null, token); // Não precisa de 'data' aqui
 
   try {
-    const res = await fetch(api + "/photos/" + id + "/apply", config) 
-      .then((res) => res.json())
-      .catch((err) => err);
-
-    return res;
+    const res = await fetch(api + "/photos/" + id + "/apply", config);
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log("Erro ao aplicar para a vaga", error);
     throw error;
@@ -127,17 +125,23 @@ export const cancelApplication = async (id, token) => {
 };
 
 // influenciadores que aplicaram pra vaga
-export const getApplicants = async (id, token) => {
-  const config = requestConfig("GET", data, token);
+// Buscar aplicantes de uma vaga
+const getApplicants = async (id, token) => {
+  const config = requestConfig("GET", null, token);
 
   try {
-    const res = await fetch(api + "/photos/" + id + "/applicants", config) //linha 133
-      .then((res) => res.json())
-      .catch((err) => err);
+    const res = await fetch(api + "/photos/" + id + "/applicants", config);
+    const data = await res.json();
 
-    return res;
+    console.log("Data returned from API (getApplicants):", data); // LOG DA RESPOSTA
+
+    if (!res.ok) {
+      throw new Error(data.message || "Erro ao buscar aplicantes");
+    }
+
+    return data;
   } catch (error) {
-    console.log("Erro ao obter os aplicantes", error);
+    console.error("Erro ao buscar aplicantes:", error);
     throw error;
   }
 };
