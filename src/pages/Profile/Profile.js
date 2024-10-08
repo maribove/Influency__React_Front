@@ -66,6 +66,10 @@ const Profile = () => {
   const [editSituacao, setEditSituacao] = useState("");
   const [editContrato, setEditContrato] = useState("");
 
+// Estado para armazenar os aplicantes da vaga visualizada
+const [currentApplicants, setCurrentApplicants] = useState([]);
+const [showApplicants, setShowApplicants] = useState(false); // Controlar a exibição dos aplicantes
+
   const handleTagsChange = (e) => {
     const value = e.target.value;
     setTags((prevTags) =>
@@ -216,6 +220,27 @@ const Profile = () => {
 
   }
 
+  // Buscar aplicantes da vaga
+  const handleViewApplicants = (photoId) => {
+    dispatch(getApplicants({ id: photoId, token: userAuth.token }))
+      .then((res) => {
+        // Verifica se a resposta contém a propriedade 'applicants' e se ela é um array
+        if (res.payload && Array.isArray(res.payload.applicants)) {
+          setCurrentApplicants(res.payload.applicants); // Atualiza o estado com os aplicantes
+          setShowApplicants(true); // Exibe a lista de aplicantes
+        } else {
+          console.error("Resposta inesperada ao buscar aplicantes:", res);
+          setCurrentApplicants([]); // Nenhum aplicante encontrado, definimos um array vazio
+          setShowApplicants(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar aplicantes:", error);
+        setCurrentApplicants([]); // Em caso de erro, mostramos uma lista vazia
+        setShowApplicants(true);
+      });
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -258,7 +283,7 @@ const Profile = () => {
                 <textarea
                   type="text"
                   placeholder="Insira uma descrição"
-                  onChange={(e) => setdesc(e.target.value)}
+                  onChange={(e) => setDesc(e.target.value)}
                   value={desc}
                 />
               </label>
@@ -266,15 +291,10 @@ const Profile = () => {
 
               <label>
                 <span>Tags*:</span>
-
                 <label className="content">
                   <input className="content_input" type="checkbox" name="Moda" value="Moda" onChange={handleTagsChange} />Moda
-
-
                   <input className="content_input" type="checkbox" name="Beleza" value="Beleza" onChange={handleTagsChange} />Beleza
-
                   <input className="content_input" type="checkbox" name="Saúde" value="Saúde" onChange={handleTagsChange} />Saúde
-
                   <input className="content_input" type="checkbox" name="Alimentação" value="Alimentação" onChange={handleTagsChange} />Alimentação
                 </label>
               </label>
@@ -301,6 +321,7 @@ const Profile = () => {
                   <option value="Ativo">Ativo</option>
                 </select>
               </label>
+
               <label>
                 <span>Valor pago para a vaga*:</span>
                 <textarea
@@ -459,23 +480,49 @@ const Profile = () => {
               </div>
               {id === userAuth._id ? (
                 <div className="actions">
-
-
-                  <BsFillEyeFill size="40px" />
-
-
-
+                  <BsFillEyeFill size="40px"
+                    onClick={() => handleViewApplicants(photo._id)}
+                    className="view-applicants"
+                  />
                   <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
               ) : (
-                <Link to={`/photos/${photo._id}`}>
-
-                </Link>
+                <Link to={`/photos/${photo._id}`}></Link>
               )}
+
+              {/* Exibindo os aplicantes */}
+              {showApplicants && currentApplicants.length > 0 && (
+                  <div className="applicants-list">
+                    <h3>Influenciadores Inscritos</h3>
+                    {currentApplicants.map((applicant) => (
+                      <div key={applicant.userId._id} className="applicant-item">
+                        {applicant.userId.profileImage && (
+                          <img
+                            src={`${uploads}/users/${applicant.userId.profileImage}`}
+                            alt={applicant.userId.name}
+                            className="profilepic"
+                          />
+                        )}
+                        <p>{applicant.userId.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Caso não haja aplicantes */}
+                {showApplicants && currentApplicants.length === 0 && (
+                  <p>Nenhum influenciador aplicou ainda.</p>
+                )}
             </div>
           ))}
-        {photos.length === 0 && <p><strong>Ainda não há vagas publicadas :(</strong></p>}
+
+
+        {photos.length === 0 && (
+          <p>
+            <strong>Ainda não há vagas publicadas :(</strong>
+          </p>
+        )}
       </div>
     </div>
 
