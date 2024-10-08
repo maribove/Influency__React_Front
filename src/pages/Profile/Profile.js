@@ -559,7 +559,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
             <strong>Ainda não há vagas publicadas :(</strong>
           </p>
         )}
-
       </div>
     </div>
 

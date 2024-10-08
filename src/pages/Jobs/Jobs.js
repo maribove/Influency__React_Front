@@ -10,7 +10,7 @@ import { MdDelete } from "react-icons/md";
 import { FaCircleDot, FaFilter } from "react-icons/fa6"; 
 
 // hooks
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -22,12 +22,8 @@ import {
     resetMessage,
     deletePhoto,
     updatePhoto,
-    applyToJob,
-    cancelApplication,
-    getApplicants,
 
 } from "../../slices/photoSlice";
-
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -45,19 +41,6 @@ const Jobs = () => {
     dispatch(deletePhoto(id));
 
     resetComponentMessage();
-  };
-
-  const handleApply = (photoId) => {
-    if (appliedJobs[photoId]) {
-      dispatch(cancelApplication({ id: photoId, token: userAuth.token }));
-    } else {
-      dispatch(applyToJob({ id: photoId, token: userAuth.token }));
-    }
-
-    setAppliedJobs((prevState) => ({
-      ...prevState,
-      [photoId]: !appliedJobs[photoId], // Alterar o estado só pra vaga correspondente
-    }));
   };
 
   function resetComponentMessage() {
@@ -98,6 +81,9 @@ const Jobs = () => {
 
   if (loading) {
     return <p>Carregando...</p>;
+  }
+  if (error) {
+    return <Message msg={error} type="error" />;
   }
   if (error) {
     return <Message msg={error} type="error" />;
