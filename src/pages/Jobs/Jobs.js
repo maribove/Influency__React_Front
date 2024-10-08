@@ -160,22 +160,7 @@ const Jobs = () => {
                 {userAuth && userAuth.role === "admin" && (
                   <div className="actions">
                     <BsFillEyeFill size="40px" />
-                    <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
-
-                    {/* Lista de aplicantes */}
-                    <div className="applicants-list">
-                      <h3>Influenciadores Inscritos</h3>
-                      {applicants.length > 0 ? (
-                        applicants.map((applicant) => (
-                          <div key={applicant.userId}>
-                            <p>{applicant.userId.name}</p>
-                          </div>
-                            ))
-                          ) : (
-                            <p>Nenhum influenciador aplicou ainda.</p>
-                          )}
-                        </div>
-                      
+                    <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />                      
                     </div>
                     )}
                   </div>
