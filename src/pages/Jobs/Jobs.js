@@ -27,12 +27,14 @@ import {
 
 const Jobs = () => {
   const dispatch = useDispatch();
+  const { id } = useParams(); // ID vaga
 
   const [filterTags, setFilterTags] = useState("");
   const [filterLocation, setFilterLocation] = useState("");
   const [showFilters, setShowFilters] = useState(false); 
+  const [appliedJobs, setAppliedJobs] = useState(false); // Verificar se o influenciador já aplicou
 
-  const { photos, loading, error } = useSelector((state) => state.photo);
+  const { photos, applicants, loading, error } = useSelector((state) => state.photo);
   const { user: userAuth } = useSelector((state) => state.auth);
 
   const handleDelete = (id) => {
@@ -50,9 +52,26 @@ const Jobs = () => {
   useEffect(() => {
     if (userAuth && userAuth.token) {
       dispatch(getPhotos());
+        
+      // Verificar se o usuário é um influenciador que já aplicou
+      if (userAuth.role === "Influenciador") {
+        dispatch(getApplicants({ id, token: userAuth.token }));
+      }
+    
     }
   }, [dispatch, userAuth]);
 
+  useEffect(() => {
+    if (applicants && Array.isArray(applicants)) { // Garantir que applicants é um array
+      const appliedMap = {};
+      applicants.forEach((applicant) => {
+        appliedMap[applicant.photoId] = true;  // Mapeia o estado de aplicação para cada vaga
+      });
+      setAppliedJobs(appliedMap);
+    }
+  }, [applicants]);
+
+  // Função para aplicar os filtros
   const filteredPhotos = photos.filter((photo) => {
     return (
       (filterTags === "" || photo.tags.join(" ").toLowerCase().includes(filterTags.toLowerCase())) &&
@@ -62,6 +81,9 @@ const Jobs = () => {
 
   if (loading) {
     return <p>Carregando...</p>;
+  }
+  if (error) {
+    return <Message msg={error} type="error" />;
   }
   if (error) {
     return <Message msg={error} type="error" />;
@@ -118,14 +140,26 @@ const Jobs = () => {
               </p>
               <p className="p-align"><strong>Data finalização: </strong> {photo.date}</p>
               <p className="p-align"><strong>Descrição: </strong> {photo.desc}</p>
+                <p className="p-align"><strong>Valor da vaga: </strong> {photo.valor}</p>
               <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
             </div>
+            
+            {/* Lógica para Influenciadores */}
+            {userAuth && userAuth.role === "Influenciador" && (
+              <button className='btn' onClick={() => handleApply(photo._id)}>
+                {appliedJobs[photo._id] ? "Cancelar Aplicação" : "Aplicar"}
+              </button>
+            )}
+
+            {/* Lógica para Admins (Empresa) */}
             {userAuth && userAuth.role === "admin" && (
               <div className="actions">
                 <BsFillEyeFill size="40px" />
                 <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
               </div>
             )}
+
+
           </div>
         ))
       ) : (
