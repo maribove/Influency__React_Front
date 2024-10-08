@@ -23,7 +23,7 @@ import {
   resetMessage,
   deletePhoto,
   updatePhoto,
-
+  getApplicants, 
 } from "../../slices/photoSlice";
 
 
@@ -44,9 +44,9 @@ const Profile = () => {
   } = useSelector((state) => state.photo);
 
   const [title, setTitle] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
   const [local, setLocal] = useState("");
-  const [desc, setdesc] = useState("");
+  const [desc, setDesc] = useState("");
   const [situacao, setSituacao] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
@@ -74,7 +74,7 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
     const value = e.target.value;
     setTags((prevTags) =>
       prevTags.includes(value)
-        ? prevTags.filter((tags) => tags !== value)
+        ? prevTags.filter((tag) => tag !== value)
         : [...prevTags, value]
     );
   };
@@ -90,7 +90,7 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
     console.log("User ID:", id); // impressao do  id 
     if (messagePhoto === "Vaga publicada com sucesso!") {
       setTitle("");
-      setdesc("");
+      setDesc("");
       setLocal("");
       setValor('');
       setSituacao("");
@@ -127,16 +127,9 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
     // build form data
     const formData = new FormData();
 
-    const photoFormData = Object.keys(photoData).forEach((key) =>
-      formData.append(key, photoData[key])
-    );
-
-    formData.append("photo", photoFormData);
+    Object.keys(photoData).forEach((key) => formData.append(key, photoData[key]));
 
     dispatch(publishPhoto(formData));
-
-
-
     resetComponentMessage();
   };
 
@@ -165,15 +158,14 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
   // Excluir
   const handleDelete = (id) => {
     dispatch(deletePhoto(id));
-
     resetComponentMessage();
   };
 
   // mostrar ou escondeer form
   const hideOrShowForms = () => {
-    newPhotoForm.current.classList.toggle("hide")
-    editPhotoForm.current.classList.toggle("hide")
-  }
+    newPhotoForm.current.classList.toggle("hide");
+    editPhotoForm.current.classList.toggle("hide");
+  };
 
   // update
   const handleUpdate = (e) => {
@@ -192,7 +184,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
     };
 
     dispatch(updatePhoto(photoData));
-
     resetComponentMessage();
   };
 
@@ -217,8 +208,9 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
 
   const handleCancelEdit = (e) => {
     hideOrShowForms();
-
   }
+
+  
 
   // Buscar aplicantes da vaga
   const handleViewApplicants = (photoId) => {
@@ -257,7 +249,12 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
           <p>{user.bio}</p>
           <p><strong>{user.interests}</strong></p>
           {user.portfolio && (
-            <a href={`${uploads}/portfolios/${user.portfolio}`} target="_blank" rel="noopener noreferrer" className="btn-portfolio">
+            <a
+              href={`${uploads}/portfolios/${user.portfolio}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-portfolio"
+            >
               Visualizar Portfólio
             </a>
           )}
@@ -310,14 +307,24 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
               </label>
               <label>
                 <span>Data para a finalização*:</span>
-                <input type="date" name="data" id="data" onChange={(e) => setDate(e.target.value)}
-                  value={date} />
+                <input
+                  type="date"
+                  name="data"
+                  id="data"
+                  onChange={(e) => setDate(e.target.value)}
+                  value={date}
+                />
               </label>
 
               <label>
                 <span>Status da vaga*:</span>
-                <select onChange={(e) => setSituacao(e.target.value)} value={situacao}>
-                  <option value="" disabled>Selecione...</option>
+                <select
+                  onChange={(e) => setSituacao(e.target.value)}
+                  value={situacao}
+                >
+                  <option value="" disabled>
+                    Selecione...
+                  </option>
                   <option value="Ativo">Ativo</option>
                 </select>
               </label>
@@ -358,7 +365,11 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
           <div className="edit-photo hide" ref={editPhotoForm} id="editForm">
             <h1>Editando vaga </h1>
             {editImage && (
-              <img src={`${uploads}/photos/${editImage}`} alt={editTitle} className="edit_img" />
+              <img
+                src={`${uploads}/photos/${editImage}`}
+                alt={editTitle}
+                className="edit_img"
+              />
             )}
 
             <form onSubmit={handleUpdate}>
@@ -392,7 +403,10 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
               <label>
                 <span>Data de finalização:</span>
                 <input
-                  type="date" name="data" id="data" onChange={(e) => setEditDate(e.target.value)}
+                  type="date"
+                  name="data"
+                  id="data"
+                  onChange={(e) => setEditDate(e.target.value)}
                   value={editDate || ""}
                 />
               </label>
@@ -456,12 +470,10 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                   />
                 )}
                 <h3>{photo.title}</h3>
-
                 <p className="p-align"><strong>Local: </strong> {photo.local}</p>
-               
                 <p className="p-align">
                   <strong>Status: </strong> {photo.situacao}
-                  {photo.situacao === 'Encerrado' ? (
+                  {photo.situacao === "Encerrado" ? (
                     <FaCircleDot className="encerrado" size="14.7px" />
                   ) : (
                     <FaCircleDot className="ativo" size="14.7px" />
@@ -473,9 +485,9 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
 
                 <p className="p-align"><strong>Tags: </strong> {photo.tags}</p>
                 {photo.contrato && (
-                  <a href={`${uploads}/contratos/${photo.contrato}`} target="_blank" rel="noopener noreferrer" className="btn-edit">
-                  Contrato
-                  </a>
+                  <a href={`${uploads}/contratos/${photo.contrato}`} target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-edit">Contrato</a>
                 )}
               </div>
               {id === userAuth._id ? (
@@ -484,6 +496,7 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                     onClick={() => handleViewApplicants(photo._id)}
                     className="view-applicants"
                   />
+                
                   <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
@@ -514,6 +527,29 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                 {showApplicants && currentApplicants.length === 0 && (
                   <p>Nenhum influenciador aplicou ainda.</p>
                 )}
+                <Link to={`/photos/${photo._id}`}></Link>
+              
+
+              {/* Exibindo os aplicantes */}
+              {showApplicants && currentApplicants.length > 0 && (
+                  <div className="applicants-list">
+                    <h3>Influenciadores Inscritos</h3>
+                    {currentApplicants.map((applicant) => (
+                      <div key={applicant.userId._id} className="applicant-item">
+                        {applicant.userId.profileImage && (
+                          <img
+                            src={`${uploads}/users/${applicant.userId.profileImage}`}
+                            alt={applicant.userId.name}
+                            className="profilepic"
+                          />
+                        )}
+                        <p>{applicant.userId.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+              
             </div>
           ))}
 
@@ -523,6 +559,7 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
             <strong>Ainda não há vagas publicadas :(</strong>
           </p>
         )}
+
       </div>
     </div>
 

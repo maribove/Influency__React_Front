@@ -130,3 +130,25 @@
   font-size: 23px;
   margin-bottom: 12px;
 }
+
+.icon-rede{
+  color: var(--corRosaClaro);
+  
+}
+
+.btn-whatsapp {
+  display: inline-block;
+  background-color: var(--corRosaClaro);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 10px;
+  border: none;
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--corAzulClaro); 
+  text-decoration: none;
+}
+

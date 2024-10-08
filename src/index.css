@@ -6,6 +6,10 @@
   --corRosaEscuro: #F193B2;
 }
 
+textarea {
+  resize: none;
+}
+
 
 body {
   margin: 0;
