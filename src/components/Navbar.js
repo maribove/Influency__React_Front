@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { BsSearch, BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs';
 import { PiSignOutBold } from "react-icons/pi";
 import { FaPlusCircle } from "react-icons/fa";
+import { FaBriefcase } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -82,7 +83,7 @@ const Navbar = () => {
               )}
               <li>
                 <NavLink to="/jobs">
-                   Vagas
+                <FaBriefcase />                Vagas
                 </NavLink>
               </li>
               <li>

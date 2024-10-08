@@ -14,16 +14,19 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
+    <div id="formulario">
       <h2>Esqueci Minha Senha</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Digite seu e-mail"
-          required
-        />
+        <label>
+          <span>Digite o seu e-mail:</span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Digite seu e-mail"
+            required
+          />
+        </label>
         <button className='btn' type="submit">Enviar</button>
       </form>
       {error && <p className="error">{error}</p>}
