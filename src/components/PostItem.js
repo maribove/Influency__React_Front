@@ -105,7 +105,7 @@ const PostItem = ({ post }) => {
     <div className="post-item">
       <div className="profile-header-home">
         {post.profileImage && (
-          <img src={`${uploads}/users/${post.profileImage}`} alt={post.userName} className="profilepic" />
+          <img src={`${uploads}/users/${user.profileImage}`} alt={post.userName} className="profilepic" />
         )}
         <div className="profile-description">
           <h2 className="name_user">{post.userName}</h2>
