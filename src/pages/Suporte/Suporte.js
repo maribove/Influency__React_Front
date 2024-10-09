@@ -1,63 +1,61 @@
 import React, { useState } from 'react';
 import './Suporte.css';
-import { IoLogoWhatsapp } from "react-icons/io";
-import { BsWhatsapp } from "react-icons/bs";
+import Message from "../../components/Message"; // Assumindo que o componente Message já existe
+import { BsWhatsapp } from 'react-icons/bs'; // Importando o ícone do WhatsApp
 
 const Suporte = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        question: ''
-    });
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [supportMessage, setSupportMessage] = useState('');
+    const [message, setMessage] = useState(null); // Estado para exibir mensagens
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
+        const formData = { name, email, message: supportMessage };
+
         try {
-            const response = await fetch('http://localhost:5000/suporte', {
+            const response = await fetch('http://localhost:5000/api/suporte', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
-                console.log('Suporte enviado:', data);
-                setFormData({
-                    name: '',
-                    email: '',
-                    question: ''
-                });
+                setMessage({ type: 'sucess', text: 'Suporte enviado com sucesso!' });
+                setName('');
+                setEmail('');
+                setSupportMessage('');
             } else {
-                console.error('Erro ao enviar suporte:', data);
+                setMessage({ type: 'error', text: data.error || 'Erro ao enviar suporte. Tente novamente.' });
             }
         } catch (error) {
-            console.error('Erro de rede:', error);
+            setMessage({ type: 'error', text: 'Erro de rede. Verifique sua conexão.' });
         }
+
+        // Limpar a mensagem após um tempo
+        setTimeout(() => {
+            setMessage(null);
+        }, 3000); // Aumentei o tempo para 3 segundos
     };
 
     return (
         <div id='formulario'>
-            <h2>Suporte</h2>
-            <form onSubmit={handleSubmit} className="support-form">
+            <h2>Suporte ao Usuário</h2>
+            <p>Descreva seu problema e nossa equipe irá ajudá-lo o mais rápido possível.</p>
+            <form onSubmit={handleSubmit} id='formulario'>
                 <div className="form-group">
                     <label htmlFor="name">Nome:</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
-                        value={formData.name}
-                        onChange={handleChange}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         required
                     />
                 </div>
@@ -67,34 +65,35 @@ const Suporte = () => {
                         type="email"
                         id="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="question">Sua dúvida:</label>
+                    <label htmlFor="supportMessage">Descrição:</label>
                     <textarea
-                        id="question"
-                        name="question"
-                        value={formData.question}
-                        onChange={handleChange}
+                        id="supportMessage"
+                        name="supportMessage"
+                        placeholder='Deixe sua dúvida ou descreva o problema que você está enfrentando.'
+                        value={supportMessage}
+                        onChange={(e) => setSupportMessage(e.target.value)}
                         required
                     />
+                    {/* Exibir mensagem de sucesso ou erro */}
+                    {message && <Message type={message.type} msg={message.text} />}
                 </div>
 
                 <div>
                     <a
-                        href={`https://wa.me/5541984888651`}
+                        href="https://wa.me/5541984888651"
                         target="_blank"
                         rel="noopener noreferrer">
-                        <BsWhatsapp  className='whatsapp-icon' />
+                        <BsWhatsapp className='whatsapp-icon' />
                     </a>
-
                 </div>
 
-
-                <button type="submit" className='btn'>Enviar</button>
+                <button type="submit" className="btn-enviar">Enviar</button>
             </form>
         </div>
     );

@@ -12,6 +12,7 @@ const Footer = () => {
                 <NavLink to="/suporte" className='suporte'>
                   Suporte
                 </NavLink>
+
                 </p>
     </footer>
   )
