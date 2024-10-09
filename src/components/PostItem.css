@@ -17,12 +17,10 @@
   font-weight: bold;
 }
 
-.img-post {
-  width: 30%;
-  height: 30%;
-  object-fit: cover; /* Faz a imagem cobrir toda a área da div */
 
-}
+
+
+
 
 .post-container {
   margin-top: 80px;
@@ -146,10 +144,42 @@
   background-color: rgb(62, 129, 62);
 }
 
-.texto_publicacao{
-  text-align: center;
+.texto_publicacao {
+  text-align: center; /* Centraliza o texto */
   margin-bottom: 30px;
+  font-size: 1.6em; /* Aumenta o tamanho da fonte */
+  line-height: 1.5; /* Aumenta o espaçamento entre linhas */
 }
+
+.img-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.img-post {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 10px; /* Add spacing between image and text */
+}
+
+.comment-content {
+  background-color: #f1f1f1;
+  padding: 12px; /* Slightly larger padding */
+  border-radius: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4; /* Line height for comments */
+}
+
+.comment-text {
+  color: #555; /* Slightly darker color */
+}
+
+.comment:hover {
+  background-color: #e9e9e9; /* Subtle hover effect */
+}
+
 
 .edit-textarea {
   width: 90%; 
@@ -282,4 +312,41 @@ font-size: 20px;
   margin-left: 10px;
   margin: 0 auto;
   margin-top: 10px;
+}
+
+
+.btn-cancelar {
+  background-color: rgb(255, 126, 126);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  margin: auto;
+  font-size: 18px;
+  
+}
+
+.btn-cancelar:hover{
+  background-color: rgb(255, 93, 93) ;
+}
+
+
+.btn-confirma{
+  background-color: rgb(135, 223, 135);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 18px;
+
+  
+}
+
+.btn-confirma:hover{
+  background-color: rgb(62, 129, 62);
 }
