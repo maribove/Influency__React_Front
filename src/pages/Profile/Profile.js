@@ -66,9 +66,9 @@ const Profile = () => {
   const [editSituacao, setEditSituacao] = useState("");
   const [editContrato, setEditContrato] = useState("");
 
-// Estado para armazenar os aplicantes da vaga visualizada
-const [currentApplicants, setCurrentApplicants] = useState([]);
-const [showApplicants, setShowApplicants] = useState(false); // Controlar a exibição dos aplicantes
+  // Estado para armazenar os aplicantes da vaga visualizada
+  const [currentApplicants, setCurrentApplicants] = useState([]);
+  const [showApplicants, setShowApplicants] = useState(false); // Controlar a exibição dos aplicantes
 
   const handleTagsChange = (e) => {
     const value = e.target.value;
@@ -210,8 +210,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
     hideOrShowForms();
   }
 
-  
-
   // Buscar aplicantes da vaga
   const handleViewApplicants = (photoId) => {
     dispatch(getApplicants({ id: photoId, token: userAuth.token }))
@@ -232,6 +230,7 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
         setShowApplicants(true);
       });
   };
+
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -328,7 +327,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                   <option value="Ativo">Ativo</option>
                 </select>
               </label>
-
               <label>
                 <span>Valor pago para a vaga*:</span>
                 <textarea
@@ -496,7 +494,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                     onClick={() => handleViewApplicants(photo._id)}
                     className="view-applicants"
                   />
-                
                   <BsPencilFill onClick={() => handleEdit(photo)} size="40px" />
                   <MdDelete size="40px" onClick={() => handleDelete(photo._id)} />
                 </div>
@@ -527,29 +524,6 @@ const [showApplicants, setShowApplicants] = useState(false); // Controlar a exib
                 {showApplicants && currentApplicants.length === 0 && (
                   <p>Nenhum influenciador aplicou ainda.</p>
                 )}
-                <Link to={`/photos/${photo._id}`}></Link>
-              
-
-              {/* Exibindo os aplicantes */}
-              {showApplicants && currentApplicants.length > 0 && (
-                  <div className="applicants-list">
-                    <h3>Influenciadores Inscritos</h3>
-                    {currentApplicants.map((applicant) => (
-                      <div key={applicant.userId._id} className="applicant-item">
-                        {applicant.userId.profileImage && (
-                          <img
-                            src={`${uploads}/users/${applicant.userId.profileImage}`}
-                            alt={applicant.userId.name}
-                            className="profilepic"
-                          />
-                        )}
-                        <p>{applicant.userId.name}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-              
             </div>
           ))}
 
