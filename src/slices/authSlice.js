@@ -54,7 +54,9 @@ export const requestPasswordReset = createAsyncThunk(
       const response = await authService.requestPasswordReset(email);
       return response.message;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+      return thunkAPI.rejectWithValue(
+        error.response && error.response.data ? error.response.data.errors[0] : "Erro inesperado"
+      );
     }
   }
 );
@@ -67,10 +69,13 @@ export const resetPassword = createAsyncThunk(
       const response = await authService.resetPassword(token, password);
       return response.message;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.errors[0]);
+      return thunkAPI.rejectWithValue(
+        error.response && error.response.data ? error.response.data.errors[0] : "Erro inesperado"
+      );
     }
   }
 );
+
 
 export const authSlice = createSlice({
   name: "auth",

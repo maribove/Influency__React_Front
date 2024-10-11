@@ -19,7 +19,7 @@ import Jobs from './pages/Jobs/Jobs';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import PerfilUser from './pages/PerfilUser/PerfilUser';
 import Suporte from './pages/Suporte/Suporte';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
+import ChangePassword from './pages/ChangePassword/ChangePassword';
 
 // Components
 import Navbar from './components/Navbar';
@@ -77,7 +77,7 @@ function App() {
                         <Route path='/posts/:id' element={auth ? <Post /> : <Navigate to="/login" />} />
                         <Route path='/jobs' element={auth ? <Jobs /> : <Navigate to="/login" />} />
                         <Route path='/forgotpassword' element={<ForgotPassword />} />
-                        <Route path='/resetpassword' element={<ResetPassword />} />
+                        <Route path='/reset-password/:token' element={<ChangePassword />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
                 </div>

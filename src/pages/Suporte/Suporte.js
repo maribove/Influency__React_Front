@@ -26,7 +26,7 @@ const Suporte = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setMessage({ type: 'sucess', text: 'Suporte enviado com sucesso!' });
+                setMessage({ type: 'sucess', text: 'E-mail enviado com sucesso!' });
                 setName('');
                 setEmail('');
                 setSupportMessage('');
