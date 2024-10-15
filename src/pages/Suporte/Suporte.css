@@ -1,0 +1,82 @@
+.btn-enviar{
+    background-color: #FDA5BE;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 245px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    font-size: 23px;
+    margin: auto;
+}
+
+.textarea{
+    resize: none;
+}
+  
+  
+  
+  .support-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    
+  }
+  
+  .form-group label {
+    display: block;          
+    font-weight: bold;      
+    font-size: 25px;        
+    text-align: left;     
+    margin-bottom: 10px;    
+}
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+  margin-bottom: 30px;
+  transition: border-color 0.3s ease, transform 0.3s ease; /* Animação suave */
+  }
+  
+  .form-group textarea {
+    height: 150px;
+    resize: none;
+  }
+
+
+
+/* Efeito ao focar (clicar) no input */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #EF97B4; 
+    transform: scale(1.0); 
+    outline: none; 
+}
+
+  .whatsapp-icon {
+    background-color: #25D366;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%; 
+    width: 60px; 
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 1000; 
+
+}
+  
+
+

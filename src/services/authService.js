@@ -3,7 +3,7 @@ import { api, requestConfig } from "../utils/config";
 // lógica de autenticação
 // Register a user
 const register = async (data) => {
-const config = requestConfig("POST", data);
+  const config = requestConfig("POST", data);
 
   try {
     const res = await fetch(api + "/users/register", config)
@@ -34,8 +34,6 @@ const login = async (data) => {
       .then((res) => res.json())
       .catch((err) => err);
 
-  
-
     if (res._id) {
       localStorage.setItem("user", JSON.stringify(res));
     }
@@ -45,7 +43,6 @@ const login = async (data) => {
     console.log(error);
   }
 };
-
 
 // Solicitar redefinição de senha
 const requestPasswordReset = async (email) => {
@@ -65,13 +62,30 @@ const requestPasswordReset = async (email) => {
   }
 };
 
+// Redefinir senha
+const resetPassword = async (token, password) => {
+  const config = requestConfig("POST", { password });
 
+  try {
+    const response = await fetch(`${api}/users/reset-password/${token}`, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.errors);
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const authService = {
   register,
   logout,
   login,
   requestPasswordReset,
+  resetPassword,
 };
 
 export default authService;

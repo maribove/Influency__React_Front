@@ -220,9 +220,7 @@ a{
   color: var(--corRosaClaro);
   text-decoration: none;
 }
-a:hover{
-  text-decoration: underline;
-}
+
 
 
 .btn.btn-outline {

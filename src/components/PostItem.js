@@ -7,50 +7,97 @@ import { BsThreeDots } from "react-icons/bs";
 import { deletePost, updatePost, comment, resetMessage } from "../slices/postSlice";
 import { useState } from 'react';
 
+// Modal para confirmação de exclusão
+const Modal = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>Confirmar Exclusão</h3>
+        <p>Você tem certeza que deseja excluir este post?</p>
+        <div className="modal-buttons">
+          <button onClick={onConfirm} className="btn-excluir">Sim</button>
+          <button onClick={onClose} className="btn-nao">Não</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Modal para edição do post com fundo blurry
+const EditModal = ({ isOpen, onClose, onConfirm, editPublicacao, setEditPublicacao }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content edit-modal">
+        <h3>Editar Publicação</h3>
+        <textarea
+          className="edit-textarea"
+          value={editPublicacao}
+          onChange={(e) => setEditPublicacao(e.target.value)}
+        />
+        <div className="modal-buttons">
+          <button onClick={onConfirm} className="btn-confirma">Confirmar</button>
+          <button onClick={onClose} className="btn-cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Novo Modal para opções
+const OptionsModal = ({ isOpen, onClose, onEdit, onDelete }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content options-modal" onClick={e => e.stopPropagation()}>
+        <button onClick={onEdit} className="option-button">
+          <FaEdit /> Editar
+        </button>
+        <button onClick={onDelete} className="option-button">
+          <FaTrash /> Excluir
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const PostItem = ({ post }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [editMode, setEditMode] = useState(false);
   const [editPublicacao, setEditPublicacao] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [showComments, setShowComments] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [optionsModalOpen, setOptionsModalOpen] = useState(false);
 
   const handleDelete = (id) => {
-    dispatch(deletePost(id));
-    setShowConfirm(false);
-    resetComponentMessage();
+    setOptionsModalOpen(false);
+    setModalOpen(true);
   };
 
   const handleEdit = () => {
-    setEditMode(true);
     setEditPublicacao(post.publicacao);
-    setDropdownVisible(false);
+    setOptionsModalOpen(false);
+    setEditModalOpen(true);
     resetComponentMessage();
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-
-    const postData = {
-      publicacao: editPublicacao,
-      id: post._id
-    };
-
+  const handleUpdate = () => {
+    const postData = { publicacao: editPublicacao, id: post._id };
     dispatch(updatePost(postData));
+    setEditModalOpen(false);
     resetComponentMessage();
   };
 
   const handleAddComment = (e) => {
     e.preventDefault();
-
-    const commentData = {
-      comment: newComment,
-      id: post._id
-    };
-
+    const commentData = { comment: newComment, id: post._id };
     dispatch(comment(commentData));
     setNewComment("");
   };
@@ -61,8 +108,8 @@ const PostItem = ({ post }) => {
     }, 2000);
   }
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+  const toggleOptionsModal = () => {
+    setOptionsModalOpen(!optionsModalOpen);
   };
 
   const formatDateTime = (dateString) => {
@@ -73,69 +120,30 @@ const PostItem = ({ post }) => {
   return (
     <div className="post-item">
       <div className="profile-header-home">
-        {post.userId.userImage && (
-          <img src={`${uploads}/users/${post.userId.userImage}`} alt={post.userId.userName} className="profilepic" />
-        )} 
+        <img 
+          src={`${uploads}/users/${post.profileImage}`} 
+          alt={post.userName} 
+          className="post-user-image"
+        />
         <div className="profile-description">
           <h2 className="name_user">{post.userName}</h2>
         </div>
-        {userAuth && (userAuth._id === post.userId || user.role === 'admin')  && (
-          <div className="options-menu" onClick={toggleDropdown}>
+        {userAuth && (userAuth._id === post.userId || user.role === 'admin') && (
+          <div 
+           onClick={toggleOptionsModal}>
             <BsThreeDots className="pontinhos" />
           </div>
         )}
       </div>
 
-      {dropdownVisible && (
-        <div className="dropdown">
-          {userAuth && userAuth._id === post.userId && (
-          <button onClick={handleEdit} className="btn-edit">
-            <FaEdit className="lapis" /> Editar
-          </button>)}
+      <p className="texto_publicacao">{post.publicacao}</p>
 
-          {userAuth && (userAuth._id === post.userId || userAuth.role === 'admin') && (
-          <button onClick={() => setShowConfirm(true)} className="btn-delete">
-            <FaTrash className="lixo" /> Excluir
-          </button>
-      )}
-        </div>
-      )}
-
-      {userAuth && (userAuth._id === post.userId || userAuth.role === 'admin') && (
-        <div className="post-actions">
-          {editMode ? (
-            <>
-              <button onClick={handleUpdate} className="btn-confirm">Salvar</button>
-              <button onClick={() => setEditMode(false)} className="btn-cancelar">Cancelar</button>
-            </>
-          ) : (
-            <>
-              {showConfirm && (
-                <div className="confirm-delete-dialog">
-                  <p>Tem certeza que deseja excluir este post?</p>
-                  <button onClick={() => handleDelete(post._id)} className="btn-excluir">Sim</button>
-                  <button onClick={() => setShowConfirm(false)} className="btn-nao">Não</button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
-
-      {editMode ? (
-        <textarea
-          className="edit-textarea"
-          value={editPublicacao}
-          onChange={(e) => setEditPublicacao(e.target.value)}
-        />
-      ) : (
-        <p className="texto_publicacao">{post.publicacao}</p>
-      )}
       {post.image && (
         <div className="img-container">
           <img className="img-post" src={`${uploads}/posts/${post.image}`} alt={post.publicacao} />
         </div>
       )}
+
       <div>
         <p className="post-author">
           Publicada por:{" "}
@@ -144,7 +152,7 @@ const PostItem = ({ post }) => {
       </div>
 
       <div className="comments-icon" onClick={() => setShowComments(!showComments)}>
-      <span>{Array.isArray(post.comments) ? post.comments.length : 0}</span> 
+        <span>{Array.isArray(post.comments) ? post.comments.length : 0}</span>
         <FaComment className="comment-icon" />
       </div>
 
@@ -173,6 +181,34 @@ const PostItem = ({ post }) => {
         />
         <button type="submit" className="btn-comentar">Comentar</button>
       </form>
+
+      {/* Modal de opções */}
+      <OptionsModal
+        isOpen={optionsModalOpen}
+        onClose={() => setOptionsModalOpen(false)}
+        onEdit={handleEdit}
+        onDelete={() => handleDelete(post._id)}
+      />
+
+      {/* Modal de exclusão */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={() => {
+          dispatch(deletePost(post._id));
+          setModalOpen(false);
+          resetComponentMessage();
+        }}
+      />
+
+      {/* Modal de edição */}
+      <EditModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onConfirm={handleUpdate}
+        editPublicacao={editPublicacao}
+        setEditPublicacao={setEditPublicacao}
+      />
     </div>
   );
 };

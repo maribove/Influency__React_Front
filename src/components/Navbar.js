@@ -83,7 +83,7 @@ const Navbar = () => {
               )}
               <li>
                 <NavLink to="/jobs">
-                <FaBriefcase />                Vagas
+                  <FaBriefcase /> Vagas
                 </NavLink>
               </li>
               <li>

@@ -152,3 +152,8 @@
   text-decoration: none;
 }
 
+.content_input:checked {
+  accent-color: #f6598d; 
+} 
+
+
