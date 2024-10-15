@@ -25,6 +25,7 @@
   
   .form-group {
     margin-bottom: 15px;
+    
   }
   
   .form-group label {
@@ -40,6 +41,7 @@
     width: 100%;
     padding: 10px;
     border-radius: 4px;
+    margin-top: 20px;
   margin-bottom: 30px;
   transition: border-color 0.3s ease, transform 0.3s ease; /* Animação suave */
   }
@@ -54,11 +56,10 @@
 /* Efeito ao focar (clicar) no input */
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: #EF97B4; /* Altera a cor da borda ao focar */
-    transform: scale(1.0); /* Aumenta ligeiramente o tamanho do input */
-    outline: none; /* Remove o contorno padrão do navegador */
+    border-color: #EF97B4; 
+    transform: scale(1.0); 
+    outline: none; 
 }
-
 
   .whatsapp-icon {
     background-color: #25D366;

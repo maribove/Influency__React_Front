@@ -157,10 +157,15 @@
 }
 
 .img-post {
-  max-width: 100%;
+  width: 100%; /* Garante que a imagem ocupe toda a largura disponível */
+  height: auto; /* Mantém a proporção da imagem */
   border-radius: 8px;
-  margin-top: 10px; /* Add spacing between image and text */
+  margin-top: 10px; /* Espaçamento entre a imagem e o texto */
+  object-fit: cover; /* Ajusta a imagem sem distorção */
+  max-width: 600px; /* Define um tamanho máximo para evitar imagens muito grandes */
+  max-height: 400px; /* Limita a altura máxima para manter a proporção */
 }
+
 
 .comment-content {
   background-color: #f1f1f1;
@@ -349,4 +354,39 @@ font-size: 20px;
 
 .btn-confirma:hover{
   background-color: rgb(62, 129, 62);
+}
+
+
+.profile-header-home {
+  display: flex;
+  align-items: center;
+}
+
+.post-user-image {
+  width: 50px; /* ajuste o tamanho da imagem conforme necessário */
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px; /* espaço entre a imagem e o nome */
+}
+
+.name_user {
+  font-size: 35px;
+}
+
+.option-button{
+  background-color: #F193B2;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 15px;
+
+}
+
+.option-button:hover{
+  background-color: #e765909c;
 }

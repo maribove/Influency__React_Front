@@ -3,10 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../slices/authSlice";
 import Message from "../../components/Message";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const ChangePassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const { token } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,7 +51,7 @@ const ChangePassword = () => {
 
     try {
       await dispatch(resetPassword({ token, password })).unwrap();
-      setMessage({ type: "success", text: "Senha alterada com sucesso!" });
+      setMessage({ type: "sucess", text: "Senha alterada com sucesso!" });
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -60,21 +64,43 @@ const ChangePassword = () => {
     <div id="formulario">
       <h2>Trocar Senha</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Nova Senha"
-          required
-        />
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirme a Nova Senha"
-          required
-        />
-        <button className='btn-enviar' type="submit" disabled={loading}>
+        <div className="form-group">
+          <div className="input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Nova Senha"
+              required
+            />
+            <button
+              type="button"
+              className="btn-auth"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash className="eye-icon" size="30px" /> : <FaEye className="eye-icon" size="30px" />}
+            </button>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="input-container">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirme a Nova Senha"
+              required
+            />
+            <button
+              type="button"
+              className="btn-auth"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <FaEyeSlash size="30px" className="eye-icon" /> : <FaEye size="30px" className="eye-icon" />}
+            </button>
+          </div>
+        </div>
+        <button className="btn-enviar" type="submit" disabled={loading}>
           {loading ? "Carregando..." : "Trocar Senha"}
         </button>
       </form>

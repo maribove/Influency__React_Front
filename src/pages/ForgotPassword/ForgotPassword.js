@@ -29,16 +29,18 @@ const ForgotPassword = () => {
     <div id="formulario">
       <h2>Esqueci Minha Senha</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          <span>Digite o seu e-mail:</span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Digite seu e-mail"
-            required
-          />
-        </label>
+        <div className="form-group">
+          <label>
+            <span>Digite o seu e-mail:</span>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Digite seu e-mail"
+              required
+            />
+          </label>
+        </div>
         <button className='btn-enviar' type="submit" disabled={loading}>
           {loading ? "Enviando..." : "Enviar"}
         </button>

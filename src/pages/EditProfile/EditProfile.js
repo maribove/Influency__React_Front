@@ -49,7 +49,10 @@ const EditProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const userData = { name, interests };
+        const userData = {
+            name,
+            interests: interests.join(','), 
+        };
 
         if (profileImage) {
             userData.profileImage = profileImage;
@@ -149,6 +152,7 @@ const EditProfile = () => {
                 )}
                 <h2 className="nome">{user.name}</h2>
                 <p>{user.bio}</p>
+             
 
 
                 <button className="btn-edit" onClick={() => setEditing(!editing)}>

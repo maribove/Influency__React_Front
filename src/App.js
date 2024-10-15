@@ -69,7 +69,7 @@ function App() {
                         <Route path='/' element={auth ? <Home /> : <Navigate to="/login" />} />
                         <Route path='/profile' element={auth ? <EditProfile /> : <Navigate to="/login" />} />
                         <Route path='/users/:id' element={auth ? <Profile /> : <Navigate to="/login" />} />
-                        <Route path='/suporte' element={auth ? <Suporte /> : <Navigate to="/login" />} />
+                        <Route path='/suporte' element={<Suporte /> } />
                         <Route path='/:id/profile' element={auth ? <PerfilUser /> : <Navigate to="/login" />} />
                         <Route path='/login' element={!auth ? <Login /> : <Navigate to="/" />} />
                         <Route path='/register' element={!auth ? <Register /> : <Navigate to="/" />} />

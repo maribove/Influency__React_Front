@@ -40,7 +40,7 @@ const Suporte = () => {
         // Limpar a mensagem após um tempo
         setTimeout(() => {
             setMessage(null);
-        }, 3000); // Aumentei o tempo para 3 segundos
+        }, 3000); 
     };
 
     return (

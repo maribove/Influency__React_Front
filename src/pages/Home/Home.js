@@ -99,22 +99,24 @@ const Home = () => {
           <img src={`${uploads}/users/${user.profileImage}`} alt={user.name} className="profilepic" />
         )}
         <div className="profile-description">
-          <h2>{user.name}</h2>
+          <h2 className='name_user'>{user.name}</h2>
         </div>
       </div>
 
       <div className="new-photo">
         {userAuth && userAuth.role !== "admin" &&(
           <form onSubmit={submitPost}>
-            <label>
-              <textarea
-                className="textarea-postagem"
-                type="text"
-                placeholder="O que deseja compartilhar? :)"
-                onChange={(e) => setPublicacao(e.target.value)}
-                value={publicacao}
-              />
-            </label>
+            <div className="form-group">
+              <label>
+                <textarea
+                  className="textarea-postagem"
+                  type="text"
+                  placeholder="O que deseja compartilhar? :)"
+                  onChange={(e) => setPublicacao(e.target.value)}
+                  value={publicacao}
+                />
+              </label>
+            </div>
             <label htmlFor="post-image" className="camera-icon">
               <BiSolidImageAdd className="camera-icon" />
             </label>

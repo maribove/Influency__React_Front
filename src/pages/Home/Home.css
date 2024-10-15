@@ -45,7 +45,7 @@
   padding: 1em;
   flex-direction: row;
   align-content: stretch;
-  justify-content: space-between;
+
 }
 .profile-header-home-post{
   display: flex;
@@ -55,10 +55,11 @@
     
 }
 .profile-header-home img{
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   margin-right: 2em;
+  border: 7px solid #EF97B4;
   
 }
 
@@ -66,8 +67,8 @@
 
 
 .profile-header-home-post img{
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   margin-right: 2em;
   
@@ -90,3 +91,4 @@
 .no-photos{
   text-align: center;
 }
+
