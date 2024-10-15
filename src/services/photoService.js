@@ -125,7 +125,6 @@ export const cancelApplication = async (id, token) => {
 };
 
 // influenciadores que aplicaram pra vaga
-// Buscar aplicantes de uma vaga
 const getApplicants = async (id, token) => {
   const config = requestConfig("GET", null, token);
 
