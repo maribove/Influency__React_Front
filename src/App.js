@@ -20,6 +20,8 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import PerfilUser from './pages/PerfilUser/PerfilUser';
 import Suporte from './pages/Suporte/Suporte';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
+import MyCalendar from './pages/Calendar/Calendar';
+
 
 // Components
 import Navbar from './components/Navbar';
@@ -78,6 +80,7 @@ function App() {
                         <Route path='/jobs' element={auth ? <Jobs /> : <Navigate to="/login" />} />
                         <Route path='/forgotpassword' element={<ForgotPassword />} />
                         <Route path='/reset-password/:token' element={<ChangePassword />} />
+                        <Route path='/calendar' element={auth ? <MyCalendar /> : <Navigate to="/login" />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
                 </div>

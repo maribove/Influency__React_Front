@@ -81,6 +81,13 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               )}
+              {user && user.role == 'Influenciador' &&(
+                <li>
+                  <NavLink to={`/calendar`}>
+                    <FaPlusCircle /> Calendario
+                  </NavLink>
+                </li>
+              )}
               <li>
                 <NavLink to="/jobs">
                   <FaBriefcase /> Vagas
