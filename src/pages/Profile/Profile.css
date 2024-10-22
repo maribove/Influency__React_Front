@@ -46,6 +46,17 @@ cursor: unset;
 
 }
 
+.actions {
+  display: flex;
+  border-radius: 10px;
+  flex-direction: row;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+  width: 80%;
+  margin: auto;
+
+}
+
 .title{
 margin-bottom: 100px;
 }
@@ -78,19 +89,19 @@ margin-bottom: 100px;
 }
 
 .infos {
-flex-direction: column; 
-background-color: white;
-align-items: center;
-width: 70%;
-height: 100%;
-margin: auto;
-margin-top: 50px;
-margin-bottom: 20px;
-border-radius: 20px;
-padding: 20px;
-box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-overflow-wrap: break-word;
-flex: 1;
+  flex-direction: column; 
+  background-color: white;
+  align-items: center;
+  width: 70%;
+  height: 100%;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
+  overflow-wrap: break-word;
+  flex: 1;
 
 }
 
@@ -156,16 +167,6 @@ flex: 1;
   
 }
 
-
-.actions {
-  display: flex;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.28) 0px -2px 10px 0px;
-  width: 80%;
-  margin: auto;
-
-}
 
 .actions svg {
   cursor: pointer;
