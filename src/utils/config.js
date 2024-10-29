@@ -1,34 +1,24 @@
+// config.js
 export const api = "http://localhost:5000/api";
 export const uploads = "http://localhost:5000/uploads";
 
 export const requestConfig = (method, data, token, image = null) => {
-  let config;
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
+  // Se for imagem ou `FormData`, envie como está
   if (image) {
-    config = {
-      method: method,
-      body: data,
-      headers: {},
-    };
-  } else if (method === "DELETE" || data === null) {
-    config = {
-      method: method,
-      headers: {},
+    return {
+      method,
+      body: data, // `data` é o FormData aqui
+      headers, // headers sem `Content-Type` para FormData funcionar
     };
   } else {
-    config = {
-      method: method,
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    // JSON como padrão
+    headers["Content-Type"] = "application/json";
+    return {
+      method,
+      body: data ? JSON.stringify(data) : null, // stringify para JSON
+      headers,
     };
   }
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
 };
