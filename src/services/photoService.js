@@ -96,7 +96,7 @@ const SearchPhoto = async (query, token) => {
 
 // Aplicar pra vaga
 export const applyToJob = async (id, token) => {
-  const config = requestConfig("POST", null, token); // Não precisa de 'data' aqui
+  const config = requestConfig("POST", null, token); 
 
   try {
     const res = await fetch(api + "/photos/" + id + "/apply", config);
