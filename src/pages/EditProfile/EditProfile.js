@@ -15,6 +15,7 @@ const EditProfile = () => {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [usuario, setUsuario] = useState("");
     const [interests, setInterests] = useState([]);
     const [password, setPassword] = useState("");
     const [profileImage, setProfileImage] = useState("");
@@ -35,6 +36,7 @@ const EditProfile = () => {
         if (user) {
             setName(user.name);
             setEmail(user.email);
+            setUsuario(user.usuario);
             setBio(user.bio);
             setTelefone(user.telefone);
             setEmailcontato(user.emailcontato);
@@ -151,6 +153,7 @@ const EditProfile = () => {
                     />
                 )}
                 <h2 className="nome">{user.name}</h2>
+                <h3 className="nome">{user.usuario}</h3>
                 <p>{user.bio}</p>
              
 
@@ -181,6 +184,16 @@ const EditProfile = () => {
                                     placeholder="Email"
                                     disabled
                                     value={email || ""}
+                                />
+                            </label>
+
+                            <label>
+                                <span>Usuário:</span>
+                                <input
+                                    type="text"
+                                    placeholder="Usuário"
+                                    disabled
+                                    value={usuario || ""}
                                 />
                             </label>
 

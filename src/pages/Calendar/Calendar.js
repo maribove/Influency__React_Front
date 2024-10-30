@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { createEvent, getUserEvents, updateEvent, deleteEvent } from "../../slices/calendarSlice";
 
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
-  const { user: userAuth } = useSelector((state) => state.auth); // Usuário autenticado
-  const [events, setEvents] = useState([]); // Eventos no calendário
-  const [selectedEvent, setSelectedEvent] = useState(null); // Evento selecionado para editar
-  const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar o modal
+  const dispatch = useDispatch();
+  const { user: userAuth } = useSelector((state) => state.auth);
+  const { events, loading } = useSelector((state) => state.calendar);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // Campos do evento
   const [eventTitle, setEventTitle] = useState("");
@@ -19,22 +20,15 @@ const MyCalendar = () => {
   const [eventStart, setEventStart] = useState("");
   const [eventEnd, setEventEnd] = useState("");
 
-  // Função para carregar eventos do backend
+  // Carregar eventos
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get("/api/events", {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`, // Enviar o token do usuário autenticado
-          },
-        });
-        setEvents(res.data);
-      } catch (error) {
-        console.error("Erro ao carregar eventos:", error);
-      }
-    };
-    fetchEvents();
-  }, [userAuth]);
+    dispatch(getUserEvents());
+  }, [dispatch]);
+
+  // Função para formatar data para o formato esperado pelo backend
+  const formatDate = (date) => {
+    return moment(date).format('YYYY-MM-DD HH:mm:ss');
+  };
 
   // Função para abrir o modal
   const openModal = (event = null) => {
@@ -42,8 +36,8 @@ const MyCalendar = () => {
       setSelectedEvent(event);
       setEventTitle(event.title);
       setEventDesc(event.desc);
-      setEventStart(event.start);
-      setEventEnd(event.end);
+      setEventStart(moment(event.start).format('YYYY-MM-DDTHH:mm'));
+      setEventEnd(moment(event.end).format('YYYY-MM-DDTHH:mm'));
     } else {
       setSelectedEvent(null);
       setEventTitle("");
@@ -51,84 +45,71 @@ const MyCalendar = () => {
       setEventStart("");
       setEventEnd("");
     }
-    setModalIsOpen(true); // Abre o modal
+    setModalIsOpen(true);
   };
 
   // Função para fechar o modal
   const closeModal = () => {
     setModalIsOpen(false);
+    setSelectedEvent(null);
   };
 
   // Função para criar ou editar um evento
   const handleSubmitEvent = async () => {
-    const newEvent = {
+    const eventData = {
       title: eventTitle,
       desc: eventDesc,
-      start: eventStart,
-      end: eventEnd,
+      start: formatDate(eventStart),
+      end: formatDate(eventEnd),
     };
 
-    try {
-      if (selectedEvent) {
-        // Editar evento
-        await axios.put(`/api/events/${selectedEvent._id}`, newEvent, {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`,
-          },
-        });
-        setEvents(events.map((event) => (event._id === selectedEvent._id ? newEvent : event)));
-      } else {
-        // Criar novo evento
-        const response = await axios.post("/api/events", newEvent, {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`,
-          },
-        });
-        setEvents([...events, response.data]); // Adicionar novo evento à lista
-      }
-      closeModal(); // Fecha o modal
-    } catch (error) {
-      console.error("Erro ao salvar o evento:", error);
+    if (selectedEvent) {
+      // Editar evento
+      dispatch(updateEvent({ ...eventData, id: selectedEvent._id }));
+    } else {
+      // Criar novo evento
+      dispatch(createEvent(eventData));
     }
+    
+    closeModal();
   };
 
   // Função para excluir evento
   const handleDeleteEvent = async (eventId) => {
-    try {
-      await axios.delete(`/api/events/${eventId}`, {
-        headers: {
-          Authorization: `Bearer ${userAuth.token}`,
-        },
-      });
-      setEvents(events.filter((event) => event._id !== eventId)); // Remover evento localmente
-    } catch (error) {
-      console.error("Erro ao excluir o evento:", error);
-    }
+    dispatch(deleteEvent(eventId));
+    closeModal();
   };
 
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
   return (
-    <div>
+    <div id="formulario">
       <h1>Calendário de Eventos</h1>
       <div style={{ height: "500pt", margin: "50px" }}>
         <Calendar
           selectable
           localizer={localizer}
-          events={events}
+          events={events.map(event => ({
+            ...event,
+            start: new Date(event.start),
+            end: new Date(event.end)
+          }))}
           defaultView="month"
           startAccessor="start"
           endAccessor="end"
           style={{ height: 500 }}
           onSelectSlot={(slotInfo) => {
-            setEventStart(slotInfo.start);
-            setEventEnd(slotInfo.end);
-            openModal(); // Abre o modal para criar novo evento
+            setEventStart(moment(slotInfo.start).format('YYYY-MM-DDTHH:mm'));
+            setEventEnd(moment(slotInfo.end).format('YYYY-MM-DDTHH:mm'));
+            openModal();
           }}
-          onSelectEvent={(event) => openModal(event)} // Abre o modal para editar evento
+          onSelectEvent={(event) => openModal(event)}
           views={["month", "week", "day"]}
         />
       </div>
 
-      {/* Modal personalizado */}
       {modalIsOpen && (
         <div className="custom-modal">
           <div className="modal-content">
@@ -141,10 +122,18 @@ const MyCalendar = () => {
               <input type="text" value={eventDesc} onChange={(e) => setEventDesc(e.target.value)} />
 
               <label>Início</label>
-              <input type="datetime-local" value={eventStart} onChange={(e) => setEventStart(e.target.value)} />
+              <input 
+                type="datetime-local" 
+                value={eventStart} 
+                onChange={(e) => setEventStart(e.target.value)} 
+              />
 
               <label>Término</label>
-              <input type="datetime-local" value={eventEnd} onChange={(e) => setEventEnd(e.target.value)} />
+              <input 
+                type="datetime-local" 
+                value={eventEnd} 
+                onChange={(e) => setEventEnd(e.target.value)} 
+              />
 
               <div className="modal-buttons">
                 <button type="button" onClick={handleSubmitEvent}>

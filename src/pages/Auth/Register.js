@@ -11,6 +11,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [interests, setInterests] = useState([]);
   const [email, setEmail] = useState("");
+  const [usuario, setUsuario] = useState("@");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -85,7 +86,14 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = { name, email, role, password, interests,  confirmPassword };
+    
+    // Verifica se o nome de usuário já contém o "@"
+    let formattedUsuario = usuario;
+    if (!formattedUsuario.startsWith("@")) {
+      formattedUsuario = `@${formattedUsuario}`;
+    }
+  
+    const user = { name, email, role, password, interests, confirmPassword, usuario: formattedUsuario };
     dispatch(register(user));
   };
 
@@ -117,6 +125,10 @@ const Register = () => {
           <label>
             <span>Email*:</span>
             <input type="email" required placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email || ""} />
+          </label>
+          <label>
+            <span>Nome de usuário*: </span>
+            <input type="username" required placeholder="Usuário" onChange={(e) => setUsuario(e.target.value)} value={usuario || ""} />
           </label>
           <label>
             <span>Tipo de usuário*:</span>

@@ -5,6 +5,7 @@ import { BsSearch, BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs';
 import { PiSignOutBold } from "react-icons/pi";
 import { FaPlusCircle } from "react-icons/fa";
 import { FaBriefcase } from 'react-icons/fa';
+import { FaCalendarAlt } from "react-icons/fa";
 import { useAuth } from '../hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +23,7 @@ const Navbar = () => {
 
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -68,23 +69,24 @@ const Navbar = () => {
                   onChange={(e) => setQuery(e.target.value)}
                 />
               </form>
-              
+
               <li>
                 <NavLink to="/">
                   <BsHouseDoorFill /> Home
                 </NavLink>
               </li>
-              {user && user.role == 'Empresa' &&(
+              {user && user.role == 'Empresa' && (
                 <li>
                   <NavLink to={`/users/${user._id}`}>
                     <FaPlusCircle /> Criar Vaga
                   </NavLink>
                 </li>
               )}
-              {user && user.role == 'Influenciador' &&(
+              {user && user.role == 'Influenciador' && (
                 <li>
                   <NavLink to={`/calendar`}>
-                    <FaPlusCircle /> Calendario
+                  <FaCalendarAlt  />
+                      Calendario
                   </NavLink>
                 </li>
               )}

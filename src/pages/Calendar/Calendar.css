@@ -168,3 +168,58 @@
     background-color: #ef97b4;
   }
     
+
+  /* Adicione estes estilos ao seu arquivo CSS */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn-excluir {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn-cancelar:hover {
+  background-color: #5a6268;
+}
+
+.btn-excluir:hover {
+  background-color: #c82333;
+}
+
+/* Ajustes para o calendário */
+.rbc-calendar {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-event {
+  background-color: var(--corRosaClaro);
+}
+
+.rbc-event:hover {
+  background-color: var(--corRosaEscuro);
+}

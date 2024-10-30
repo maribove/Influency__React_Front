@@ -90,17 +90,17 @@ svg{
 
 @media screen and (max-width: 768px) {
   #search-form {
-    width: 80%; /* Reduzi a largura para telas pequenas */
-    margin-top: 15px; /* Ajustei a margem superior para menor */
+    width: 80%; 
+    margin-top: 15px; 
   }
 
   #search-form svg {
-    left: 8px; /* Ajustei a posição do ícone para ficar mais perto da borda em telas pequenas */
+    left: 8px; 
   }
 
   #search-form input {
-    padding: 8px 35px; /* Reduzi o padding do input para manter a proporção em telas pequenas */
-    font-size: 0.9em; /* Reduzi o tamanho da fonte para telas menores */
+    padding: 8px 35px;
+    font-size: 0.9em; 
   }
 }
 
@@ -142,7 +142,7 @@ svg{
 
   #navbar {
     position: fixed;
-    height: 100%; /* Ocupa a altura total da tela */
+    height: 100%; 
     flex-direction: column;
     align-items: center;
     transform: translateX(-100%);

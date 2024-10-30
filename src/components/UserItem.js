@@ -12,6 +12,7 @@ const UserItem = ({ user }) => {
         )}
        <h3>{user.role}</h3>
       <h2>{user.name}</h2>
+      <h4>{user.usuario}</h4>
       
       <p className="post-author">
         <Link to={`/users/${user.userId}`}>{user.userName}</Link>

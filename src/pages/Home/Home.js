@@ -6,11 +6,10 @@ import { useParams } from 'react-router-dom';
 import './Home.css';
 import { uploads } from '../../utils/config';
 import Message from '../../components/Message';
-import LikeContainer from '../../components/LikeContainer';
 import PostItem from '../../components/PostItem';
 
 import { getUserDetails } from '../../slices/userSlice';
-import { publishPost, resetMessage, getAllPosts, getPostsByInterests, like } from '../../slices/postSlice';
+import { publishPost, resetMessage, getAllPosts, getPostsByInterests } from '../../slices/postSlice';
 import { useResetComponentMessage } from '../../hooks/useResetComponentMessage';
 
 const Home = () => {
@@ -82,10 +81,7 @@ const Home = () => {
     }
   };
 
-  const handleLike = (post) => {
-    dispatch(like(post._id));
-    resetComponentMessage();
-  };
+
 
   if (userLoading) {
     return <p>Carregando...</p>;
@@ -154,7 +150,7 @@ const Home = () => {
           posts.map((post) => (
             <div key={post._id}>
               <PostItem post={post}  />
-              <LikeContainer post={post} user={user} handleLike={handleLike} />
+             
             </div>
           ))
         ) : (
