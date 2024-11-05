@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { BsSearch, BsHouseDoorFill, BsFillPersonFill } from 'react-icons/bs';
 import { PiSignOutBold } from "react-icons/pi";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaDatabase, FaPlusCircle } from "react-icons/fa";
 import { FaBriefcase } from 'react-icons/fa';
 import { FaCalendarAlt } from "react-icons/fa";
 import { useAuth } from '../hooks/useAuth';
@@ -87,6 +87,14 @@ const Navbar = () => {
                   <NavLink to={`/calendar`}>
                   <FaCalendarAlt  />
                       Calendario
+                  </NavLink>
+                </li>
+              )}
+              {user && user.role == 'Influenciador' && (
+                <li>
+                  <NavLink to={`/dashboard`}>
+                  <FaDatabase  />
+                      Dashboard
                   </NavLink>
                 </li>
               )}
