@@ -146,6 +146,25 @@ const getApplicants = async (id, token) => {
 };
 
 
+const selectInfluencer = async (photoId, influencerId, token) => {
+  const config = requestConfig("POST", null, token);
+  
+  const res = await fetch(
+    api + `/photos/${photoId}/select/${influencerId}`,
+    config
+  );
+
+  const data = await res.json();
+
+  if (res.ok) {
+    return data;
+  } else {
+    throw new Error(data.errors?.[0] || "Erro ao selecionar influenciador.");
+  }
+};
+
+
+
 const photoService = {
   publishPhoto,
   getUserPhotos,
@@ -156,6 +175,7 @@ const photoService = {
   applyToJob,
   cancelApplication,
   getApplicants,
+  selectInfluencer
 };
 
 export default photoService;

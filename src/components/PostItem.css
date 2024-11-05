@@ -123,7 +123,6 @@
 
 .comment-textarea {
   width: 100%;
-  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-bottom: 10px;
@@ -167,6 +166,9 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+  margin: auto;
+  margin: 0
+;
 }
 
 .edit-modal {
@@ -177,7 +179,6 @@
   width: 100%;
   min-height: 100px;
   margin-bottom: 15px;
-  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -202,11 +203,75 @@
   background-color: #f0f0f0;
 }
 
+/* Botão de opções */
 .pontinhos {
   cursor: pointer;
-  font-size: 1.5em;
-  color: #666;
+  font-size: 1.5rem;
+  color: #718096;
+  margin-left: auto;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.pontinhos:hover {
+  background-color: #f7fafc;
+  color: var(--corRosaClaro);
+}
+
+.lapis-icon{
+  color: var(--corRosaClaro);
+  font-size: 30px;
+}
+
+.lixo-icon{
+  color: var(--corRosaClaro);
+  font-size: 30px;
+}
+
+.btn-excluir, .btn-cancelar{
+  background-color: rgb(255, 101, 101);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 5px;
+}
+
+.btn-nao, .btn-confirma{
+  background-color: rgb(93, 183, 93);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 10px;
+}
+
+.btn-nao:hover{
+background-color:   rgb(64, 126, 64);
+}
+
+.btn-confirma:hover{
+  background-color:   rgb(64, 126, 64);
 }
 
 
+.btn-excluir:hover{
+  background-color: rgb(150, 57, 57);
+}
 
+.btn-cancelar:hover{
+  background-color: rgb(150, 57, 57);
+}

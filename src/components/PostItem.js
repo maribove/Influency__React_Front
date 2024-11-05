@@ -59,10 +59,10 @@ const OptionsModal = ({ isOpen, onClose, onEdit, onDelete }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content options-modal" onClick={e => e.stopPropagation()}>
         <button onClick={onEdit} className="option-button">
-          <FaEdit /> Editar
+          <FaEdit className='lapis-icon' /> Editar
         </button>
         <button onClick={onDelete} className="option-button">
-          <FaTrash /> Excluir
+          <FaTrash className='lixo-icon'/> Excluir
         </button>
       </div>
     </div>

@@ -2,48 +2,102 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserEvents, createEvent, updateEvent, deleteEvent, resetMessage } from "../../slices/calendarSlice";
+import Message from "../../components/Message";
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = () => {
-  const { user: userAuth } = useSelector((state) => state.auth); // Usuário autenticado
-  const [events, setEvents] = useState([]); // Eventos no calendário
-  const [selectedEvent, setSelectedEvent] = useState(null); // Evento selecionado para editar
-  const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar o modal
+// Estilos personalizados para diferentes tipos de eventos
+const eventStyleGetter = (event) => {
+  const isSelected = event.selected;
+  const isPast = moment(event.end).isBefore(moment());
+  const isOngoing = moment().isBetween(moment(event.start), moment(event.end));
 
-  // Campos do evento
+  let style = {
+    backgroundColor: '#3174ad',
+    borderRadius: '5px',
+    opacity: 0.8,
+    color: 'white',
+    border: 'none',
+    display: 'block',
+    padding: '2px 5px',
+  };
+
+  // Evento passado
+  if (isPast) {
+    style.backgroundColor = '#999999';
+    style.opacity = 0.6;
+  }
+
+  // Evento em andamento
+  if (isOngoing) {
+    style.backgroundColor = '#28a745';
+    style.opacity = 1;
+    style.fontWeight = 'bold';
+    style.border = '2px solid #1e7e34';
+  }
+
+  // Evento selecionado
+  if (isSelected) {
+    style.backgroundColor = '#007bff';
+    style.opacity = 1;
+    style.border = '2px solid #0056b3';
+    style.boxShadow = '0 0 5px rgba(0,0,0,0.2)';
+  }
+
+  return {
+    style,
+    className: `event-${isPast ? 'past' : isOngoing ? 'ongoing' : 'upcoming'}`
+  };
+};
+
+// Componente personalizado para o evento
+const EventComponent = ({ event }) => (
+  <div style={{ position: 'relative', height: '100%' }}>
+    <div style={{ fontWeight: 'bold' }}>{event.title}</div>
+    {event.desc && (
+      <div style={{ fontSize: '0.8em', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {event.desc}
+      </div>
+    )}
+    <div style={{ 
+      position: 'absolute', 
+      bottom: 0, 
+      right: 2, 
+      fontSize: '0.7em',
+      opacity: 0.8 
+    }}>
+      {moment(event.start).format('HH:mm')}
+    </div>
+  </div>
+);
+
+const MyCalendar = () => {
+  const dispatch = useDispatch();
+  const { user: userAuth } = useSelector((state) => state.auth);
+  const { events = [], loading, error, message } = useSelector((state) => state.calendar || { events: [] });
+
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
   const [eventDesc, setEventDesc] = useState("");
   const [eventStart, setEventStart] = useState("");
   const [eventEnd, setEventEnd] = useState("");
 
-  // Função para carregar eventos do backend
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get("/api/events", {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`, // Enviar o token do usuário autenticado
-          },
-        });
-        setEvents(res.data);
-      } catch (error) {
-        console.error("Erro ao carregar eventos:", error);
-      }
-    };
-    fetchEvents();
-  }, [userAuth]);
+    if (userAuth?.token) {
+      dispatch(getUserEvents(userAuth.token));
+    }
+  }, [dispatch, userAuth]);
 
-  // abrir o modal
   const openModal = (event = null) => {
     if (event) {
       setSelectedEvent(event);
       setEventTitle(event.title);
       setEventDesc(event.desc);
-      setEventStart(event.start);
-      setEventEnd(event.end);
+      setEventStart(moment(event.start).format("YYYY-MM-DDTHH:mm"));
+      setEventEnd(moment(event.end).format("YYYY-MM-DDTHH:mm"));
     } else {
       setSelectedEvent(null);
       setEventTitle("");
@@ -54,119 +108,149 @@ const MyCalendar = () => {
     setModalIsOpen(true);
   };
 
-  // Função para fechar o modal
   const closeModal = () => {
     setModalIsOpen(false);
+    setSelectedEvent(null);
+    dispatch(resetMessage());
   };
 
-  // Função para criar ou editar um evento
-  const handleSubmitEvent = async () => {
-    const newEvent = {
+  const handleSubmitEvent = async (e) => {
+    e.preventDefault();
+    
+    const eventData = {
       title: eventTitle,
       desc: eventDesc,
-      start: formatDate(eventStart),
-      end: formatDate(eventEnd),
+      start: new Date(eventStart).toISOString(),
+      end: new Date(eventEnd).toISOString(),
     };
 
     try {
       if (selectedEvent) {
-        // Editar evento
-        await axios.put(`/api/events/${selectedEvent._id}`, newEvent, {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`,
-          },
-        });
-        setEvents(events.map((event) => (event._id === selectedEvent._id ? newEvent : event)));
+        await dispatch(updateEvent({ id: selectedEvent._id, ...eventData })).unwrap();
       } else {
-        // Criar novo evento
-        const response = await axios.post("/api/events", newEvent, {
-          headers: {
-            Authorization: `Bearer ${userAuth.token}`,
-          },
-        });
-        setEvents([...events, response.data]); // Adicionar novo evento à lista
+        await dispatch(createEvent(eventData)).unwrap();
       }
-      closeModal(); // Fecha o modal
+      closeModal();
     } catch (error) {
-      console.error("Erro ao salvar o evento:", error);
+      console.error("Error saving event:", error);
     }
   };
 
-  // Função para excluir evento
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`/api/events/${eventId}`, {
-        headers: {
-          Authorization: `Bearer ${userAuth.token}`,
-        },
-      });
-      setEvents(events.filter((event) => event._id !== eventId)); // Remover evento localmente
+      await dispatch(deleteEvent(eventId)).unwrap();
+      closeModal();
     } catch (error) {
-      console.error("Erro ao excluir o evento:", error);
+      console.error("Error deleting event:", error);
     }
   };
 
+  // Formatação dos eventos com marcação de seleção
+  const formattedEvents = events.map(event => ({
+    ...event,
+    start: new Date(event.start),
+    end: new Date(event.end),
+    title: event.title || "Sem título",
+    selected: selectedEvent && selectedEvent._id === event._id
+  }));
+
   return (
-    <div id="formulario">
+    <div className="calendar-container">
       <h1>Calendário de Eventos</h1>
 
       {message && <Message msg={message} type="success" />}
       {error && <Message msg={error} type="error" />}
       
-      <div id="formulario" style={{ height: "500pt", margin: "50px" }}>
+      <div id="formulario">
         <Calendar
           selectable
           localizer={localizer}
-          events={events}
+          events={formattedEvents}
           defaultView="month"
           startAccessor="start"
           endAccessor="end"
           style={{ height: 500 }}
           onSelectSlot={(slotInfo) => {
-            setEventStart(slotInfo.start);
-            setEventEnd(slotInfo.end);
-            openModal(); // Abre o modal para criar novo evento
+            setEventStart(moment(slotInfo.start).format("YYYY-MM-DDTHH:mm"));
+            setEventEnd(moment(slotInfo.end).format("YYYY-MM-DDTHH:mm"));
+            openModal();
           }}
           onSelectEvent={(event) => openModal(event)}
           views={["month", "week", "day"]}
+          eventPropGetter={eventStyleGetter}
+          components={{
+            event: EventComponent
+          }}
+          popup
+          tooltipAccessor={(event) => event.desc}
         />
       </div>
 
+      {/* Modal (mesmo código anterior) */}
       {modalIsOpen && (
         <div className="custom-modal">
           <div className="modal-content">
             <h2>{selectedEvent ? "Editar Evento" : "Novo Evento"}</h2>
-            <form>
-              <label>Título</label>
-              <input type="text" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} />
+            <form onSubmit={handleSubmitEvent}>
+              <div className="form-group">
+                <label htmlFor="eventTitle">Título</label>
+                <input
+                  id="eventTitle"
+                  type="text"
+                  value={eventTitle}
+                  onChange={(e) => setEventTitle(e.target.value)}
+                  required
+                />
+              </div>
 
-              <label>Descrição</label>
-              <input type="text" value={eventDesc} onChange={(e) => setEventDesc(e.target.value)} />
+              <div className="form-group">
+                <label htmlFor="eventDesc">Descrição</label>
+                <input
+                  id="eventDesc"
+                  type="text"
+                  value={eventDesc}
+                  onChange={(e) => setEventDesc(e.target.value)}
+                  required
+                />
+              </div>
 
-              <label>Início</label>
-              <input 
-                type="datetime-local" 
-                value={eventStart} 
-                onChange={(e) => setEventStart(e.target.value)} 
-              />
+              <div className="form-group">
+                <label htmlFor="eventStart">Início</label>
+                <input
+                  id="eventStart"
+                  type="datetime-local"
+                  value={eventStart}
+                  onChange={(e) => setEventStart(e.target.value)}
+                  required
+                />
+              </div>
 
-              <label>Término</label>
-              <input 
-                type="datetime-local" 
-                value={eventEnd} 
-                onChange={(e) => setEventEnd(e.target.value)} 
-              />
+              <div className="form-group">
+                <label htmlFor="eventEnd">Término</label>
+                <input
+                  id="eventEnd"
+                  type="datetime-local"
+                  value={eventEnd}
+                  onChange={(e) => setEventEnd(e.target.value)}
+                  required
+                />
+              </div>
 
               <div className="modal-buttons">
-                <button type="button" onClick={handleSubmitEvent} disabled={loading}>
+                <button type="submit" disabled={loading}>
                   {selectedEvent ? "Salvar Alterações" : "Criar Evento"}
                 </button>
                 {selectedEvent && (
-                  <button type="button" onClick={() => handleDeleteEvent(selectedEvent._id)} disabled={loading}>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteEvent(selectedEvent._id)}
+                    disabled={loading}
+                    className="delete-button"
+                  >
                     Excluir Evento
                   </button>
                 )}
-                <button type="button" onClick={closeModal}>
+                <button type="button" onClick={closeModal} className="cancel-button">
                   Cancelar
                 </button>
               </div>

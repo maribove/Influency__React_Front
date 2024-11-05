@@ -148,6 +148,23 @@ export const getApplicants = createAsyncThunk(
   }
 );
 
+export const selectInfluencer = createAsyncThunk(
+  "photo/select",
+  async ({ photoId, influencerId, token }, thunkAPI) => {
+    try {
+      const response = await photoService.selectInfluencer(photoId, influencerId, token);
+      return response;
+    } catch (error) {
+      // Get error message
+      const message =
+        error.response?.data?.errors?.[0] || "Erro ao selecionar influenciador.";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
+
 
 export const photoSlice = createSlice({
   name: "photo",
@@ -304,6 +321,24 @@ export const photoSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+      // selecionar inscrito
+      builder.addCase(selectInfluencer.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      });
+      builder.addCase(selectInfluencer.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.message = action.payload.message;
+      });
+      builder.addCase(selectInfluencer.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.photo = null;
+      });
+    
 
 
 

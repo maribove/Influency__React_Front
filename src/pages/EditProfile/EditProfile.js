@@ -1,17 +1,24 @@
 import "./EditProfile.css";
 import { uploads } from "../../utils/config";
 import { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+import { getUserDetails } from "../../slices/userSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
+import { getUserPosts } from "../../slices/postSlice"; // Importe a action
 import Message from '../../components/Message';
 import { FaInstagram } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
+import PostItem from "../../components/PostItem"; // Ajuste o caminho conforme sua estrutura
+
 
 
 
 const EditProfile = () => {
+    const { id } = useParams();
     const dispatch = useDispatch();
     const { user, message, error, loading } = useSelector((state) => state.user);
+    const { posts } = useSelector((state) => state.post); // Adicione o selector para posts
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -31,6 +38,11 @@ const EditProfile = () => {
     useEffect(() => {
         dispatch(profile());
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getUserDetails(id));
+        dispatch(getUserPosts(id)); // Busca os posts do usuário
+    }, [dispatch, id]);
 
     useEffect(() => {
         if (user) {
@@ -53,7 +65,7 @@ const EditProfile = () => {
         e.preventDefault();
         const userData = {
             name,
-            interests: interests.join(','), 
+            interests: interests.join(','),
         };
 
         if (profileImage) {
@@ -155,7 +167,7 @@ const EditProfile = () => {
                 <h2 className="nome">{user.name}</h2>
                 <h3 className="nome">{user.usuario}</h3>
                 <p>{user.bio}</p>
-             
+
 
 
                 <button className="btn-edit" onClick={() => setEditing(!editing)}>
@@ -231,9 +243,11 @@ const EditProfile = () => {
                                     type="text"
                                     onChange={(e) => {
                                         let value = e.target.value;
-                                        // Remove the @ symbol if it's at the start of the input
+
+
                                         if (value.startsWith("@")) {
-                                            value = value.slice(1); // Remove the first character (@)
+                                            value = value.slice(1);
+
                                         }
                                         setInstagram(value);
                                     }}
@@ -347,10 +361,25 @@ const EditProfile = () => {
                                 <p>Portfólio não disponível</p>
                             )}
                         </section>
+
+                        
+                        <section id="user-posts">
+                            <h2>Publicações</h2>
+                            <div className="posts-container">
+                                {posts && posts.length > 0 ? (
+                                    posts.map((post) => (
+                                        <PostItem key={post._id} post={post} />
+                                    ))
+                                ) : (
+                                    <p>Nenhuma publicação disponível</p>
+                                )}
+                            </div>
+                        </section>
                     </div>
+                    
                 )}
-            </div>
         </div>
+        </div >
     );
 }
 

@@ -71,7 +71,7 @@
   
   .user-photos{
   
-    background-color:var(--corAzulClaro);
+    
     text-align: center;
       justify-content: center;
       align-items: center;
@@ -131,7 +131,7 @@
   }
   
   
-  .actions {
+  /* .actions {
     display: flex;
     justify-content: space-around;
     border-radius: 10px;
@@ -150,7 +150,7 @@
   
   .actions svg:hover{
     color: var(--corRosaClaro);
-  }
+  } */
   .edit-photo {
     margin-bottom: 1em;
     
@@ -294,4 +294,53 @@
     margin-top: 10px;
 }
 
+
+
+.lapis-icon{
+  color: var(--corRosaClaro);
+  font-size: 30px;
+}
+
+.lixo-icon{
+  color: var(--corRosaClaro);
+  font-size: 30px;
+}
+
+.btn-excluir, .btn-cancelar{
+  background-color: rgb(255, 101, 101);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 5px;
+}
+
+.btn-nao, .btn-confirma{
+  background-color: rgb(93, 183, 93);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 150px;
+  margin: auto;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  font-size: 23px;
+  margin-left: 10px;
+}
   
+.infos-user{
+  color: white;
+  font-weight: bold;
+}
+
+.icon-rede{
+  color: white;
+}
