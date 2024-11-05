@@ -21,6 +21,7 @@ import PerfilUser from './pages/PerfilUser/PerfilUser';
 import Suporte from './pages/Suporte/Suporte';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import MyCalendar from './pages/Calendar/Calendar';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 
 // Components
@@ -81,6 +82,7 @@ function App() {
                         <Route path='/forgotpassword' element={<ForgotPassword />} />
                         <Route path='/reset-password/:token' element={<ChangePassword />} />
                         <Route path='/calendar' element={auth ? <MyCalendar /> : <Navigate to="/login" />} />
+                        <Route path='/dashboard' element={auth ? <Dashboard /> : <Navigate to="/login" />} />
                         <Route path='*' element={<NotFound />} />
                     </Routes>
                 </div>
