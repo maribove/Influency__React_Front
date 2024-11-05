@@ -1,4 +1,4 @@
-import "./PerfilUser.css"; 
+import "./PerfilUser.css";
 import { uploads } from "../../utils/config";
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import PostItem from "../../components/PostItem"; // Ajuste o caminho conforme sua estrutura
 
 const Modal = ({ isOpen, onClose, telefone }) => {
-    if (!isOpen) return null; 
+    if (!isOpen) return null;
 
     return (
         <div className="modal-overlay">
@@ -33,7 +33,7 @@ const Modal = ({ isOpen, onClose, telefone }) => {
 
 const PerfilUser = () => {
     const dispatch = useDispatch();
-    const { id } = useParams(); 
+    const { id } = useParams();
     const { user } = useSelector((state) => state.user);
     const { posts } = useSelector((state) => state.post); // Adicione o selector para posts
     const [previewPDF, setPreviewPDF] = useState("");
@@ -78,9 +78,9 @@ const PerfilUser = () => {
                 <h2 className="nome">{user.name}</h2>
                 <p className="infos-user">{user.usuario}</p>
                 <p className="infos-user">{user.bio}</p>
-                
+
                 <section id="contatos">
-                   
+
                     {user.instagram && (
                         <p className="infos-user">
                             <a className="infos-user" href={`https://instagram.com/${user.instagram}`} target="_blank" rel="noopener noreferrer">
@@ -104,10 +104,10 @@ const PerfilUser = () => {
                 </section>
 
                 <section id="portfolio">
-                   
+
                     {previewPDF ? (
                         <div className="pdf-preview">
-                            
+
                             <button className="btn" onClick={() => window.open(previewPDF, "_blank")}>
                                 Meu portfólio
                             </button>
@@ -119,20 +119,27 @@ const PerfilUser = () => {
             </div>
 
             <div id="formulario">
-               
 
-               
 
-               
+
+
+
                 <section id="user-posts">
-                   
+
                     <div className="posts-container">
                         {posts && posts.length > 0 ? (
                             posts.map((post) => (
                                 <PostItem key={post._id} post={post} />
                             ))
                         ) : (
-                            <p>Nenhuma publicação disponível</p>
+                            <>
+                                
+                                   <p className="no-posts">{user.usuario} ainda não fez nenhuma publicação!</p>
+                                   <img src="/nenhum-post.png" alt="ERRO" />
+                                   </>
+                                
+                                
+                          
                         )}
                     </div>
                 </section>

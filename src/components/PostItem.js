@@ -7,7 +7,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { deletePost, updatePost, comment, resetMessage } from "../slices/postSlice";
 import { uploads } from "../utils/config";
 import LikeContainer from '../../src/components/LikeContainer';
-
+import { useResetComponentMessage } from '../hooks/useResetComponentMessage';
 import {like } from "../slices/postSlice";
 import "./PostItem.css";
 
@@ -71,6 +71,7 @@ const OptionsModal = ({ isOpen, onClose, onEdit, onDelete }) => {
 
 const PostItem = ({ post}) => {
   const dispatch = useDispatch();
+  const resetMessageFn = useResetComponentMessage(dispatch);
   const { user} = useSelector((state) => state.user)
   const { user: userAuth } = useSelector((state) => state.auth);
   const [editPublicacao, setEditPublicacao] = useState("");
@@ -78,7 +79,12 @@ const PostItem = ({ post}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [optionsModalOpen, setOptionsModalOpen] = useState(false);
-
+  const { users, loading: loadingUsers } = useSelector(state => state.user);
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
 
   const handleLike = (post) => {
     dispatch(like(post._id));
@@ -104,18 +110,23 @@ const PostItem = ({ post}) => {
     resetComponentMessage();
   };
 
-  const handleAddComment = (e) => {
-    e.preventDefault();
-    const commentData = { comment: newComment, id: post._id };
-    dispatch(comment(commentData));
-    setNewComment("");
+  const handleAddComment = () => {
+    if (!newComment) return;
+  
+    dispatch(comment({ comment: newComment, id: post._id }))
+      .unwrap()
+      .then((data) => {
+        console.log("Comentário adicionado:", data);
+        setNewComment(""); // Limpa o campo de comentário
+      })
+      .catch((error) => {
+        console.error("Erro ao adicionar comentário:", error);
+      });
+      resetComponentMessage();
   };
 
-  function resetComponentMessage() {
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
-  }
+
+
 
   const toggleOptionsModal = () => {
     setOptionsModalOpen(!optionsModalOpen);
@@ -145,6 +156,7 @@ const PostItem = ({ post}) => {
             </div>
           )}
         </div>
+        <p className="texto_publicacao">{post.publicacao}</p>
 
         {post.image && (
           <div className="img-container">
@@ -161,12 +173,19 @@ const PostItem = ({ post}) => {
         </div>
 
 
-
-        <p className="texto_publicacao">{post.publicacao}</p>
+        {users && users.map((user, index) => (
+                            <div key={user._id} className={`search-result search-result-${index}`}>
+                               
+                                <Link to={`/${user._id}/profile`}>
+                                    <button className='btn-vaga'>Ver mais</button>
+                                </Link>
+                            </div> 
+                        ))}
+        
 
         <p className="post-author">
           Publicada por:{" "}
-          <Link to={`/users/${post.userId}`}>{post.userName}</Link> em {formatDateTime(post.createdAt)}
+          <Link to={`/${user._id}/profile`}>{post.userName}</Link> em {formatDateTime(post.createdAt)}
         </p>
 
         <div className="comments-section">

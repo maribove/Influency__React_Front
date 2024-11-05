@@ -1,3 +1,4 @@
+import "./Calendar.css";
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -7,71 +8,6 @@ import { getUserEvents, createEvent, updateEvent, deleteEvent, resetMessage } fr
 import Message from "../../components/Message";
 
 const localizer = momentLocalizer(moment);
-
-// Estilos personalizados para diferentes tipos de eventos
-const eventStyleGetter = (event) => {
-  const isSelected = event.selected;
-  const isPast = moment(event.end).isBefore(moment());
-  const isOngoing = moment().isBetween(moment(event.start), moment(event.end));
-
-  let style = {
-    backgroundColor: '#3174ad',
-    borderRadius: '5px',
-    opacity: 0.8,
-    color: 'white',
-    border: 'none',
-    display: 'block',
-    padding: '2px 5px',
-  };
-
-  // Evento passado
-  if (isPast) {
-    style.backgroundColor = '#999999';
-    style.opacity = 0.6;
-  }
-
-  // Evento em andamento
-  if (isOngoing) {
-    style.backgroundColor = '#28a745';
-    style.opacity = 1;
-    style.fontWeight = 'bold';
-    style.border = '2px solid #1e7e34';
-  }
-
-  // Evento selecionado
-  if (isSelected) {
-    style.backgroundColor = '#007bff';
-    style.opacity = 1;
-    style.border = '2px solid #0056b3';
-    style.boxShadow = '0 0 5px rgba(0,0,0,0.2)';
-  }
-
-  return {
-    style,
-    className: `event-${isPast ? 'past' : isOngoing ? 'ongoing' : 'upcoming'}`
-  };
-};
-
-// Componente personalizado para o evento
-const EventComponent = ({ event }) => (
-  <div style={{ position: 'relative', height: '100%' }}>
-    <div style={{ fontWeight: 'bold' }}>{event.title}</div>
-    {event.desc && (
-      <div style={{ fontSize: '0.8em', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {event.desc}
-      </div>
-    )}
-    <div style={{ 
-      position: 'absolute', 
-      bottom: 0, 
-      right: 2, 
-      fontSize: '0.7em',
-      opacity: 0.8 
-    }}>
-      {moment(event.start).format('HH:mm')}
-    </div>
-  </div>
-);
 
 const MyCalendar = () => {
   const dispatch = useDispatch();
@@ -136,59 +72,49 @@ const MyCalendar = () => {
     }
   };
 
-  const handleDeleteEvent = async (eventId) => {
-    try {
-      await dispatch(deleteEvent(eventId)).unwrap();
-      closeModal();
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
+  const dayPropGetter = (date) => {
+    const isEventDay = events.some(
+      (event) => moment(event.start).isSame(date, "day")
+    );
+    return {
+      className: isEventDay ? "event-day" : ""
+    };
   };
 
-  // Formatação dos eventos com marcação de seleção
-  const formattedEvents = events.map(event => ({
-    ...event,
-    start: new Date(event.start),
-    end: new Date(event.end),
-    title: event.title || "Sem título",
-    selected: selectedEvent && selectedEvent._id === event._id
-  }));
-
   return (
-    <div className="calendar-container">
+    <div id="formulario">
       <h1>Calendário de Eventos</h1>
 
       {message && <Message msg={message} type="success" />}
       {error && <Message msg={error} type="error" />}
       
-      <div id="formulario">
-        <Calendar
-          selectable
-          localizer={localizer}
-          events={formattedEvents}
-          defaultView="month"
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-          onSelectSlot={(slotInfo) => {
-            setEventStart(moment(slotInfo.start).format("YYYY-MM-DDTHH:mm"));
-            setEventEnd(moment(slotInfo.end).format("YYYY-MM-DDTHH:mm"));
-            openModal();
-          }}
-          onSelectEvent={(event) => openModal(event)}
-          views={["month", "week", "day"]}
-          eventPropGetter={eventStyleGetter}
-          components={{
-            event: EventComponent
-          }}
-          popup
-          tooltipAccessor={(event) => event.desc}
-        />
-      </div>
+      <Calendar
+        selectable
+        localizer={localizer}
+        events={events.map(event => ({
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end),
+          title: event.title || "Sem título",
+          selected: selectedEvent && selectedEvent._id === event._id
+        }))}
+        defaultView="month"
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500 }}
+        onSelectSlot={(slotInfo) => {
+          setEventStart(moment(slotInfo.start).format("YYYY-MM-DDTHH:mm"));
+          setEventEnd(moment(slotInfo.end).format("YYYY-MM-DDTHH:mm"));
+          openModal();
+        }}
+        onSelectEvent={(event) => openModal(event)}
+        views={["month", "week", "day"]}
+        dayPropGetter={dayPropGetter}
+      />
 
-      {/* Modal (mesmo código anterior) */}
+      {/* Modal */}
       {modalIsOpen && (
-        <div className="custom-modal">
+        <div className="modal-overlay">
           <div className="modal-content">
             <h2>{selectedEvent ? "Editar Evento" : "Novo Evento"}</h2>
             <form onSubmit={handleSubmitEvent}>
@@ -237,20 +163,20 @@ const MyCalendar = () => {
               </div>
 
               <div className="modal-buttons">
-                <button type="submit" disabled={loading}>
+                <button type="submit" disabled={loading} className="btn">
                   {selectedEvent ? "Salvar Alterações" : "Criar Evento"}
                 </button>
                 {selectedEvent && (
                   <button
                     type="button"
-                    onClick={() => handleDeleteEvent(selectedEvent._id)}
+                    onClick={() => dispatch(deleteEvent(selectedEvent._id)).then(closeModal)}
                     disabled={loading}
                     className="delete-button"
                   >
                     Excluir Evento
                   </button>
                 )}
-                <button type="button" onClick={closeModal} className="cancel-button">
+                <button type="button" onClick={closeModal} className="btn-cancel">
                   Cancelar
                 </button>
               </div>

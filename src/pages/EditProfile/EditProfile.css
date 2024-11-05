@@ -145,6 +145,7 @@
   text-decoration: none;
   margin-top: 10px;
   border: none;
+  
 }
 
 .btn-whatsapp:hover {
@@ -157,3 +158,10 @@
 } 
 
 
+.usuario{
+  color: white;
+}
+
+.usuario-insta{
+  color: white;
+}

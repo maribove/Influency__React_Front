@@ -117,6 +117,7 @@ const like = async (id, token) => {
 };
 
 // Add a comment to a post
+// comment in postService.js
 const comment = async (data, id, token) => {
   const config = requestConfig("PUT", data, token);
 
@@ -128,6 +129,7 @@ const comment = async (data, id, token) => {
     return res;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

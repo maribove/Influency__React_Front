@@ -5,11 +5,11 @@ import { useParams } from "react-router-dom";
 import { getUserDetails } from "../../slices/userSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
-import { getUserPosts } from "../../slices/postSlice"; // Importe a action
+import { getUserPosts } from "../../slices/postSlice";
 import Message from '../../components/Message';
 import { FaInstagram } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
-import PostItem from "../../components/PostItem"; // Ajuste o caminho conforme sua estrutura
+import PostItem from "../../components/PostItem";
 
 
 
@@ -167,6 +167,45 @@ const EditProfile = () => {
                 <h2 className="nome">{user.name}</h2>
                 <h3 className="nome">{user.usuario}</h3>
                 <p>{user.bio}</p>
+                <section id="redes">
+                            
+                            <p className="usuario">
+                                <a className="usuario-insta" href={`https://instagram.com/${user.instagram}`} target="_blank" rel="noopener noreferrer">
+                                    <FaInstagram className="icon-rede" /> @
+                                    {user.instagram || ""}
+                                </a>
+                            </p>
+                            <p className="usuario"><MdOutlineEmail className="icon-rede" /> {user.emailcontato || ""}</p>
+
+                            {user.telefone && (
+                                <a
+                                    href={`https://wa.me/${user.telefone}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-whatsapp">
+                                    Entre em contato comigo
+                                </a>
+                            )}
+                        </section>
+
+                        <section id="portfolio">
+                            
+                            {previewPDF ? (
+                                <div className="pdf-preview">
+                                    <iframe
+                                        src={previewPDF}
+                                        title="Pré-visualização do Portfólio"
+                                        width="100%"
+                                        height="500px"
+                                    />
+                                    <button className="btn-portfolio" onClick={() => window.open(previewPDF, "_blank")}>
+                                        Visualizar PDF
+                                    </button>
+                                </div>
+                            ) : (
+                                <p>Portfólio não disponível</p>
+                            )}
+                        </section>
 
 
 
@@ -315,70 +354,40 @@ const EditProfile = () => {
                     </div>
                 ) : (
                     <div className="profile-details">
-                        <section id="bio">
-                            <h2>Biografia</h2>
-                            <p>{user.bio || "Biografia não definida"}</p>
-                        </section>
+                       
 
 
 
-                        <section id="redes">
-                            <h2>Contato</h2>
-                            <p>
-                                <a href={`https://instagram.com/${user.instagram}`} target="_blank" rel="noopener noreferrer">
-                                    <FaInstagram className="icon-rede" /> @
-                                    {user.instagram || ""}
-                                </a>
-                            </p>
-                            <p><MdOutlineEmail className="icon-rede" /> {user.emailcontato || ""}</p>
+                       
 
-                            {user.telefone && (
-                                <a
-                                    href={`https://wa.me/${user.telefone}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn-whatsapp">
-                                    Entre em contato comigo
-                                </a>
-                            )}
-                        </section>
+                    
 
-                        <section id="portfolio">
-                            <h2>Portfólio</h2>
-                            {previewPDF ? (
-                                <div className="pdf-preview">
-                                    <iframe
-                                        src={previewPDF}
-                                        title="Pré-visualização do Portfólio"
-                                        width="100%"
-                                        height="500px"
-                                    />
-                                    <button className="btn-portfolio" onClick={() => window.open(previewPDF, "_blank")}>
-                                        Visualizar PDF
-                                    </button>
-                                </div>
-                            ) : (
-                                <p>Portfólio não disponível</p>
-                            )}
-                        </section>
-
-                        
                         <section id="user-posts">
-                            <h2>Publicações</h2>
+
                             <div className="posts-container">
                                 {posts && posts.length > 0 ? (
                                     posts.map((post) => (
+                                        <>
+                                        <p>Minhas Publicações</p>
                                         <PostItem key={post._id} post={post} />
+                                        </>
                                     ))
                                 ) : (
-                                    <p>Nenhuma publicação disponível</p>
+                                    <>
+
+                                        <p className="no-posts">Você ainda não fez nenhuma publicação!</p>
+                                        <img src="/nenhum-post.png" alt="ERRO" />
+                                    </>
+
+
+
                                 )}
                             </div>
                         </section>
                     </div>
-                    
+
                 )}
-        </div>
+            </div>
         </div >
     );
 }

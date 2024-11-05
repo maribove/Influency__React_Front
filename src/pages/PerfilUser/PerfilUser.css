@@ -344,3 +344,8 @@
 .icon-rede{
   color: white;
 }
+
+.no-posts{
+  font-size: 40px;
+  font-weight: bold;
+}
